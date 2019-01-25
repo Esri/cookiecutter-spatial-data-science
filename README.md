@@ -38,6 +38,8 @@ The directory structure of your new project will look like this:
     │                         data science project creation. This will not be here if
     │                         you do not have `arcpy` available.
     │
+    ├── scripts            <- Put scripts to run things here.
+    |
     ├── data
     │   ├── external       <- Data from third party sources.
     │   ├── interim        <- Intermediate data that has been transformed.
