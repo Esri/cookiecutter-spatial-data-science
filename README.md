@@ -6,7 +6,7 @@ This cookiecutter template is designed to be used for GeoAI, geographic data sci
 
 ### Requirements to use the cookiecutter template:
 -----------
- - Python 3.5 _with_ ArcPy
+ - Python 3.5+ _with_ ArcPy
  - [Cookiecutter](http://cookiecutter.readthedocs.org/en/latest/installation.html) >= 1.4.0: This can be installed with Conda:
 
 ``` bash
