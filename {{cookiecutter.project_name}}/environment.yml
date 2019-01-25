@@ -1,0 +1,17 @@
+name: {{cookiecutter.env_name}}
+
+channels:
+  - esri
+  - conda-forge
+
+dependencies:
+  - python=3.6
+  - arcgis
+  - numpy
+  - scipy
+  - scikit-learn
+  - pandas
+  - matplotlib
+  - seaborn
+  - pip:
+    - python-dotenv
