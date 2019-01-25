@@ -29,9 +29,9 @@ The directory structure of your new project will look like this:
 ```
     ├── LICENSE
     ├── Makefile           <- Makefile with commands like `make data`
-	├── make.bat           <- Windows batch file with commands like `make data`
-	├── setup.py           <- Setup script for the library ({{ cookiecutter.support_library }})
-	├── .env               <- Any environment variables here.
+    ├── make.bat           <- Windows batch file with commands like `make data`
+    ├── setup.py           <- Setup script for the library ({{ cookiecutter.support_library }})
+    ├── .env               <- Any environment variables here.
     ├── README.md          <- The top-level README for developers using this project.
     │
     ├── arcgis             <- Root location for ArcGIS Pro project created as part of
@@ -51,7 +51,7 @@ The directory structure of your new project will look like this:
     │
     ├── models             <- Trained and serialized models, model predictions, or model summaries
     |   │                     
-	│   └── data_processing_tempate.ipynb
+    │   └── data_processing_tempate.ipynb
     ├── notebooks          <- Jupyter notebooks. Naming convention is a 2 digits (for ordering),
     │                         descriptive name. e.g.: 01_exploratory_analysis.ipynb
     │
