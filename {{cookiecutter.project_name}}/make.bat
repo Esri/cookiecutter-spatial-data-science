@@ -4,15 +4,15 @@
 
 SETLOCAL
 SET PROJECT_DIR=%cd%
-SET PROJECT_NAME={{ cookiecutter.repo_name }}
-SET CONDA_PARENT={{ cookiecutter.conda_parent_environment }}
+SET PROJECT_NAME=geoai_project
+SET CONDA_PARENT=arcgispro-py3
 
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 :: COMMANDS                                                                     :
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 :: Make Dataset
-GOTO $1
+GOTO %1
 
 :data
 	activate %PROJECT_NAME%
@@ -22,7 +22,7 @@ GOTO $1
 	
 :: Create the local environment by cloning the parent environment
 :env_create
-	conda create --name %PROJECT_NAME% --clone %CONDA_PARENT%
+	conda create --yes --name %PROJECT_NAME% --clone %CONDA_PARENT%
 	ECHO ">>> New conda environment, %PROJECT_NAME%, created. Activate with:"
 	ECHO.
 	ECHO "- source activate %PROJECT_NAME%"
@@ -38,7 +38,7 @@ GOTO $1
 	
 :: Build the local environment from the environment file
 :env_build
-	conda env create -f environment.yml
+	conda env create --yes -f environment.yml
 	EXIT
 
 :: Run all tests in module
@@ -46,6 +46,5 @@ GOTO $1
 	activate %PROJECT_NAME%
 	pytest
 	EXIT
-
-
+	
 EXIT
