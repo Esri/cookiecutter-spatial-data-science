@@ -18,7 +18,7 @@ $ conda install -c conda-forge cookiecutter
 ------------
 
 ``` bash
-$ cookiecutter https://github.com/ArcGIS/geo-ai/tree/master/templates/cookiecutter-geoai-v0
+$ cookiecutter https://github.com/ArcGIS/geoai-cookiecutter
 ```
 
 ### The resulting directory structure
