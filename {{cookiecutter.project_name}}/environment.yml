@@ -1,4 +1,4 @@
-name: {{cookiecutter.env_name}}
+name: {{ cookiecutter.conda_environment_name }}
 
 channels:
   - esri
