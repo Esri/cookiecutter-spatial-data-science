@@ -4,6 +4,6 @@
     "author_name": "Esri AI/ML Team",
     "description": "A short description of the project.",
     "open_source_license": ["MIT", "BSD-3-Clause", "No license file"],
-	"support_library": "{{ cookiecutter.repo_name }}"
+	"support_library": "{{ cookiecutter.repo_name }}",
     "conda_parent_environment": "arcgispro-py3"
 }
