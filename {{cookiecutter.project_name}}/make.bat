@@ -25,7 +25,7 @@ GOTO %1
 	conda create --yes --name %PROJECT_NAME% --clone %CONDA_PARENT%
 	ECHO ">>> New conda environment, %PROJECT_NAME%, created. Activate with:"
 	ECHO.
-	ECHO "- source activate %PROJECT_NAME%"
+	ECHO "- activate %PROJECT_NAME%"
 	ECHO.
 	ECHO "- make env_activate"
 	EXIT
