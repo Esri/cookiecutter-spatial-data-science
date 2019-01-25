@@ -1,0 +1,17 @@
+{
+    "Framework": "TensorFlow",
+    "ModelConfiguration": "ObjectDetectionAPI",
+    "ModelFile":"../../models/graph.pb",
+	"ModelType":"ObjectDetection",
+    "ImageHeight":256,
+    "ImageWidth":256,
+    "ExtractBands":[0,1,2],
+
+    "Classes" : [
+      {
+        "Value": 0,
+        "Name": "Object",
+        "Color": [0, 255, 0]
+      }
+    ]
+}
