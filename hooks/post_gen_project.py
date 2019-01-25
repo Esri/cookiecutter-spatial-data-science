@@ -3,12 +3,18 @@ import shutil
 import importlib
 
 # see if arcpy available to accommodate non-windows environments
-if importlib.util.find_spec("arcpy") is not None:
-    import arcpy
-    has_arcpy = True
-else:
-    has_arcpy = False
-
+try:
+    if importlib.util.find_spec("arcpy") is not None:
+        import arcpy
+        has_arcpy = True
+    else:
+        has_arcpy = False
+except AttributeError:
+    if importlib.find_loader("arcpy") is not None:
+        import arcpy
+        has_arcpy = True
+    else:
+        has_arcpy = False
 # ensure the data directories are populated
 dir_lst = [os.path.join(os.getcwd(), 'data', drctry)
            for drctry in ['raw', 'external', 'interim', 'processed']]
