@@ -6,5 +6,5 @@ setup(
     version='0.1.0',
     description='{{ cookiecutter.description }}',
     author='{{ cookiecutter.author_name }}',
-    license='{{ cookiecutter.license }}',
+    license='{{ cookiecutter.open_source_license }}',
 )
