@@ -1,11 +1,12 @@
-.PHONY: data clean env_create env_export env_activate env_build test
+.PHONY: data clean env_create env_export env_activate env_build test create_kernel
 
 #################################################################################
 # GLOBALS                                                                       #
 #################################################################################
 
 PROJECT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
-PROJECT_NAME = {{ cookiecutter.repo_name }}
+PROJECT_NAME = {{ cookiecutter.project_name }}
+ENV_NAME = {{ cookiecutter.conda_environment_name }}
 CONDA_PARENT = {{ cookiecutter.conda_parent_environment }}
 
 #################################################################################
@@ -14,7 +15,7 @@ CONDA_PARENT = {{ cookiecutter.conda_parent_environment }}
 
 ## Make Dataset
 data:
-	. activate $(PROJECT_NAME)
+	. activate $(ENV_NAME)
 	python src/data/make_dataset.py
 	@echo ">>> Data processed."
 
@@ -25,17 +26,20 @@ clean:
 
 ## Create the local environment by cloning the parent environment
 env_create:
-	conda create --name $(PROJECT_NAME) --clone $(CONDA_PARENT)
-	@echo ">>> New conda environment, $(PROJECT_NAME), created. Activate with:\n- source activate $(PROJECT_NAME)\n- make env_activate"
+	conda create --name $(ENV_NAME) --clone $(CONDA_PARENT)
+	@echo ">>> New conda environment, $(ENV_NAME), created. Activate with:\n- source activate $(ENV_NAME)\n- make env_activate"
 
 ## Export the current environment
 env_export:
-	conda env export --name $(PROJECT_NAME) > environment.yml
+	conda env export --name $(ENV_NAME) > environment.yml
 	@echo ">>> $(PROJECT_NAME) conda environment exported to ./environment.yml"
 
 ## Build the local environment from the environment file
 env_build:
 	conda env create -f environment.yml
+
+create_kernel:
+	python -m ipykernel install --user --name $(ENV_NAME) --display-name "$(PROJECT_NAME)"
 
 ## Activate the environment - doesn't work, so commented out
 # env_activate:
@@ -44,7 +48,7 @@ env_build:
 
 ## Run all tests in module
 test:
-	. activate $(PROJECT_NAME)
+	. activate $(ENV_NAME)
 	pytest
 
 #################################################################################
