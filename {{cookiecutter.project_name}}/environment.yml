@@ -13,5 +13,8 @@ dependencies:
   - pandas
   - matplotlib
   - seaborn
+  - jupyter
+  - jupyterlab
   - pip:
+    - ipykernel
     - python-dotenv
