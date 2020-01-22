@@ -3,18 +3,22 @@ name: {{ cookiecutter.conda_environment_name }}
 channels:
   - esri
   - conda-forge
+  - defaults
 
 dependencies:
-  - python=3.6
-  - arcgis
-  - numpy
+  - arcgis==1.7.0
+  - dask
+  - nodejs
+  - pillow
+  - pyarrow
+  - pylint
+  - pytest
+  - python-dotenv
   - scipy
   - scikit-learn
-  - pandas
-  - matplotlib
   - seaborn
-  - jupyter
-  - jupyterlab
+  - shapely
+  - swifter
   - pip:
     - ipykernel
-    - python-dotenv
+  
