@@ -12,43 +12,63 @@ SET CONDA_PARENT={{ cookiecutter.conda_parent_environment }}
 :: COMMANDS                                                                     :
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-:: Make Dataset
+:: Jump to command
 GOTO %1
 
+:: Perform data preprocessing steps contained in the make_dataset.py script.
 :data
-	activate %ENV_NAME%
-	python src/data/make_dataset.py
-	ECHO ">>> Data processed."
-	EXIT
-	
-:: Create the local environment by cloning the parent environment
-:env_create
-	conda create --yes --name %ENV_NAME% --clone %CONDA_PARENT%
-	ECHO ">>> New conda environment, %ENV_NAME%, created. Activate with:"
-	ECHO.
-	ECHO "- activate %ENV_NAME%"
-	ECHO.
-	ECHO "- make env_activate"
-	EXIT
+    ENDLOCAL & (
+        CALL activate "%ENV_NAME%"
+        CALL python src/data/make_dataset.py
+        ECHO ^>^>^> Data processed.
+    )
+    EXIT /B
 	
 :: Export the current environment
 :env_export
-	conda env export --name %ENV_NAME% > environment.yml
-	ECHO ">>> %PROJECT_NAME% conda environment exported to ./environment.yml"
-	EXIT 
+    ENDLOCAL & (
+        CALL conda env export --name "%ENV_NAME%" > environment.yml
+        ECHO ^>^>^> "%PROJECT_NAME%" conda environment exported to ./environment.yml
+    )
+    EXIT /B
 	
 :: Build the local environment from the environment file
-:env_build
-	conda env create --yes -f environment.yml
-	EXIT
+:env
+    ENDLOCAL & (
 
-:create_kernel 
-	python -m ipykernel install --user --name %ENV_NAME% --display-name "%PROJECT_NAME%"
+        :: Run this from the ArcGIS Python Command Prompt
+        :: Clone and activate the new environment
+        CALL conda create --name "%ENV_NAME%" --clone "%CONDA_PARENT%"
+        CALL activate "%ENV_NAME%"
+
+        :: Install additional packages
+        CALL conda env update -f environment.yml
+
+        :: Additional steps for the map widget to work in Jupyter Lab
+        CALL jupyter labextension install @jupyter-widgets/jupyterlab-manager -y
+        CALL jupyter labextension install arcgis-map-ipywidget@1.7.0 -y
+    )
+    EXIT /B
+
+:: Activate the environment
+:env_activate
+    ENDLOCAL & CALL activate "%ENV_NAME%"
+    EXIT /B
+
+:: Remove the environment
+:env_remove
+	ENDLOCAL & (
+		CALL deactivate
+		CALL conda env remove --name "%ENV_NAME%" -y
+	)
+	EXIT /B
 
 :: Run all tests in module
 :test
-	activate %PROJECT_NAME%
-	pytest
-	EXIT
-	
-EXIT
+	ENDLOCAL & (
+		activate "%ENV_NAME%"
+		pytest
+	)
+	EXIT /B
+
+EXIT /B
