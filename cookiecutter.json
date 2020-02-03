@@ -2,9 +2,9 @@
     "project_name": "geoai_project",
     "repo_name": "{{ cookiecutter.project_name.lower().replace(' ', '_') }}",
 	"support_library": "{{ cookiecutter.repo_name }}",
-    "author_name": "Esri AI/ML Team",
+    "author_name": "Esri Advanced Analytics Team",
     "description": "A short description of the project.",
-    "open_source_license": ["MIT", "BSD-3-Clause", "No license file"],
+    "open_source_license": ["Apache 2.0", "MIT", "BSD-3-Clause", "No license file"],
     "conda_environment_name": "{{ cookiecutter.repo_name }}",
     "conda_parent_environment": "arcgispro-py3"
 }
