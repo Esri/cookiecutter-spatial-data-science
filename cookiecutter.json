@@ -1,6 +1,6 @@
 {
     "project_name": "geoai_project",
-    "repo_name": "{{ cookiecutter.project_name.lower().replace(' ', '_') }}",
+    "repo_name": "{{ cookiecutter.project_name.lower().replace(' ', '_').replace('-', '_') }}",
 	"support_library": "{{ cookiecutter.repo_name }}",
     "author_name": "Esri Advanced Analytics Team",
     "description": "A short description of the project.",
