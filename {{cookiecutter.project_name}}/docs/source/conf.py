@@ -17,7 +17,7 @@
 
 # -- Project information -----------------------------------------------------
 
-project = '{{cookiecutter.geoai_project}}'
+project = '{{cookiecutter.project_name}}'
 copyright = '2020, {{cookiecutter.author_name}}'
 author = '{{cookiecutter.author_name}}'
 
