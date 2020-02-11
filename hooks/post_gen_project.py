@@ -15,6 +15,12 @@ except AttributeError:
         has_arcpy = True
     else:
         has_arcpy = False
+
+# if the cookiecutter.gdb exists, get rid of it
+gdb_ck = os.path.join(os.getcwd(), 'arcgis', 'cookiecutter.gdb')
+if os.path.exists(gdb_ck):
+    shutil.rmtree(gdb_ck)
+
 # ensure the data directories are populated
 dir_lst = [os.path.join(os.getcwd(), 'data', drctry)
            for drctry in ['raw', 'external', 'interim', 'processed']]
@@ -25,7 +31,7 @@ for drctry in dir_lst:
 # if arcpy available
 if has_arcpy:
 
-    # create locations
+    # create project location path strings
     existing_project_path = os.path.abspath(r'./arcgis/cookiecutter.aprx')
     new_project_path = os.path.abspath(r'./arcgis/{{ cookiecutter.project_name }}.aprx')
 
@@ -36,27 +42,28 @@ if has_arcpy:
     # now create a reference to the new project
     new_aprx = arcpy.mp.ArcGISProject(new_project_path)
 
-    # create the file geodatabase
-    interim_gdb = os.path.join(dir_lst[2], 'interim.gdb')
-    if not arcpy.Exists(interim_gdb):
-        arcpy.management.CreateFileGDB(dir_lst[2], 'interim.gdb')
+    # create the file geodatabases if they do not exist - ensures backwards compatibility
+    for data_name in ['interim', 'raw', 'processed']:
+        dir_path = os.path.join(os.getcwd(), 'data', data_name)
+        gdb_path = os.path.join(dir_path, f'{data_name}.gdb')        
+        if not arcpy.Exists(gdb_path):
+            arcpy.management.CreateFileGDB(dir_path, f'{data_name}.gdb')
 
-    # set the default file geodatabase for the aprx
-    new_aprx.defaultGeodatabase = interim_gdb
+        # set the default file geodatabase for the aprx to interim
+        if data_name == 'interim':
+            new_aprx.defaultGeodatabase = gdb_path
 
-    # create a matched name toolbox, and set the new project to reference it
+    # create a path toolbox with the same name as the aprx
     new_name = os.path.basename(new_project_path).split('.')[0]
-
-    # create the new toolbox path
     new_toolbox_path = os.path.abspath(os.path.join(
         os.path.dirname(new_project_path),
-        new_name + '.tbx'
+        f'{new_name}.tbx'
     ))
 
-    # copy the toolbox to the new location
+    # copy the cookiecutter toolbox to the new location with the new name
     shutil.copyfile(old_aprx.defaultToolbox, new_toolbox_path)
 
-    # update the pro project toolbox path
+    # update the pro project's default toolbox to this new path
     new_aprx.defaultToolbox = new_toolbox_path
 
     # save new settings for aprx
@@ -66,6 +73,6 @@ if has_arcpy:
     os.remove(old_aprx.defaultToolbox)
     os.remove(existing_project_path)
 
-# if arcpy is not available
+# if arcpy is not available get rid of the arcgis directory, but leave everything else
 else:
     shutil.rmtree(os.path.abspath(r'./arcgis'))
