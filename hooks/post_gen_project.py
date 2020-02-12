@@ -6,6 +6,9 @@ import tempfile
 import importlib
 from zipfile import ZipFile
 
+# backwards compatible version number
+backwards_compatible_vers = '2.4.0'
+
 # see if arcpy available to accommodate non-windows environments
 try:
     if importlib.util.find_spec("arcpy") is not None:
@@ -21,72 +24,7 @@ except AttributeError:
         has_arcpy = False
 
 
-def _cleanup_cookiecutter_references_in_aprx(aprx_path: Path):
-    """Clean up lingering references to cookiecutter toolbox and file geodatabase in the aprx."""
-
-    # ensure we're working with a pathlib.Path object
-    aprx_path = str(aprx_path) if isinstance(aprx_path, Path) else aprx_path
-
-    # temporary storage location for extracting contents of aprx to work with
-    tmp_dir = tempfile.mkdtemp()
-
-    # extract everything from the aprx to the temp directory
-    with ZipFile(aprx_path, 'r') as aprx:
-        aprx.extractall(tmp_dir)
-
-    xml_pro_name = 'GISProject.xml'
-
-    # string path to where file resides we are going to be modifying along with the output modified file
-    xml_pro_pth = os.path.join(os.path.abspath(tmp_dir), xml_pro_name)
-    tmp_pth = xml_pro_pth.replace('.xml', '_modified.xml')
-
-    # regular expression used to rip out the unneeded references to the original resources
-    regex = re.compile(
-        r"<CIMProjectItem xsi:type=\"typens:CIMProjectItem\"><CatalogPath>[\.\\/a-zA-Z{}\-_]*?cookiecutter\.[a-zA-Z]{3}<\/CatalogPath>.*?<\/CIMProjectItem>")
-
-    # open and read the original xml file
-    with open(tmp_pth, 'w') as out_file:
-        # open the temp file where the modifications will be saved
-        for line in open(xml_pro_pth, 'r'):
-            # drop any matching strings in the line
-            line = regex.sub(line, '') if regex.match(line) else line
-
-            # write the line to the output file
-            out_file.write(line)
-
-    # remove the original file and save the updated one in it's place
-    os.remove(xml_pro_pth)
-    os.rename(tmp_pth, xml_pro_pth)
-
-    # remove the original aprx file
-    os.remove(aprx_path)
-
-    # zip up the resources in the temp directory to create the new aprx archive
-    aprx_zip = shutil.make_archive(aprx_path, 'zip', tmp_dir)
-
-    # rename the file from a zip file to the orignial aprx name
-    os.rename(aprx_zip, aprx_path)
-
-    # remove the temp directory
-    shutil.rmtree(tmp_dir)
-
-    return aprx_path
-
-
-# if the cookiecutter.gdb exists, get rid of it
-gdb_ck = os.path.join(os.getcwd(), 'arcgis', 'cookiecutter.gdb')
-if os.path.exists(gdb_ck):
-    shutil.rmtree(gdb_ck)
-
-# ensure the data directories are populated
-dir_lst = [os.path.join(os.getcwd(), 'data', drctry)
-           for drctry in ['raw', 'external', 'interim', 'processed']]
-for drctry in dir_lst:
-    if not os.path.exists(drctry):
-        os.makedirs(drctry)
-
-# if arcpy available, set up arcgis pro resources for the project
-if has_arcpy:
+def _configure_aprx():
 
     # create project location path strings
     existing_project_path = os.path.abspath(r'./arcgis/cookiecutter.aprx')
@@ -130,8 +68,94 @@ if has_arcpy:
     os.remove(old_aprx.defaultToolbox)
     os.remove(existing_project_path)
 
-    # clean out any lingering Catalog references to cookiecutter resources
-    _cleanup_cookiecutter_references_in_aprx(new_project_path)
+    return Path(new_project_path)
+
+
+def _modify_file(orig_name, tmp_dir, min_vers=None, drop_regex=None):
+
+    # get the paths to the original and the one to write to
+    orig_pth = os.path.join(os.path.abspath(tmp_dir), orig_name)
+    tmp_pth = orig_pth.replace('.xml', '_modified.xml')
+
+    # version replace string
+    vrs_regex = re.compile(r'\d\.\d\.\d')
+
+    # create and open the destination file
+    with open(tmp_pth, 'w') as out_file:
+
+        # read the input file line by line
+        for line in open(orig_pth, 'r'):
+
+            # if a regular expression to use for recognizing and removing a string, do it
+            if drop_regex:
+                line = drop_regex.sub('', line)
+        
+            # roll back references to minimum versions for backwards compatibility
+            if min_vers:
+                line = vrs_regex.sub(min_vers, line)
+        
+            # save modified line
+            out_file.write(line)
+
+    # remove and replace the original with the updated file
+    os.remove(orig_pth)
+    os.rename(tmp_pth, orig_pth)
+
+    return orig_pth
+
+
+def _cleanup_aprx_catalog_tree(aprx_path, min_vers=None):
+
+    # ensure we're working with a pathlib.Path object
+    aprx_path = str(aprx_path) if isinstance(aprx_path, Path) else aprx_path
+
+    # temporary storage location for extracting contents of aprx to work with
+    tmp_dir = tempfile.mkdtemp()
+
+    # extract everything from the aprx to the temp directory
+    with ZipFile(aprx_path, 'r') as aprx:
+        aprx.extractall(tmp_dir)
+
+    # regular expression used to rip out the unneeded references to the cookiecutter resources
+    re_ck = re.compile(
+        r"<CIMProjectItem xsi:type=\"typens:CIMProjectItem\"><CatalogPath>[\.\\/a-zA-Z{}\-_]*?cookiecutter\.(?:tbx|gdb)<\/CatalogPath>.*?<\/CIMProjectItem>")
+
+    # modify the files in the aprx to be ready for using
+    _modify_file('GISProject.xml', tmp_dir, min_vers, re_ck)
+    _modify_file('DocumentInfo.xml', tmp_dir, min_vers)
+
+    # remove the original aprx file
+    os.remove(aprx_path)
+
+    # zip up the resources in the temp directory to create the new aprx archive
+    aprx_zip = shutil.make_archive(aprx_path, 'zip', tmp_dir)
+
+    # rename the file from a zip file to the orignial aprx name
+    os.rename(aprx_zip, aprx_path)
+
+    # remove the temp directory
+    shutil.rmtree(tmp_dir)
+
+    return aprx_path
+
+
+# if the cookiecutter.gdb exists, get rid of it
+gdb_ck = os.path.join(os.getcwd(), 'arcgis', 'cookiecutter.gdb')
+if os.path.exists(gdb_ck):
+    shutil.rmtree(gdb_ck)
+
+# ensure the data directories are present
+dir_lst = [os.path.join(os.getcwd(), 'data', drctry)
+           for drctry in ['raw', 'external', 'interim', 'processed']]
+for drctry in dir_lst:
+    if not os.path.exists(drctry):
+        os.makedirs(drctry)
+
+# if arcpy available, set up arcgis pro resources for the project
+if has_arcpy:
+
+    aprx_pth = _configure_aprx()
+    _cleanup_aprx_catalog_tree(aprx_pth, backwards_compatible_vers)
 
 # if arcpy is not available get rid of the arcgis directory, but leave everything else
 else:
