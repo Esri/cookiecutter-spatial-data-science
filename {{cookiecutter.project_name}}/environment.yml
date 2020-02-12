@@ -6,7 +6,7 @@ channels:
   - defaults
 
 dependencies:
-  - arcgis==1.7.0
+  - arcgis==1.7.1
   - dask
   - nodejs
   - pillow
