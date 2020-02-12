@@ -4,9 +4,9 @@
 
 SETLOCAL
 SET PROJECT_DIR=%cd%
-SET PROJECT_NAME="{{ cookiecutter.project_name }}"
-SET ENV_NAME={{ cookiecutter.conda_environment_name }}
-SET CONDA_PARENT={{ cookiecutter.conda_parent_environment }}
+SET PROJECT_NAME="azure-blob-sync"
+SET ENV_NAME=azure_blob_sync
+SET CONDA_PARENT=arcgispro-py3
 
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 :: COMMANDS                                                                     :
@@ -15,12 +15,26 @@ SET CONDA_PARENT={{ cookiecutter.conda_parent_environment }}
 :: Jump to command
 GOTO %1
 
-:: Perform data preprocessing steps contained in the make_dataset.py script.
+:: Perform data preprocessing steps contained in the make_data.py script.
 :data
     ENDLOCAL & (
         CALL activate "%ENV_NAME%"
-        CALL python src/data/make_dataset.py
+        CALL python src/data/make_data.py
         ECHO ^>^>^> Data processed.
+    )
+    EXIT /B
+
+:: Get data from Azure Blob Storage
+:get_data
+    ENDLOCAL & (
+        CALL python scripts/azure_blob.py get -o
+    )
+    EXIT /B
+
+:: Push data to Azure Blob Storage
+:push_data
+    ENDLOCAL & (
+        CALL python scripts/azure_blob.py push -o
     )
     EXIT /B
 	
@@ -46,7 +60,7 @@ GOTO %1
 
         :: Additional steps for the map widget to work in Jupyter Lab
         CALL jupyter labextension install @jupyter-widgets/jupyterlab-manager -y
-        CALL jupyter labextension install arcgis-map-ipywidget@1.7.1 -y
+        CALL jupyter labextension install arcgis-map-ipywidget@1.7.0 -y
     )
     EXIT /B
 
