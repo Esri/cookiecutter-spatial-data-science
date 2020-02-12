@@ -20,6 +20,7 @@ dependencies:
   - shapely
   - swifter
   - pip:
+    - azure-storage-blob
     - ipykernel
     - sphinx
   
