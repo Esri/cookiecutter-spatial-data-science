@@ -160,3 +160,6 @@ if has_arcpy:
 # if arcpy is not available get rid of the arcgis directory, but leave everything else
 else:
     shutil.rmtree(os.path.abspath(r'./arcgis'))
+
+# rename the env file to .env
+os.rename('./env', './.env')
