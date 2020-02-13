@@ -27,14 +27,16 @@ GOTO %1
 :: Get data from Azure Blob Storage
 :get_data
     ENDLOCAL & (
-        CALL python scripts/azure_blob.py get -o
+        IF "%2"=="-o" CALL python scripts/azure_blob.py get -o
+        IF "%2"=="" CALL python scripts/azure_blob.py get
     )
     EXIT /B
 
 :: Push data to Azure Blob Storage
 :push_data
     ENDLOCAL & (
-        CALL python scripts/azure_blob.py push -o
+        IF "%2"=="-o" CALL python scripts/azure_blob.py push -o
+        IF "%2"=="" CALL python scripts/azure_blob.py push
     )
     EXIT /B
 	

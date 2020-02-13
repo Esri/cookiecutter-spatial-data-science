@@ -47,6 +47,12 @@ def make_name_compliant(name:str)->str:
 def push_data(overwrite:bool=False)->bool:
     """Push project data to Azure Blob storage"""
 
+    # if not overwriting
+    if not overwrite and \
+        [b.name for b in container_client.list_blobs()] and \
+        [c.name for c in blob_svc_client.list_containers()]:
+        raise Exception('Data appears to already be stored in Azure Blob Storage')
+
     # if the container does not exist, create it
     if container_name not in [c.name for c in blob_svc_client.list_containers()]:
         container_client.create_container()
@@ -60,7 +66,7 @@ def push_data(overwrite:bool=False)->bool:
 
     # upload the blob
     with open(data_archive, 'rb') as data_stream:
-        container_client.upload_blob(name=Path(data_archive).name, data=data_stream, overwrite=overwrite)
+        container_client.upload_blob(name=Path(data_archive).name, data=data_stream, overwrite=True)
         
     return True
 
