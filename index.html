@@ -90,10 +90,10 @@
                 
                 <li class="third-level"><a href="#requirements">Requirements</a></li>
                 <li class="third-level"><a href="#starting-a-new-project">Starting a New Project</a></li>
-            <li class="second-level"><a href="#directory-structure">Directory Structure</a></li>
+            <li class="second-level"><a href="#project-organization-and-structure">Project Organization and Structure</a></li>
                 
-            <li class="second-level"><a href="#arcgis-pro-project-aprx-configuration">ArcGIS Pro Project (aprx) Configuration</a></li>
-                
+                <li class="third-level"><a href="#directory-structure">Directory Structure</a></li>
+                <li class="third-level"><a href="#arcgis-pro-project-aprx-configuration">ArcGIS Pro Project (aprx) Configuration</a></li>
             <li class="second-level"><a href="#opinions">Opinions</a></li>
                 
                 <li class="third-level"><a href="#autonomous-environment">Autonomous Environment</a></li>
@@ -153,7 +153,8 @@
 </code></pre>
 
 <p>Once you answer all the questions, the new project is now created as a new directory in the current working directory.</p>
-<h2 id="directory-structure">Directory Structure</h2>
+<h2 id="project-organization-and-structure">Project Organization and Structure</h2>
+<h3 id="directory-structure">Directory Structure</h3>
 <pre><code>    ├── LICENSE
     ├── Makefile           &lt;- Makefile with commands like `make data`
     ├── make.bat           &lt;- Windows batch file with commands like `make data`
@@ -190,7 +191,7 @@
                                                   project. 
 </code></pre>
 
-<h2 id="arcgis-pro-project-aprx-configuration">ArcGIS Pro Project (aprx) Configuration</h2>
+<h3 id="arcgis-pro-project-aprx-configuration">ArcGIS Pro Project (aprx) Configuration</h3>
 <p>While the ArcGIS Pro project is located in the <code>./arcgis</code> directory, the data is located in another directory. To make life easier, the three file geodatabases, interim.gdb, processed.gdb and raw.gdb are all already registered. Additionally, the arcgis, data, and notebooks directories are all also registered in the Pro project. This makes it easy to access useful resources from ArcGIS Pro.</p>
 <p><strong>NOTE:</strong> The notebooks directory is included due to support for Jupyter Notebooks introduced with ArcGIS Pro 2.5. If using a version below 2.5, while this directory still will be visible, it will appear as if nothing is in the directory when viewed from the Catalog Tree in ArcGIS Pro. This is due to ArcGIS Pro only displaying recognized file types, and Notebook files (<code>.ipynb</code>) are not recognized until version 2.5.</p>
 <h2 id="opinions">Opinions</h2>
@@ -342,5 +343,5 @@ gis = GIS(
 
 <!--
 MkDocs version : 1.0.4
-Build Date UTC : 2020-02-13 22:49:00
+Build Date UTC : 2020-02-13 23:10:41
 -->
