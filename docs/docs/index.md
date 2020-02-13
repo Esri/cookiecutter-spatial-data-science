@@ -42,7 +42,7 @@ GeoAI-Cookiecutter provides a template for starting projects taking advantage of
 
 #### Requirements
 
-* ArcGIS Pro (Python 3.6 in Conda comes with it)
+* ArcGIS Pro 2.4 or greater (Python 3.6 and Conda come with it)
 * Cookiecutter
 
 Cookiecutter is _not_ installed by default, but can easily be installed by opening the Python Command Prompt by going to Start > Programs > ArcGIS > Python Command Prompt. This opens a command prompt with the default Conda environment for ArcGIS Pro activated. This environment is named `arcgispro-py3`, and is in parentheses prefixing the normal command prompt on the left side.
@@ -114,6 +114,12 @@ Once you answer all the questions, the new project is now created as a new direc
         └── {{ cookiecutter.support_library }} <- Library containing the bulk of code used in this project. 
 ```
 
+## ArcGIS Pro Project (aprx) Configuration
+
+While the ArcGIS Pro project is located in the `./arcgis` directory, the data is located in another directory. To make life easier, the three file geodatabases, interim.gdb, processed.gdb and raw.gdb are all already registered. Additionally, the arcgis, data, and notebooks directories are all also registered in the Pro project. This makes it easy to access useful resources from ArcGIS Pro.
+
+__NOTE:__ The notebooks directory is included due to support for Jupyter Notebooks introduced with ArcGIS Pro 2.5. If using a version below 2.5, while this directory still will be visible, it will appear as if nothing is in the directory when viewed from the Catalog Tree in ArcGIS Pro. This is due to ArcGIS Pro only displaying recognized file types, and Notebook files (`.ipynb`) are not recognized until version 2.5.
+
 ## Opinions
 
 Opinions guide best practices, but are still only opinions. However, following the best practices and conventions laid out by these opinions will go a long ways towards achieving repeatability, facilitating collaboration and increasing both your _and_ your colleagues confidence in your work.
@@ -159,7 +165,7 @@ Further, to repeat the work, the data does not _necessarily_ need to be in sourc
 
 ### Keep Secrets _Out_ of Version Control
 
-Sharing your work is highly encouraged, but sharing sensitive information definitely is _not_. To avoid this, _never_ put passwords or other sensitive information into any files synchronized with version control. GeoAI-Cookiecutter implements the convention of Cookiecutter Data Science by keeping this sensitive information in a special file excluded from version control, and provides a method of easily accessing them from anywhere in the project.
+Sharing your work is highly encouraged, but sharing sensitive information definitely is _not_. To avoid this, _never_ put passwords or other sensitive information into any files synchronized with version control. GeoAI-Cookiecutter implements the convention of Cookiecutter Data Science by keeping this sensitive information in a special file excluded from version control, and provides a method of easily accessing these values from anywhere in the project.
 
 #### Special File `.env`
 
@@ -177,7 +183,7 @@ ESRI_GIS_PASSWORD = R3@!!y_H@rd_T0_Gu3$$_@nd_H@rd3r_T0_R3m3mb3r_P@$$w0rd
 
 #### Load Variables Using Dotenv
 
-Among the packages included in the default `environment.yml` file is dotenv. This package enables loading the variables so they are accessible using `os.getenv`. For instacne, to be able to instatiate the GIS object, using variables stored in the `.env` file, the following can be used.
+Among the packages included in the default `environment.yml` file is [python-dotenv](https://github.com/theskumar/python-dotenv). This package enables loading the variables so they are accessible using `os.getenv`. For instance, to be able to instantiate the GIS object, using variables stored in the `.env` file, the following can be used.
 
 ```python
 from arcgis.gis import GIS
