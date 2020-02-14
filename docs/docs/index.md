@@ -208,7 +208,7 @@ gis = GIS(
 
 ## Thank You [DrivenData](https://www.drivendata.org)!
 
-Huge thank you to [DrivenData](https://www.drivendata.org) for creating the outstanding [Cookiecutter Data Science](https://drivendata.github.io/cookiecutter-data-science) template we used as the starting point for GeoAI-Cookiecutter. ookiecutter Data Science provided the framework for initially addressing many of our team's internal collaboration challenges, and evolved into what you see here. DrivenData, we could not have done it without you! Thank you!
+Huge thank you to [DrivenData](https://www.drivendata.org) for creating the outstanding [Cookiecutter Data Science](https://drivendata.github.io/cookiecutter-data-science) template we used as the starting point for GeoAI-Cookiecutter. Cookiecutter Data Science provided the framework for initially addressing many of our team's internal collaboration challenges, and evolved into what you see here. DrivenData, we could not have done it without you! Thank you!
 
 ## Licensing
 Copyright 2020 Esri
