@@ -68,7 +68,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="https://github.com/ArcGIS/geoai-cookiecutter/edit/master/docs/index.md">Edit on GeoAI-Cookiecutter</a>
+                        <a href="https://github.com/ArcGIS/geoai-cookiecutter/">GeoAI-Cookiecutter</a>
                     </li>
             </ul>
         </div>
@@ -109,7 +109,6 @@
         <div class="col-md-9" role="main">
 
 <h1 id="geoai-cookiecutter">GeoAI-Cookiecutter</h1>
-<p><a href="https://github.com/ArcGIS/geoai-cookiecutter">GeoAI-Cookiecutter on GitHub</a></p>
 <p>GeoAI-Cookiecutter strives to streamline and promote use of best practices for projects combining Geography and Artificial Intelligence through a logical, reasonably standardized, and flexible project structure.</p>
 <p>GeoAI-Cookiecutter project grew out of a need within the Advanced Analytics team at Esri to streamline project bootstrapping, encourage innovation, increase repeatability, encourage documentation, and encourage best practices.</p>
 <h2 id="why-use-this-project-structure">Why use this project structure?</h2>
@@ -157,7 +156,12 @@
 <pre><code class="batch">&gt; cookiecutter https://github.com/arcgis/geoai-cookiecutter
 </code></pre>
 
-<p>Once you answer all the questions, the new project is now created as a new directory in the current working directory.</p>
+<p>Once you answer all the questions, the new project is now created as a new directory in the current working directory. Assuming your project name is <code>sik-pro</code>, your new Conda environment is going to be named <code>sik_pro</code>. Hence, to create this environment, run the following.</p>
+<pre><code class="bash">&gt; cd sik-pro
+&gt; make env
+</code></pre>
+
+<p>This creates the environment and gets it ready for use. The following prompt will indicate this new environment is active by displaying the new environment name in parenthesis to the left of the command prompt. You are ready to get to work.</p>
 <h2 id="project-organization-and-structure">Project Organization and Structure</h2>
 <p>The GeoAI-Cookiecutter template provides a structure for project resources, marrying data science directory structure with the functionality of ArcGIS Pro. This primarily means organizing the project following most of the best practices and conventions from Cookiecutter Data Science, and adapting ArcGIS Pro to easily work within this paradigm.</p>
 <h3 id="directory-structure">Directory Structure</h3>
@@ -358,5 +362,5 @@ gis = GIS(
 
 <!--
 MkDocs version : 1.0.4
-Build Date UTC : 2020-02-14 01:20:46
+Build Date UTC : 2020-02-14 05:02:45
 -->
