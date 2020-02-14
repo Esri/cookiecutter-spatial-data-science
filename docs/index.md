@@ -1,7 +1,5 @@
 # GeoAI-Cookiecutter
 
-[GeoAI-Cookiecutter on GitHub](https://github.com/ArcGIS/geoai-cookiecutter)
-
 GeoAI-Cookiecutter strives to streamline and promote use of best practices for projects combining Geography and Artificial Intelligence through a logical, reasonably standardized, and flexible project structure.
 
 GeoAI-Cookiecutter project grew out of a need within the Advanced Analytics team at Esri to streamline project bootstrapping, encourage innovation, increase repeatability, encourage documentation, and encourage best practices.
@@ -75,7 +73,14 @@ Now, once you have Cookiecutter installed in an environment, you can use the Geo
 > cookiecutter https://github.com/arcgis/geoai-cookiecutter
 ```
 
-Once you answer all the questions, the new project is now created as a new directory in the current working directory.
+Once you answer all the questions, the new project is now created as a new directory in the current working directory. Assuming your project name is `sik-pro`, your new Conda environment is going to be named `sik_pro`. Hence, to create this environment, run the following.
+
+```bash
+> cd sik-pro
+> make env
+```
+
+This creates the environment and gets it ready for use. The following prompt will indicate this new environment is active by displaying the new environment name in parenthesis to the left of the command prompt. You are ready to get to work.
 
 ## Project Organization and Structure
 
