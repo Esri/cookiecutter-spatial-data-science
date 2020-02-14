@@ -1,5 +1,7 @@
 # GeoAI-Cookiecutter
 
+![Cookie Monster!][cookiemonster]
+
 GeoAI-Cookiecutter strives to streamline and promote use of best practices for projects combining Geography and Artificial Intelligence through a logical, reasonably standardized, and flexible project structure.
 
 GeoAI-Cookiecutter project grew out of a need within the Advanced Analytics team at Esri to streamline project bootstrapping, encourage innovation, increase repeatability, encourage documentation, and encourage best practices.
@@ -225,3 +227,5 @@ Licensed under the Apache License, Version 2.0 (the "License"); you may not use 
 Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
 
 A copy of the license is available [directly from the Apache foundation](http://www.apache.org/licenses/LICENSE-2.0).
+
+[cookiemonster]: https://github.com/ArcGIS/geoai-cookiecutter/tree/master/docs/docs/resources/cookiemonster.jpg "Cookie Monster!"
