@@ -4,7 +4,7 @@ GeoAI-Cookiecutter strives to streamline and promote use of best practices for p
 
 GeoAI-Cookiecutter project grew out of a need within the Advanced Analytics team at Esri to streamline project bootstrapping, encourage innovation, increase repeatability, encourage documentation, and encourage best practices.
 
-### Requirements to use the cookiecutter template:
+## Requirements to use the cookiecutter template:
 -----------
  * ArcGIS Pro 2.4 or greater (Python 3.6 and Conda come with it)
  * [Cookiecutter](http://cookiecutter.readthedocs.org/en/latest/installation.html) >= 1.4.0
@@ -14,14 +14,14 @@ GeoAI-Cookiecutter project grew out of a need within the Advanced Analytics team
 ```
 
 
-### To start a new project, run:
+## To start a new project, run:
 ------------
 
 ``` bash
 > cookiecutter https://github.com/ArcGIS/geoai-cookiecutter
 ```
 
-### The resulting directory structure
+## The resulting directory structure
 ------------
 
 The directory structure of your new project will look like this: 
@@ -62,3 +62,15 @@ The directory structure of your new project will look like this:
         └── {{ cookiecutter.support_library }} <- Library containing the bulk of code used in this 
                                                   project. 
 ```
+
+## Licensing
+------------
+Copyright 2020 Esri
+
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
+
+A copy of the license is available in the repository's [LICENSE](LICENSE?raw=true) file.
