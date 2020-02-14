@@ -4,9 +4,9 @@
 
 SETLOCAL
 SET PROJECT_DIR=%cd%
-SET PROJECT_NAME="azure-blob-sync"
-SET ENV_NAME=azure_blob_sync
-SET CONDA_PARENT=arcgispro-py3
+SET PROJECT_NAME={{ cookiecutter.project_name }}
+SET ENV_NAME={{ cookiecutter.conda_environment_name }}
+SET CONDA_PARENT={{ cookiecutter.conda_parent_environment }}
 
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 :: COMMANDS                                                                     :
