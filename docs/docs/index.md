@@ -77,7 +77,7 @@ Once you answer all the questions, the new project is now created as a new direc
 
 ## Project Organization and Structure
 
-The GeoAI-Cookiecutter template provides a structure for project resources, and marries the combination of 
+The GeoAI-Cookiecutter template provides a structure for project resources, marrying data science directory structure with the functionality of ArcGIS Pro. This primarily means organizing the project following most of the best practices and conventions from Cookiecutter Data Science, and adapting ArcGIS Pro to easily work within this paradigm.
 
 ### Directory Structure
 
