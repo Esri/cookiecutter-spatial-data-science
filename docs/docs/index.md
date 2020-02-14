@@ -1,5 +1,7 @@
 # GeoAI-Cookiecutter
 
+[GeoAI-Cookiecutter on GitHub](https://github.com/ArcGIS/geoai-cookiecutter)
+
 GeoAI-Cookiecutter strives to streamline and promote use of best practices for projects combining Geography and Artificial Intelligence through a logical, reasonably standardized, and flexible project structure.
 
 GeoAI-Cookiecutter project grew out of a need within the Advanced Analytics team at Esri to streamline project bootstrapping, encourage innovation, increase repeatability, encourage documentation, and encourage best practices.
@@ -203,3 +205,18 @@ gis = GIS(
     password=os.getenv('ESRI_GIS_PASSWORD')
 )
 ```
+
+## Thank You [DrivenData](https://www.drivendata.org)!
+
+Huge thank you to [DrivenData](https://www.drivendata.org) for creating the outstanding [Cookiecutter Data Science](https://drivendata.github.io/cookiecutter-data-science) template we used as the starting point for GeoAI-Cookiecutter. ookiecutter Data Science provided the framework for initially addressing many of our team's internal collaboration challenges, and evolved into what you see here. DrivenData, we could not have done it without you! Thank you!
+
+## Licensing
+Copyright 2020 Esri
+
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
+
+A copy of the license is available [directly from the Apache foundation](http://www.apache.org/licenses/LICENSE-2.0) file.

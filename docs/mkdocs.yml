@@ -1,7 +1,11 @@
 site_name: GeoAI-Cookiecutter
+site_url: https://github.com/ArcGIS/geoai-cookiecutter
 site_description: A project template and directory structure for Python geograpihc data science projects.
+site_author: Esri Advanced Analytics Team
 site_favicon: favicon.ico
+repo_name: GeoAI-Cookiecutter
 repo_url: https://github.com/ArcGIS/geoai-cookiecutter/
+edit_uri:
 copyright: Esri Advanced Analytics Team
 theme: cinder
 extra_css:
