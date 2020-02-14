@@ -8,9 +8,9 @@ GeoAI-Cookiecutter project grew out of a need within the Advanced Analytics team
 
 ## Why use this project structure?
 
-Data Science and GIS are both about _actionable insights_. Maps, graphs and infographics are what first comes to mind. Not surprisingly, these information products frequently get the attention. However, these visualizations merely visually communicate the results of complex analysis, and the path toward unearthing these insights requires creative exploration coupled with repeatability. It requires structure not impeding creative innovation.
+Data Science and GIS are both about providing _actionable insights_. The visual results communicating actionable insights, maps, graphs and infographics are typically what first come to mind. Not surprisingly, these information products frequently get the most attention. However, these visualizations merely communicate results of complex analysis, and the path toward unearthing these insights requires creative exploration coupled with repeatability. Actionable insights for decision making requires structure not impeding creative innovation.
 
-The best analyses are frequently the result of incredibly scattershot experimentation. This requires the ability to quickly test seemingly harebrained approaches. While most do not work, the ones that do, this is where innovation happens. This is where genius is discovered. Once discovered, for the discovery to be useful, it must be repeatable.
+The best analyses are frequently the result of incredibly scattershot experimentation. This requires the ability to quickly test seemingly harebrained approaches. While most do not work, the ones that do, _this_ is where innovation happens and _genius_ is discovered. Once discovered, for the discovery to be useful, it must be repeatable.
 
 While creativity and repeatability may initially first feel at odds, a standardized project structure used according to best practices not only facilitates creativity, but also enables repeatability. This, in turn, increases the ability to iterate more quickly, discover more insights, and generally become more productive. Not only will your own work benefit, this benefits your colleagues as well.
 
@@ -34,9 +34,9 @@ GeoAI-Cookiecutter is a _starting point_ for projects, but is not absolute. If d
 
 Even within a project, if something does not work, simply follow the path that _does_ work, but do it with _consistency_. This way, for yourself and others looking at your work, your workflows and code will make sense.
 
-> Consistency within a project is more important. Consistency within one module or function is the most important. ... However, know when to be inconsistent -- sometimes style guide recommendations just aren't applicable. When in doubt, use your best judgment. Look at other examples and decide what looks best. And don't hesitate to ask! -([PEP 8!](https://www.python.org/dev/peps/pep-0008/#a-foolish-consistency-is-the-hobgoblin-of-little-minds))
+> Consistency within a project is more important. Consistency within one module or function is the most important. ... However, know when to be inconsistent -- sometimes style guide recommendations just aren't applicable. When in doubt, use your best judgment. Look at other examples and decide what looks best. And don't hesitate to ask! — ([PEP 8!](https://www.python.org/dev/peps/pep-0008/#a-foolish-consistency-is-the-hobgoblin-of-little-minds))
 
-Asking is important as well! _Learn_ from peers and colleagues.
+Asking is important! _Learn_ from peers and colleagues.
 
 ## Getting Started
 
@@ -176,6 +176,14 @@ This is the explicit purpose of the `./data/raw` directory. Put your untouched r
 
 Further, to repeat the work, the data does not _necessarily_ need to be in source control. By default, due to both this reason, and the common limitation of GitHub to store large files, the `./data` directory is excluded from synchronization with source control in the `.gitignore` file. As a supplementary option for enabling access to the data, GeoAI-Cookiecutter includes the capability to upload and download data using [Azure Blob Storage](https://azure.microsoft.com/en-us/services/storage/blobs/).
 
+### Analysis is a DAG
+
+> A _directed acyclic graph_ (DAG) is a finite directed graph with no directed cycles.
+
+Frequently data preparation is a time consuming process, and especially in the early stages of development, involves a lot of trial and error. For this reason each step in the data preparation process _should_ cache results to the interim data directory or file geodatabase, and following steps should check for this intermediate data. This way if intermediate data has already been created, the data preparation pipeline does not need to start over from the beginning every time. This is the structure of [SciKit Learn Transformers](https://scikit-learn.org/stable/data_transforms.html), both out of the box and custom transformers, assembled into a data transformation [Pipeline](https://scikit-learn.org/stable/modules/compose.html#pipeline-chaining-estimators).
+
+This is useful both in development of the data pipeline and even in production. During development, this enables iterative experimentation to continue moving forward. Once in production, this enables troubleshooting where the problem in the pipeline occurred as opposed to having to start the entire process over just to find the one place in the code causing the issue.
+
 ### Keep Secrets _Out_ of Version Control
 
 Sharing your work is highly encouraged, but sharing sensitive information definitely is _not_. To avoid this, _never_ put passwords or other sensitive information into any files synchronized with version control. GeoAI-Cookiecutter implements the convention of Cookiecutter Data Science by keeping this sensitive information in a special file excluded from version control, and provides a method of easily accessing these values from anywhere in the project.
@@ -213,19 +221,33 @@ gis = GIS(
 )
 ```
 
-## Thank You [DrivenData](https://www.drivendata.org)!
+## Thank You!
+
+GeoAI-Cookiectutter is bulit on the shoulders of giants. It is merely an evoloution of existing work by DrivenData and Cookiecutter to suit the needs we have working at the intersection of geography and artificial intelligence. We owe a huge debt of gratitude to both.
+
+### [DrivenData](https://www.drivendata.org)
+
+![drivendata][drivendata]
 
 Huge thank you to [DrivenData](https://www.drivendata.org) for creating the outstanding [Cookiecutter Data Science](https://drivendata.github.io/cookiecutter-data-science) template we used as the starting point for GeoAI-Cookiecutter. Cookiecutter Data Science provided the framework for initially addressing many of our team's internal collaboration challenges, and evolved into what you see here. DrivenData, we could not have done it without you! Thank you!
+
+### [Cookiecutter](https://cookiecutter.readthedocs.io)
+
+[![cookiecutter][cookiecutter]](https://cookiecutter.readthedocs.io)
+
+Neither GeoAI-Cookiecutter nor Cookiecutter Data Science would be possible without the outstanding open source project Cookiecutter.
 
 ## Licensing
 Copyright 2020 Esri
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
 
-   [http://www.apache.org/licenses/LICENSE-2.0]
+   [http://www.apache.org/licenses/LICENSE-2.0](http://www.apache.org/licenses/LICENSE-2.0)
 
 Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
 
 A copy of the license is available [directly from the Apache foundation](http://www.apache.org/licenses/LICENSE-2.0).
 
-[cookiemonster]: https://github.com/ArcGIS/geoai-cookiecutter/tree/master/docs/docs/resources/cookiemonster.jpg "Cookie Monster!"
+[cookiemonster]: resources/cookiemonster.jpg "Cookie Monster!"
+[cookiecutter]: resources/cookiecutter.png "Cookiecutter Logo"
+[drivendata]: resources/drivendata.svg "Driven Data Logo"
