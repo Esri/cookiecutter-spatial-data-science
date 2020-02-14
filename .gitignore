@@ -13,4 +13,4 @@ tests/__pycache__/*
 .vscode/
 
 # remove built docs
-site/
+docs_site/
