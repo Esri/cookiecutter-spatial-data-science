@@ -11,3 +11,6 @@ tests/__pycache__/*
 
 # VS Code
 .vscode/
+
+# remove built docs
+docs/site/*
