@@ -99,9 +99,12 @@
                 <li class="third-level"><a href="#autonomous-environment">Autonomous Environment</a></li>
                 <li class="third-level"><a href="#notebooks-are-for-exploration-and-communication">Notebooks are for Exploration and Communication</a></li>
                 <li class="third-level"><a href="#raw-data-immutability">Raw Data Immutability</a></li>
+                <li class="third-level"><a href="#analysis-is-a-dag">Analysis is a DAG</a></li>
                 <li class="third-level"><a href="#keep-secrets-out-of-version-control">Keep Secrets Out of Version Control</a></li>
-            <li class="second-level"><a href="#thank-you-drivendata">Thank You DrivenData!</a></li>
+            <li class="second-level"><a href="#thank-you">Thank You!</a></li>
                 
+                <li class="third-level"><a href="#drivendata">DrivenData</a></li>
+                <li class="third-level"><a href="#cookiecutter">Cookiecutter</a></li>
             <li class="second-level"><a href="#licensing">Licensing</a></li>
                 
     </ul>
@@ -113,8 +116,8 @@
 <p>GeoAI-Cookiecutter strives to streamline and promote use of best practices for projects combining Geography and Artificial Intelligence through a logical, reasonably standardized, and flexible project structure.</p>
 <p>GeoAI-Cookiecutter project grew out of a need within the Advanced Analytics team at Esri to streamline project bootstrapping, encourage innovation, increase repeatability, encourage documentation, and encourage best practices.</p>
 <h2 id="why-use-this-project-structure">Why use this project structure?</h2>
-<p>Data Science and GIS are both about <em>actionable insights</em>. Maps, graphs and infographics are what first comes to mind. Not surprisingly, these information products frequently get the attention. However, these visualizations merely visually communicate the results of complex analysis, and the path toward unearthing these insights requires creative exploration coupled with repeatability. It requires structure not impeding creative innovation.</p>
-<p>The best analyses are frequently the result of incredibly scattershot experimentation. This requires the ability to quickly test seemingly harebrained approaches. While most do not work, the ones that do, this is where innovation happens. This is where genius is discovered. Once discovered, for the discovery to be useful, it must be repeatable.</p>
+<p>Data Science and GIS are both about providing <em>actionable insights</em>. The visual results communicating actionable insights, maps, graphs and infographics are typically what first come to mind. Not surprisingly, these information products frequently get the most attention. However, these visualizations merely communicate results of complex analysis, and the path toward unearthing these insights requires creative exploration coupled with repeatability. Actionable insights for decision making requires structure not impeding creative innovation.</p>
+<p>The best analyses are frequently the result of incredibly scattershot experimentation. This requires the ability to quickly test seemingly harebrained approaches. While most do not work, the ones that do, <em>this</em> is where innovation happens and <em>genius</em> is discovered. Once discovered, for the discovery to be useful, it must be repeatable.</p>
 <p>While creativity and repeatability may initially first feel at odds, a standardized project structure used according to best practices not only facilitates creativity, but also enables repeatability. This, in turn, increases the ability to iterate more quickly, discover more insights, and generally become more productive. Not only will your own work benefit, this benefits your colleagues as well.</p>
 <h3 id="others-will-thank-you">Others Will Thank You</h3>
 <p>Templating tools started with web development. Pick a framework. Ember.js, Angular, Django, Rails - every single one has a project generator scaffolding out a project according to conventions and best practices. This speeds up starting a new project <em>and</em> makes collaboration <em>much</em> easier. Anybody else looking at the project will know where to look for resources, and since resources are logically organized, even if they are not familiar with the exact structure, can logically deduce where to find things. </p>
@@ -129,9 +132,9 @@
 <p>GeoAI-Cookiecutter is a <em>starting point</em> for projects, but is not absolute. If details do not work, change them in your project based on your needs, <em>but be consistent</em>. After all, this is how GeoAI-Cookiecutter came into existence! <a href="http://drivendata.github.io/cookiecutter-data-science/">Cookiecutter Data Science</a> is an excellent template for data science work, but did not meet all the needs for marrying Geographic and Artificial Intelligence analysis workflows. We extended and modified this template to achieve consistency addressing our additional needs.</p>
 <p>Even within a project, if something does not work, simply follow the path that <em>does</em> work, but do it with <em>consistency</em>. This way, for yourself and others looking at your work, your workflows and code will make sense.</p>
 <blockquote>
-<p>Consistency within a project is more important. Consistency within one module or function is the most important. ... However, know when to be inconsistent -- sometimes style guide recommendations just aren't applicable. When in doubt, use your best judgment. Look at other examples and decide what looks best. And don't hesitate to ask! -(<a href="https://www.python.org/dev/peps/pep-0008/#a-foolish-consistency-is-the-hobgoblin-of-little-minds">PEP 8!</a>)</p>
+<p>Consistency within a project is more important. Consistency within one module or function is the most important. ... However, know when to be inconsistent -- sometimes style guide recommendations just aren't applicable. When in doubt, use your best judgment. Look at other examples and decide what looks best. And don't hesitate to ask! — (<a href="https://www.python.org/dev/peps/pep-0008/#a-foolish-consistency-is-the-hobgoblin-of-little-minds">PEP 8!</a>)</p>
 </blockquote>
-<p>Asking is important as well! <em>Learn</em> from peers and colleagues.</p>
+<p>Asking is important! <em>Learn</em> from peers and colleagues.</p>
 <h2 id="getting-started">Getting Started</h2>
 <p>GeoAI-Cookiecutter provides a template for starting projects taking advantage of the combined capabilities of <a href="https://www.esri.com/en-us/arcgis/products/arcgis-pro/overview">ArcGIS Pro</a>, Esri Cloud GIS (<a href="https://enterprise.arcgis.com/en/">ArcGIS Enterprise</a> or <a href="https://www.arcgis.com/index.html">ArcGIS Online</a>), and the broad ecosystem of Machine Learning technologies using Python in a <a href="https://docs.conda.io/en/latest/">Conda</a> environment. Although it is designed to accommodate environments <em>not</em> including ArcGIS Pro, it then becomes little more than Cookiecutter Data Science. Consequently, it is <em>highly</em> recommended you use GeoAI-Cookiecutter in an ArcGIS Pro Python Conda environment, which is installed with ArcGIS Pro.</p>
 <h4 id="requirements">Requirements</h4>
@@ -231,6 +234,12 @@ Synonym - unchangeable</p>
 <p>Leaving original data unchanged, and building an automated data transformation pipeline dramatically streamlines repeatability. This frequently is <em>even</em> to the extent of data format. This makes it much easier to revisit and revise results with new data as it becomes available. </p>
 <p>This is the explicit purpose of the <code>./data/raw</code> directory. Put your untouched raw data in this directory, and develop the pipeline to transform this data into a usable form, placing this usable data into the <code>./data/interim</code> directory.</p>
 <p>Further, to repeat the work, the data does not <em>necessarily</em> need to be in source control. By default, due to both this reason, and the common limitation of GitHub to store large files, the <code>./data</code> directory is excluded from synchronization with source control in the <code>.gitignore</code> file. As a supplementary option for enabling access to the data, GeoAI-Cookiecutter includes the capability to upload and download data using <a href="https://azure.microsoft.com/en-us/services/storage/blobs/">Azure Blob Storage</a>.</p>
+<h3 id="analysis-is-a-dag">Analysis is a DAG</h3>
+<blockquote>
+<p>A <em>directed acyclic graph</em> (DAG) is a finite directed graph with no directed cycles.</p>
+</blockquote>
+<p>Frequently data preparation is a time consuming process, and especially in the early stages of development, involves a lot of trial and error. For this reason each step in the data preparation process <em>should</em> cache results to the interim data directory or file geodatabase, and following steps should check for this intermediate data. This way if intermediate data has already been created, the data preparation pipeline does not need to start over from the beginning every time. This is the structure of <a href="https://scikit-learn.org/stable/data_transforms.html">SciKit Learn Transformers</a>, both out of the box and custom transformers, assembled into a data transformation <a href="https://scikit-learn.org/stable/modules/compose.html#pipeline-chaining-estimators">Pipeline</a>.</p>
+<p>This is useful both in development of the data pipeline and even in production. During development, this enables iterative experimentation to continue moving forward. Once in production, this enables troubleshooting where the problem in the pipeline occurred as opposed to having to start the entire process over just to find the one place in the code causing the issue.</p>
 <h3 id="keep-secrets-out-of-version-control">Keep Secrets <em>Out</em> of Version Control</h3>
 <p>Sharing your work is highly encouraged, but sharing sensitive information definitely is <em>not</em>. To avoid this, <em>never</em> put passwords or other sensitive information into any files synchronized with version control. GeoAI-Cookiecutter implements the convention of Cookiecutter Data Science by keeping this sensitive information in a special file excluded from version control, and provides a method of easily accessing these values from anywhere in the project.</p>
 <h4 id="special-file-env">Special File <code>.env</code></h4>
@@ -259,8 +268,14 @@ gis = GIS(
 )
 </code></pre>
 
-<h2 id="thank-you-drivendata">Thank You <a href="https://www.drivendata.org">DrivenData</a>!</h2>
+<h2 id="thank-you">Thank You!</h2>
+<p>GeoAI-Cookiectutter is bulit on the shoulders of giants. It is merely an evoloution of existing work by DrivenData and Cookiecutter to suit the needs we have working at the intersection of geography and artificial intelligence. We owe a huge debt of gratitude to both.</p>
+<h3 id="drivendata"><a href="https://www.drivendata.org">DrivenData</a></h3>
+<p><img alt="drivendata" src="resources/drivendata.svg" title="Driven Data Logo" /></p>
 <p>Huge thank you to <a href="https://www.drivendata.org">DrivenData</a> for creating the outstanding <a href="https://drivendata.github.io/cookiecutter-data-science">Cookiecutter Data Science</a> template we used as the starting point for GeoAI-Cookiecutter. Cookiecutter Data Science provided the framework for initially addressing many of our team's internal collaboration challenges, and evolved into what you see here. DrivenData, we could not have done it without you! Thank you!</p>
+<h3 id="cookiecutter"><a href="https://cookiecutter.readthedocs.io">Cookiecutter</a></h3>
+<p><a href="https://cookiecutter.readthedocs.io"><img alt="cookiecutter" src="resources/cookiecutter.png" title="Cookiecutter Logo" /></a></p>
+<p>Neither GeoAI-Cookiecutter nor Cookiecutter Data Science would be possible without the outstanding open source project Cookiecutter.</p>
 <h2 id="licensing">Licensing</h2>
 <p>Copyright 2020 Esri</p>
 <p>Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at</p>
@@ -363,5 +378,5 @@ gis = GIS(
 
 <!--
 MkDocs version : 1.0.4
-Build Date UTC : 2020-02-14 18:25:21
+Build Date UTC : 2020-02-14 22:08:58
 -->
