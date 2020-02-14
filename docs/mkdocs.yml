@@ -8,7 +8,7 @@ repo_url: https://github.com/ArcGIS/geoai-cookiecutter/
 edit_uri: ""
 copyright: Esri Advanced Analytics Team
 theme: cinder
-site_dir: docs_site/
+site_dir: site/
 extra_css:
   - css/extra.css
 nav:
