@@ -4,9 +4,9 @@
 
 SETLOCAL
 SET PROJECT_DIR=%cd%
-SET PROJECT_NAME={{ cookiecutter.project_name }}
-SET ENV_NAME={{ cookiecutter.conda_environment_name }}
-SET CONDA_PARENT={{ cookiecutter.conda_parent_environment }}
+SET PROJECT_NAME=sik-pro
+SET ENV_NAME=sik_pro
+SET CONDA_PARENT=arcgispro-py3
 
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 :: COMMANDS                                                                     :
@@ -27,16 +27,16 @@ GOTO %1
 :: Get data from Azure Blob Storage
 :get_data
     ENDLOCAL & (
-        IF "%2"=="-o" CALL python scripts/azure_blob.py get -o
-        IF "%2"=="" CALL python scripts/azure_blob.py get
+        IF "%2"=="-o" CALL python scripts/azure_blob.py get "%PROJECT_DIR%" -o
+        IF "%2"=="" CALL python scripts/azure_blob.py get "%PROJECT_DIR%"
     )
     EXIT /B
 
 :: Push data to Azure Blob Storage
 :push_data
     ENDLOCAL & (
-        IF "%2"=="-o" CALL python scripts/azure_blob.py push -o
-        IF "%2"=="" CALL python scripts/azure_blob.py push
+        IF "%2"=="-o" CALL python scripts/azure_blob.py push "%PROJECT_DIR%" -o
+        IF "%2"=="" CALL python scripts/azure_blob.py push "%PROJECT_DIR%"
     )
     EXIT /B
 	
