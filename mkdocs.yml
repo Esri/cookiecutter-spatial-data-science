@@ -5,10 +5,11 @@ site_author: Esri Advanced Analytics Team
 site_favicon: favicon.ico
 repo_name: GeoAI-Cookiecutter
 repo_url: https://github.com/ArcGIS/geoai-cookiecutter/
-edit_uri:
+edit_uri: ""
 copyright: Esri Advanced Analytics Team
 theme: cinder
+site_dir: docs/site/
 extra_css:
   - css/extra.css
-pages:
+nav:
   - Home: index.md
