@@ -1,4 +1,4 @@
-# Cookiecutter GeoAI
+# GeoAI-Cookiecutter
 
 GeoAI-Cookiecutter strives to streamline and promote use of best practices for projects combining Geography and Artificial Intelligence through a logical, reasonably standardized, and flexible project structure.
 
@@ -7,7 +7,7 @@ GeoAI-Cookiecutter project grew out of a need within the Advanced Analytics team
 ### Requirements to use the cookiecutter template:
 -----------
  * ArcGIS Pro 2.4 or greater (Python 3.6 and Conda come with it)
-* [Cookiecutter](http://cookiecutter.readthedocs.org/en/latest/installation.html) >= 1.4.0
+ * [Cookiecutter](http://cookiecutter.readthedocs.org/en/latest/installation.html) >= 1.4.0
 
 ``` bash
 > conda install -c conda-forge cookiecutter
