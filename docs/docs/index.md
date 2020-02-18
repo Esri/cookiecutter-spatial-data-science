@@ -190,7 +190,7 @@ This is useful both in development of the data pipeline and even in production. 
 
 ### Keep Secrets _Out_ of Version Control
 
-Sharing your work is highly encouraged, but sharing sensitive information definitely is _not_. To avoid this, _never_ put passwords or other sensitive information into any files synchronized with version control. GeoAI-Cookiecutter implements the convention of Cookiecutter Data Science by keeping this sensitive information in a special file excluded from version control, and provides a method of easily accessing these values from anywhere in the project.
+Sharing your work is highly encouraged, but sharing sensitive information definitely is _not_. Almost without exception, compromsing credentials or tokens granting access to company or organiztion resources can quickly compromise your position with the organization. Please do not do this. To protect access to information, _never_ put passwords or other sensitive information into any files synchronized with version control. GeoAI-Cookiecutter implements the convention of Cookiecutter Data Science by keeping this sensitive information in a special file excluded from version control, and provides a method of easily accessing these values from anywhere in the project.
 
 #### Special File `.env`
 
