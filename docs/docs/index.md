@@ -2,9 +2,9 @@
 
 ![Cookie Monster!][cookiemonster]
 
-GeoAI-Cookiecutter strives to streamline and promote use of best practices for projects combining Geography and Artificial Intelligence through a logical, reasonably standardized, and flexible project structure.
+GeoAI-Cookiecutter is an [opionated](https://medium.com/@stueccles/the-rise-of-opinionated-software-ca1ba0140d5b) analysis template striving to streamline and promote use of best practices for projects combining Geography and Artificial Intelligence through a logical, reasonably standardized, and flexible project structure.
 
-GeoAI-Cookiecutter project grew out of a need within the Advanced Analytics team at Esri to streamline project bootstrapping, encourage innovation, increase repeatability, encourage documentation, and encourage best practices.
+GeoAI-Cookiecutter project grew out of a need within the Advanced Analytics team at Esri to streamline project bootstrapping, encourage innovation, increase repeatability, encourage documentation, and encourage best practices based on [strong opinions (best practices)](#opinions).
 
 ## Why use this project structure?
 
@@ -139,7 +139,7 @@ __NOTE:__ The notebooks directory is included due to support for Jupyter Noteboo
 
 ## Opinions
 
-Opinions guide best practices, but are still only opinions. However, following the best practices and conventions laid out by these opinions will go a long ways towards achieving repeatability, facilitating collaboration and increasing both your _and_ your colleagues confidence in your work.
+Opinions guide best practices, but are still only opinions. However, following the best practices and conventions laid out by these opinions will go a long ways towards achieving repeatability, facilitating collaboration and increasing both your _and_ your colleagues confidence in your work. In the case of our team, these opionions embody team practices and Esri company policies.
 
 ### Autonomous Environment
 
