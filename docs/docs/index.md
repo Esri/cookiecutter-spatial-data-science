@@ -4,6 +4,8 @@
 
 GeoAI-Cookiecutter is an [opionated](https://medium.com/@stueccles/the-rise-of-opinionated-software-ca1ba0140d5b) analysis template striving to streamline and promote use of best practices for projects combining Geography and Artificial Intelligence through a logical, reasonably standardized, and flexible project structure.
 
+[![Esri Logo][esrilogo]](https://www.esri.com/en-us/arcgis/products/spatial-analytics-data-science/overview)
+
 GeoAI-Cookiecutter project grew out of a need within the Advanced Analytics team at Esri to streamline project bootstrapping, encourage innovation, increase repeatability, encourage documentation, and encourage best practices based on [strong opinions (best practices)](#opinions).
 
 ## Why use this project structure?
@@ -255,3 +257,4 @@ A copy of the license is available [directly from the Apache foundation](http://
 [cookiemonster]: resources/cookiemonster.jpg "Cookie Monster!"
 [cookiecutter]: resources/cookiecutter.png "Cookiecutter Logo"
 [drivendata]: resources/drivendata.svg "Driven Data Logo"
+[esrilogo]: resources/esri_logo.png "Esri Logo"
