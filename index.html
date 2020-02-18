@@ -113,8 +113,8 @@
 
 <h1 id="geoai-cookiecutter">GeoAI-Cookiecutter</h1>
 <p><img alt="Cookie Monster!" src="resources/cookiemonster.jpg" title="Cookie Monster!" /></p>
-<p>GeoAI-Cookiecutter strives to streamline and promote use of best practices for projects combining Geography and Artificial Intelligence through a logical, reasonably standardized, and flexible project structure.</p>
-<p>GeoAI-Cookiecutter project grew out of a need within the Advanced Analytics team at Esri to streamline project bootstrapping, encourage innovation, increase repeatability, encourage documentation, and encourage best practices.</p>
+<p>GeoAI-Cookiecutter is an <a href="https://medium.com/@stueccles/the-rise-of-opinionated-software-ca1ba0140d5b">opionated</a> analysis template striving to streamline and promote use of best practices for projects combining Geography and Artificial Intelligence through a logical, reasonably standardized, and flexible project structure.</p>
+<p>GeoAI-Cookiecutter project grew out of a need within the Advanced Analytics team at Esri to streamline project bootstrapping, encourage innovation, increase repeatability, encourage documentation, and encourage best practices based on <a href="#opinions">strong opinions (best practices)</a></p>
 <h2 id="why-use-this-project-structure">Why use this project structure?</h2>
 <p>Data Science and GIS are both about providing <em>actionable insights</em>. The visual results communicating actionable insights, maps, graphs and infographics are typically what first come to mind. Not surprisingly, these information products frequently get the most attention. However, these visualizations merely communicate results of complex analysis, and the path toward unearthing these insights requires creative exploration coupled with repeatability. Actionable insights for decision making requires structure not impeding creative innovation.</p>
 <p>The best analyses are frequently the result of incredibly scattershot experimentation. This requires the ability to quickly test seemingly harebrained approaches. While most do not work, the ones that do, <em>this</em> is where innovation happens and <em>genius</em> is discovered. Once discovered, for the discovery to be useful, it must be repeatable.</p>
@@ -212,7 +212,7 @@
 <p>While the ArcGIS Pro project is located in the <code>./arcgis</code> directory, the data is located in another directory. To make life easier, the three file geodatabases, interim.gdb, processed.gdb and raw.gdb are all already registered. Additionally, the arcgis, data, and notebooks directories are all also registered in the Pro project. This makes it easy to access useful resources from ArcGIS Pro.</p>
 <p><strong>NOTE:</strong> The notebooks directory is included due to support for Jupyter Notebooks introduced with ArcGIS Pro 2.5. If using a version below 2.5, while this directory still will be visible, it will appear as if nothing is in the directory when viewed from the Catalog Tree in ArcGIS Pro. This is due to ArcGIS Pro only displaying recognized file types, and Notebook files (<code>.ipynb</code>) are not recognized until version 2.5.</p>
 <h2 id="opinions">Opinions</h2>
-<p>Opinions guide best practices, but are still only opinions. However, following the best practices and conventions laid out by these opinions will go a long ways towards achieving repeatability, facilitating collaboration and increasing both your <em>and</em> your colleagues confidence in your work.</p>
+<p>Opinions guide best practices, but are still only opinions. However, following the best practices and conventions laid out by these opinions will go a long ways towards achieving repeatability, facilitating collaboration and increasing both your <em>and</em> your colleagues confidence in your work. In the case of our team, these opionions embody team practices and Esri company policies.</p>
 <h3 id="autonomous-environment">Autonomous Environment</h3>
 <p>The available machine learning and deep learning technologies available in Python is staggering. Fortunately, a large number of them are available simply as installable pip or conda packages. A very large part of reproducibility is being able to reproduce the environment. </p>
 <p>GeoAI-Cookiecutter facilitates this process by streamlining the process of creating a full functioning new Conda environment for a new project. To create a project preflighted with a few useful packages, simply ensure you are in the root of the project and type the following into the command line.</p>
@@ -381,5 +381,5 @@ gis = GIS(
 
 <!--
 MkDocs version : 1.0.4
-Build Date UTC : 2020-02-18 16:00:00
+Build Date UTC : 2020-02-18 16:44:04
 -->
