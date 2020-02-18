@@ -84,6 +84,10 @@ Once you answer all the questions, the new project is now created as a new direc
 
 This creates the environment and gets it ready for use. The following prompt will indicate this new environment is active by displaying the new environment name in parenthesis to the left of the command prompt. You are ready to get to work.
 
+The video below walks through not only the process of making a new project, but also the process of syncing data with Azure using the configured keys optionally set during project setup. It is _much_ easier to see if you view it full screen.
+
+<iframe src="https://player.vimeo.com/video/391614279" width="825" height="464" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+
 ## Project Organization and Structure
 
 The GeoAI-Cookiecutter template provides a structure for project resources, marrying data science directory structure with the functionality of ArcGIS Pro. This primarily means organizing the project following most of the best practices and conventions from Cookiecutter Data Science, and adapting ArcGIS Pro to easily work within this paradigm.
