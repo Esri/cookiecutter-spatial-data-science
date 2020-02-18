@@ -135,6 +135,8 @@ The GeoAI-Cookiecutter template provides a structure for project resources, marr
 
 While the ArcGIS Pro project is located in the `./arcgis` directory, the data is located in another directory. To make life easier, the three file geodatabases, interim.gdb, processed.gdb and raw.gdb are all already registered. Additionally, the arcgis, data, and notebooks directories are all also registered in the Pro project. This makes it easy to access useful resources from ArcGIS Pro.
 
+![agp_catalog][agp_catalog]
+
 __NOTE:__ The notebooks directory is included due to support for Jupyter Notebooks introduced with ArcGIS Pro 2.5. If using a version below 2.5, while this directory still will be visible, it will appear as if nothing is in the directory when viewed from the Catalog Tree in ArcGIS Pro. This is due to ArcGIS Pro only displaying recognized file types, and Notebook files (`.ipynb`) are not recognized until version 2.5.
 
 ## Opinions
@@ -256,3 +258,4 @@ A copy of the license is available [directly from the Apache foundation](http://
 [cookiecutter]: resources/cookiecutter.png "Cookiecutter Logo"
 [drivendata]: resources/drivendata.svg "Driven Data Logo"
 [esrilogo]: resources/esri_logo.png "Esri Logo"
+[agp_catalog]: resources/arcgis_pro_catalog_tree.png "ArcGIS Pro Catalog Tree"
