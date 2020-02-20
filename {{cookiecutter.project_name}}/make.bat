@@ -4,8 +4,8 @@
 
 SETLOCAL
 SET PROJECT_DIR=%cd%
-SET PROJECT_NAME=sik-pro
-SET ENV_NAME=sik_pro
+SET PROJECT_NAME={{cookiecutter.project_name}}
+SET ENV_NAME={{cookiecutter.conda_environment_name}}
 SET CONDA_PARENT=arcgispro-py3
 
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
