@@ -6,7 +6,7 @@ channels:
   - defaults
 
 dependencies:
-  - arcgis==1.7.1
+  - arcgis==1.7.1  
   - cookiecutter
   - dask
   - mkdocs
@@ -21,8 +21,8 @@ dependencies:
   - seaborn
   - shapely
   - swifter
+  - tqdm
   - pip:
     - azure-storage-blob
     - ipykernel
     - sphinx
-  

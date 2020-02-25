@@ -52,6 +52,7 @@ coverage.xml
 
 # Sphinx documentation
 docs/_build/
+docs/build/
 
 # PyBuilder
 target/
@@ -81,3 +82,6 @@ models/
 
 # Mac OS-specific storage files
 .DS_Store
+
+# ignore the caches created for ArcMap
+arcgis/Index
