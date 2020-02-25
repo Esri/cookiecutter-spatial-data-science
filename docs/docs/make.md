@@ -1,4 +1,4 @@
-# Make - Using Make Commands
+# Make - Explained
 
 There is a _lot_ of functionality included in the GeoAI-Cookiecutter template. Instead of writing endless documentation detailing how to find and use all these resources, we have created a file, [`make.bat`](blob/master/%7B%7Bcookiecutter.project_name%7D%7D/make.bat), containing shortcuts to accomplish a whole boatload of tasks. 
 

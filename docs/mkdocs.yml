@@ -13,3 +13,5 @@ extra_css:
   - css/extra.css
 nav:
   - Home: index.md
+  - Guides:
+    - Make Explained: make.md
