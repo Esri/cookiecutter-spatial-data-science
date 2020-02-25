@@ -1,6 +1,6 @@
 # Make - Explained
 
-There is a _lot_ of functionality included in the GeoAI-Cookiecutter template. Instead of writing endless documentation detailing how to find and use all these resources, we have created a file, [`make.bat`](blob/master/%7B%7Bcookiecutter.project_name%7D%7D/make.bat), containing shortcuts to accomplish a whole boatload of tasks. 
+There is a _lot_ of functionality included in the GeoAI-Cookiecutter template. Instead of writing endless documentation detailing how to find and use all these resources, we have created a file, [`make.bat`](https://github.com/Esri/geoai-cookiecutter/blob/master/%7B%7Bcookiecutter.project_name%7D%7D/make.bat), containing shortcuts to accomplish a whole boatload of tasks. 
 
 As with most all the functionality in this template, this came out of our own needs to streamline workflows, and not have to dig all around in the template to get boring and routing tasks accomplished. The commands available in `make.bat` fall into three general categories, data preprocessing, data management, and environment management.
 
