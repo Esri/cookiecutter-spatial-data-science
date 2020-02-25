@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="A project template and directory structure for Python geograpihc data science projects.">
     <meta name="author" content="Esri Advanced Analytics Team">
-    <link rel="canonical" href="https://github.com/ArcGIS/geoai-cookiecutter/">
+    <link rel="canonical" href="https://github.com/esri/geoai-cookiecutter/">
     <link rel="img/favicon.ico">
 
     
@@ -60,6 +60,31 @@
 
         <!-- Expanded navigation -->
         <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li class="active">
+                        <a href=".">Home</a>
+                    </li>
+                
+                
+                
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Guides <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+<li >
+    <a href="make/">Make Explained</a>
+</li>
+
+                        
+                        </ul>
+                    </li>
+                
+                
+                </ul>
 
             <ul class="nav navbar-nav navbar-right">
                     <li>
@@ -67,8 +92,18 @@
                             <i class="fas fa-search"></i> Search
                         </a>
                     </li>
+                    <li class="disabled">
+                        <a rel="prev" >
+                            <i class="fas fa-arrow-left"></i> Previous
+                        </a>
+                    </li>
+                    <li >
+                        <a rel="next" href="make/">
+                            Next <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </li>
                     <li>
-                        <a href="https://github.com/ArcGIS/geoai-cookiecutter/">GeoAI-Cookiecutter on GitHub</a>
+                        <a href="https://github.com/esri/geoai-cookiecutter/">GeoAI-Cookiecutter on GitHub</a>
                     </li>
             </ul>
         </div>
@@ -157,7 +192,7 @@
 
 <h4 id="starting-a-new-project">Starting a New Project</h4>
 <p>Now, once you have Cookiecutter installed in an environment, you can use the GeoAI-Cookiecutter template to quickly start a new project.</p>
-<pre><code class="batch">&gt; cookiecutter https://github.com/arcgis/geoai-cookiecutter
+<pre><code class="batch">&gt; cookiecutter https://github.com/esri/geoai-cookiecutter
 </code></pre>
 
 <p>Once you answer all the questions, the new project is now created as a new directory in the current working directory. Assuming your project name is <code>sik-pro</code>, your new Conda environment is going to be named <code>sik_pro</code>. Hence, to create this environment, run the following.</p>
@@ -211,7 +246,9 @@
 <h3 id="arcgis-pro-project-aprx-configuration">ArcGIS Pro Project (aprx) Configuration</h3>
 <p>While the ArcGIS Pro project is located in the <code>./arcgis</code> directory, the data is located in another directory. To make life easier, the three file geodatabases, interim.gdb, processed.gdb and raw.gdb are all already registered. Additionally, the arcgis, data, and notebooks directories are all also registered in the Pro project. This makes it easy to access useful resources from ArcGIS Pro.</p>
 <p><img alt="agp_catalog" src="resources/arcgis_pro_catalog_tree.png" title="ArcGIS Pro Catalog Tree" /></p>
+<blockquote>
 <p><strong>NOTE:</strong> The notebooks directory is included due to support for Jupyter Notebooks introduced with ArcGIS Pro 2.5. If using a version below 2.5, while this directory still will be visible, it will appear as if nothing is in the directory when viewed from the Catalog Tree in ArcGIS Pro. This is due to ArcGIS Pro only displaying recognized file types, and Notebook files (<code>.ipynb</code>) are not recognized until version 2.5.</p>
+</blockquote>
 <h2 id="opinions">Opinions</h2>
 <p>Opinions guide best practices, but are still only opinions. However, following the best practices and conventions laid out by these opinions will go a long ways towards achieving repeatability, facilitating collaboration and increasing both your <em>and</em> your colleagues confidence in your work. In the case of our team, these opionions embody team practices and Esri company policies.</p>
 <h3 id="autonomous-environment">Autonomous Environment</h3>
@@ -225,7 +262,9 @@
 </code></pre>
 
 <p>This will replace the original <code>environment.yml</code>. This enables recreating the modified project environment on a new machine as simple as again using the <code>make env</code> command.</p>
-<p><strong>CAUTION:</strong> Simply using the normal Conda method of creating a new environment from the environment.yml file <em>will not work</em>. The new environment will not have <code>arcpy</code> available. To maintain the ability to use <code>arcpy</code>, the <code>arcgispro-py3</code> environment must be cloned, and then the new environment must be updated using the environment.yml file as a template. This is what the <code>make env</code> command automatically takes care of.</p>
+<blockquote>
+<p><strong>CAUTION:</strong> Simply using the normal Conda method of creating a new environment from the <code>environment.yml</code> file <em>will not work</em>. The new environment will not have <code>arcpy</code> available. To maintain the ability to use <code>arcpy</code>, the <code>arcgispro-py3</code> environment must be cloned, and then the new environment must be updated using the <code>environment.yml</code> file as a template. This is what the <code>make env</code> command automatically takes care of.</p>
+</blockquote>
 <h3 id="notebooks-are-for-exploration-and-communication">Notebooks are for <em>Exploration</em> and <em>Communication</em></h3>
 <p>Jupyter Notebooks are for exploration, experimentation and communication. Notebooks are NOT for data production and analysis reproduction.</p>
 <p>Notebooks have revolutionized data exploration and experimentation with code, and for this reason, are a favorite tool for exploring new ideas. For this reason, they <em>should</em> be used frequently to explore workflows.</p>
@@ -245,7 +284,7 @@ Synonym - unchangeable</p>
 <p>Frequently data preparation is a time consuming process, and especially in the early stages of development, involves a lot of trial and error. For this reason each step in the data preparation process <em>should</em> cache results to the interim data directory or file geodatabase, and following steps should check for this intermediate data. This way if intermediate data has already been created, the data preparation pipeline does not need to start over from the beginning every time. This is the structure of <a href="https://scikit-learn.org/stable/data_transforms.html">SciKit Learn Transformers</a>, both out of the box and custom transformers, assembled into a data transformation <a href="https://scikit-learn.org/stable/modules/compose.html#pipeline-chaining-estimators">Pipeline</a>.</p>
 <p>This is useful both in development of the data pipeline and even in production. During development, this enables iterative experimentation to continue moving forward. Once in production, this enables troubleshooting where the problem in the pipeline occurred as opposed to having to start the entire process over just to find the one place in the code causing the issue.</p>
 <h3 id="keep-secrets-out-of-version-control">Keep Secrets <em>Out</em> of Version Control</h3>
-<p>Sharing your work is highly encouraged, but sharing sensitive information definitely is <em>not</em>. Almost without exception, compromsing credentials or tokens granting access to company or organiztion resources can quickly compromise your position with the organization. Please do not do this. To protect access to information, <em>never</em> put passwords or other sensitive information into any files synchronized with version control. GeoAI-Cookiecutter implements the convention of Cookiecutter Data Science by keeping this sensitive information in a special file excluded from version control, and provides a method of easily accessing these values from anywhere in the project.</p>
+<p>Sharing your work is highly encouraged, but sharing sensitive information definitely is <em>not</em>. Almost without exception, compromising credentials or tokens granting access to company or organization resources can quickly compromise your position with the organization. Please do not do this. To protect access to information, <em>never</em> put passwords or other sensitive information into any files synchronized with version control. GeoAI-Cookiecutter implements the convention of Cookiecutter Data Science by keeping this sensitive information in a special file excluded from version control, and provides a method of easily accessing these values from anywhere in the project.</p>
 <h4 id="special-file-env">Special File <code>.env</code></h4>
 <p>The <code>.env</code> file is created by default for storing sensitive information when the project is created, but excluded from version control in the <code>.gitignore</code> file. If a project is downloaded from version control, typically GitHub, this file will be missing. It will either need to be procured through another channel, or simply manually recreated. </p>
 <p>By default, on project creation, the <code>.env</code> file will look similar to this.</p>
@@ -382,5 +421,5 @@ gis = GIS(
 
 <!--
 MkDocs version : 1.0.4
-Build Date UTC : 2020-02-18 17:46:06
+Build Date UTC : 2020-02-25 21:43:55
 -->

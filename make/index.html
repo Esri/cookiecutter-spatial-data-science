@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A project template and directory structure for Python geograpihc data science projects.">
+    <meta name="author" content="Esri Advanced Analytics Team">
+    <link rel="canonical" href="https://github.com/esri/geoai-cookiecutter/make/">
+    <link rel="../img/favicon.ico">
+
+    
+    <title>Make Explained - GeoAI-Cookiecutter</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+
+    
+    <link href="../css/extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">GeoAI-Cookiecutter</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="..">Home</a>
+                    </li>
+                
+                
+                
+                    <li class="dropdown active">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Guides <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+<li class="active">
+    <a href="./">Make Explained</a>
+</li>
+
+                        
+                        </ul>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li >
+                        <a rel="prev" href="..">
+                            <i class="fas fa-arrow-left"></i> Previous
+                        </a>
+                    </li>
+                    <li class="disabled">
+                        <a rel="next" >
+                            Next <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/esri/geoai-cookiecutter/">GeoAI-Cookiecutter on GitHub</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#make-explained">Make - Explained</a></li>
+            <li class="second-level"><a href="#data-preprocessing">Data Preprocessing</a></li>
+                
+                <li class="third-level"><a href="#gt-make-data">&gt; make data</a></li>
+            <li class="second-level"><a href="#data-management">Data Management</a></li>
+                
+                <li class="third-level"><a href="#gt-make-get_data">&gt; make get_data</a></li>
+                <li class="third-level"><a href="#gt-make-push_data">&gt; make push_data</a></li>
+            <li class="second-level"><a href="#environment-management">Environment Management</a></li>
+                
+                <li class="third-level"><a href="#gt-make-env">&gt; make env</a></li>
+                <li class="third-level"><a href="#gt-make-env_activate">&gt; make env_activate</a></li>
+                <li class="third-level"><a href="#gt-make-env_remove">&gt; make env_remove</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="make-explained">Make - Explained</h1>
+<p>There is a <em>lot</em> of functionality included in the GeoAI-Cookiecutter template. Instead of writing endless documentation detailing how to find and use all these resources, we have created a file, <a href="blob/master/%7B%7Bcookiecutter.project_name%7D%7D/make.bat"><code>make.bat</code></a>, containing shortcuts to accomplish a whole boatload of tasks. </p>
+<p>As with most all the functionality in this template, this came out of our own needs to streamline workflows, and not have to dig all around in the template to get boring and routing tasks accomplished. The commands available in <code>make.bat</code> fall into three general categories, data preprocessing, data management, and environment management.</p>
+<h2 id="data-preprocessing">Data Preprocessing</h2>
+<p>More than anything else GeoAI-Cookiecutter is designed to streamline the process of geographic feature engineering to create quantitative factors for use in machine learning modeling.</p>
+<h3 id="gt-make-data"><code>&gt; make data</code></h3>
+<p>The initial step of preparing the data for analysis can take a decent amount of time. As you develop the steps for the data preparation pipeline, place them into ./scripts/make_data.py. Then, when you need to prepare data, all you need to do is use this command to build your data for modeling.</p>
+<h2 id="data-management">Data Management</h2>
+<p>Although the code can be synchronized with version control, typically GitHub, datasets can be large, and frequently do not work well with version control. As a result, the data directory is excluded from version control in the <code>.gitignore</code> file, and can be saved to Azure Blob Storage.</p>
+<h3 id="gt-make-get_data"><code>&gt; make get_data</code></h3>
+<p>This is particularly useful when collaborating on a project. After retrieving a project from version control, you can retrieve the data needed for the project using this command. The data will be downloaded from Azure Blob storage using credentials saved in the <code>.env</code> file and automatically extracted to the <code>./data</code> directory.</p>
+<h3 id="gt-make-push_data"><code>&gt; make push_data</code></h3>
+<p>This creates a zipped archive of the entire contents of the <code>./data</code> directory, and pushes it to Azure Blob storage using credentials saved in the <code>.env</code> file.</p>
+<h2 id="environment-management">Environment Management</h2>
+<p>Managing the Python Conda environment is dramatically streamlined using the commands contained in <code>make.bat</code>. Quite honestly, this is one of the single largest motivating factors for initially creating it.</p>
+<h3 id="gt-make-env"><code>&gt; make env</code></h3>
+<p>This is the most commonly used command. This command creates a Conda environment using the name set up when originally creating the project. Due to some nuances of how Conda is configured with ArcGIS Pro, you cannot simply create a new environment directly from the <code>environment.yml</code>. Rather, you have to clone the default ArcGIS Pro Conda environment <code>arcgispro-py3</code> and update the new environment using the <code>environment.yml</code> file. Additionally, if you like to use the mapping widget in Jupyter Lab, there are two additional steps to configure this as well. Hence, all of this is consolidated into one single step.</p>
+<h3 id="gt-make-env_activate"><code>&gt; make env_activate</code></h3>
+<p>Sometimes the environment name is a little long, and sometimes you cannot recall what it is. Either way, it does not matter. This command will activate the project environment created using the command above, so you can get to work!</p>
+<h3 id="gt-make-env_remove"><code>&gt; make env_remove</code></h3>
+<p>Multiple environments for projects quickly litter your computer. Hence, once finished with an environment for a project, this makes it easier to remove the environment from the machine.</p></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Esri Advanced Analytics Team</small><br>
+        
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+        </p>
+
+        
+        
+    </footer>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    
+    <script>var base_url = ".."</script>
+    
+    <script src="../js/base.js"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>
