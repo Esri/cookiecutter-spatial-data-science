@@ -1,6 +1,6 @@
-# [GeoAI-Cookiecutter](https://arcgis.github.io/geoai-cookiecutter)
+# [GeoAI-Cookiecutter](https://esri.github.io/geoai-cookiecutter)
 
-[GeoAI-Cookiecutter Project Homepage](https://arcgis.github.io/geoai-cookiecutter)
+[GeoAI-Cookiecutter Project Homepage](https://esri.github.io/geoai-cookiecutter)
 
 GeoAI-Cookiecutter strives to streamline and promote use of best practices for projects combining Geography and Artificial Intelligence through a logical, reasonably standardized, and flexible project structure.
 
@@ -18,7 +18,7 @@ GeoAI-Cookiecutter project grew out of a need within the Advanced Analytics team
 ## To start a new project, run:
 
 ``` cmd
-> cookiecutter https://github.com/ArcGIS/geoai-cookiecutter
+> cookiecutter https://github.com/esri/geoai-cookiecutter
 ```
 
 ## Issues
