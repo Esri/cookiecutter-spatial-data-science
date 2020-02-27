@@ -27,3 +27,6 @@ dependencies:
     - azure-storage-blob
     - ipykernel
     - sphinx
+    - sphinx-autodoc-typehints
+    - sphinx_rtd_theme
+  
