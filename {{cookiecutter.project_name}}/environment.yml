@@ -12,6 +12,7 @@ dependencies:
   - mkdocs
   - nodejs
   - pillow
+  - progress
   - pyarrow
   - pylint
   - pytest
