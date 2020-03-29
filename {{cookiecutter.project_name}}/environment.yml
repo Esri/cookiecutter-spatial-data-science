@@ -6,7 +6,7 @@ channels:
   - defaults
 
 dependencies:
-  - arcgis==1.7.1  
+  - arcgis==1.8.0 
   - cookiecutter
   - dask
   - mkdocs
