@@ -83,7 +83,7 @@ GOTO %1
 
         :: Additional steps for the map widget to work in Jupyter Lab
         CALL jupyter labextension install @jupyter-widgets/jupyterlab-manager -y
-        CALL jupyter labextension install arcgis-map-ipywidget@1.7.1 -y
+        CALL jupyter labextension install arcgis-map-ipywidget@1.8.0 -y
     )
     EXIT /B
 
