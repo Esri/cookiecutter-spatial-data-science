@@ -9,9 +9,11 @@ dependencies:
   - arcgis==1.8.0 
   - cookiecutter
   - dask
+  - jupyterlab
   - mkdocs
   - nodejs
   - pillow
+  - pip
   - progress
   - pyarrow
   - pylint
