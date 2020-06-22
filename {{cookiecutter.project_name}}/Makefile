@@ -31,6 +31,8 @@ clean:
 ## Build the local environment from the environment file
 env:
 	conda env create -f environment.yml
+	jupyter labextension install @jupyter-widgets/jupyterlab-manager -y
+        jupyter labextension install arcgis-map-ipywidget@1.8.1 -y
 	@echo ">>> New conda environment, $(ENV_NAME), created. Activate with:\n- source activate $(ENV_NAME)\n- make env_activate"
 
 ## Export the current environment
