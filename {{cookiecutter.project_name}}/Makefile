@@ -9,6 +9,10 @@ PROJECT_NAME = {{ cookiecutter.project_name }}
 ENV_NAME = {{ cookiecutter.conda_environment_name }}
 CONDA_PARENT = {{ cookiecutter.conda_parent_environment }}
 
+# make conda commands available in the script, notably for activation
+CONDA_BASE=$(conda info --base)
+source $CONDA_BASE/etc/profile.d/conda.sh
+
 #################################################################################
 # COMMANDS                                                                      #
 #################################################################################
@@ -24,19 +28,15 @@ clean:
 	find . -type f -name "*.py[co]" -delete
 	find . -type d -name "__pycache__" -delete
 
-## Create the local environment by cloning the parent environment
-env_create:
-	conda create --name $(ENV_NAME) --clone $(CONDA_PARENT)
+## Build the local environment from the environment file
+env:
+	conda env create -f environment.yml
 	@echo ">>> New conda environment, $(ENV_NAME), created. Activate with:\n- source activate $(ENV_NAME)\n- make env_activate"
 
 ## Export the current environment
 env_export:
 	conda env export --name $(ENV_NAME) > environment.yml
 	@echo ">>> $(PROJECT_NAME) conda environment exported to ./environment.yml"
-
-## Build the local environment from the environment file
-env_build:
-	conda env create -f environment.yml
 
 create_kernel:
 	python -m ipykernel install --user --name $(ENV_NAME) --display-name "$(PROJECT_NAME)"
