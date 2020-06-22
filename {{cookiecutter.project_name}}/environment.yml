@@ -6,7 +6,7 @@ channels:
   - defaults
 
 dependencies:
-  - arcgis==1.8.0 
+  - arcgis==1.8.1 
   - cookiecutter
   - dask
   - jupyterlab
