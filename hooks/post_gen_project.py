@@ -58,7 +58,7 @@ def _configure_aprx():
     new_aprx = arcpy.mp.ArcGISProject(new_project_path)
 
     # create the file geodatabases if they do not exist - ensures backwards compatibility
-    for data_name in ['interim', 'raw', 'processed']:
+    for data_name in ['interim', 'raw', 'processed', 'external']:
         dir_path = os.path.join(os.getcwd(), 'data', data_name)
         gdb_path = os.path.join(dir_path, f'{data_name}.gdb')        
         if not arcpy.Exists(gdb_path):
