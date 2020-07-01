@@ -9,6 +9,7 @@ dependencies:
   - cookiecutter
   - dask
   - fastai==1.0.54
+  - h3-py
   - jupyterlab
   - keras-gpu==2.2.4
   - mkdocs
