@@ -30,5 +30,7 @@ dependencies:
   - pip:
     - azure-storage-blob
     - ipykernel
+    - pyarrow
     - sphinx
     - sphinx-autodoc-typehints
+    - sphinx_rtd_theme
