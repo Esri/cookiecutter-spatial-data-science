@@ -3,31 +3,6 @@ name: {{ cookiecutter.conda_environment_name }}
 channels:
   - esri
   - conda-forge
-  - defaults
-
-dependencies:
-  - arcgis==1.8.1 
-  - cookiecutter
-  - dask
-  - jupyterlab
-  - mkdocs
-  - nodejs
-  - pillow
-  - pip
-  - progress
-  - pyarrow
-  - pylint
-  - pytest
-  - python-dotenv
-  - scipy
-  - scikit-learn
-  - seaborn
-  - shapely
-  - swiftername: oil-pad
-
-channels:
-  - esri
-  - conda-forge
 
 dependencies:
   - arcgis==1.8.1 
@@ -53,16 +28,7 @@ dependencies:
   - tensorflow-gpu==1.14.0
   - tqdm
   - pip:
-    - pyarrow
-    - ipykernel
-    - sphinx
-    - sphinx-autodoc-typehints
-    - sphinx_rtd_theme
-
-  - tqdm
-  - pip:
     - azure-storage-blob
     - ipykernel
     - sphinx
     - sphinx-autodoc-typehints
-    - sphinx_rtd_theme
