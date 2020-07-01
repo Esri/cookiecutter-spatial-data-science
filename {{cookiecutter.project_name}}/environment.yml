@@ -23,7 +23,42 @@ dependencies:
   - scikit-learn
   - seaborn
   - shapely
+  - swiftername: oil-pad
+
+channels:
+  - esri
+  - conda-forge
+
+dependencies:
+  - arcgis==1.8.1 
+  - cookiecutter
+  - dask
+  - fastai==1.0.54
+  - jupyterlab
+  - keras-gpu==2.2.4
+  - mkdocs
+  - pillow==6.1.0
+  - pip
+  - progress
+  - pylint
+  - pytest
+  - python-dotenv
+  - pytorch==1.1.0
+  - scipy
+  - scikit-image==0.15.0
+  - scikit-learn
+  - seaborn
+  - shapely
   - swifter
+  - tensorflow-gpu==1.14.0
+  - tqdm
+  - pip:
+    - pyarrow
+    - ipykernel
+    - sphinx
+    - sphinx-autodoc-typehints
+    - sphinx_rtd_theme
+
   - tqdm
   - pip:
     - azure-storage-blob

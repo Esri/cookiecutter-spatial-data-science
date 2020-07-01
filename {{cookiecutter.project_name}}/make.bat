@@ -78,12 +78,21 @@ GOTO %1
         CALL conda create --name "%ENV_NAME%" --clone "%CONDA_PARENT%"
         CALL activate "%ENV_NAME%"
 
+        :: Install nodejs so it does not throw an error later
+        CALL conda install -y nodejs
+
         :: Install additional packages
         CALL conda env update -f environment.yml
+
+        :: Install libtiff at a specific version with no dependencies per documentation
+        conda install -y libtiff=4.0.10 --no-deps
 
         :: Additional steps for the map widget to work in Jupyter Lab
         CALL jupyter labextension install @jupyter-widgets/jupyterlab-manager -y
         CALL jupyter labextension install arcgis-map-ipywidget@1.8.1 -y
+
+        :: Set the ArcGIS Pro Python environment
+        proenv "%ENV_NAME%"
     )
     EXIT /B
 
