@@ -5,7 +5,7 @@
     "author_name": "Esri Advanced Analytics Team",
     "description": "A short description of the project.",
     "open_source_license": ["Apache 2.0", "MIT", "BSD-3-Clause", "No license file"],
-    "conda_environment_name": "{{ cookiecutter.repo_name }}",
+    "conda_environment_name": "{{ cookiecutter.project_name }}",
     "conda_parent_environment": "arcgispro-py3",
     "azure_storage_account_name": "",
     "azure_storage_account_key": "",
