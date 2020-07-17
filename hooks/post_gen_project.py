@@ -159,10 +159,12 @@ def _cleanup_aprx_catalog_tree(aprx_path, min_vers=None):
     return aprx_path
 
 
-# if the cookiecutter.gdb exists, get rid of it
+# if the cookiecutter.gdb or interim.gdb exists, get rid of it
 gdb_ck = os.path.join(os.getcwd(), 'arcgis', 'cookiecutter.gdb')
-if os.path.exists(gdb_ck):
-    shutil.rmtree(gdb_ck)
+gdb_int = os.path.join(os.getcwd(), 'data', 'interim.gdb')
+for gdb in [gdb_ck, gdb_int]:
+    if os.path.exists(gdb):
+        shutil.rmtree(gdb)
 
 # ensure the data directories are present
 dir_lst = [os.path.join(os.getcwd(), 'data', drctry)
