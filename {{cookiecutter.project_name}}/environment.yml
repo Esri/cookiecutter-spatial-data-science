@@ -20,6 +20,7 @@ dependencies:
   - pytest
   - python-dotenv
   - pytorch==1.1.0
+  - pyyaml
   - scipy
   - scikit-image==0.15.0
   - scikit-learn
