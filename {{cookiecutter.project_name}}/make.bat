@@ -44,22 +44,6 @@ GOTO %1
         ECHO ^>^>^> Data processed.
     )
     EXIT /B
-
-:: Get data from Azure Blob Storage
-:get_data
-    ENDLOCAL & (
-        IF "%2"=="-o" CALL python scripts/azure_blob.py get "%PROJECT_DIR%" -o
-        IF "%2"=="" CALL python scripts/azure_blob.py get "%PROJECT_DIR%"
-    )
-    EXIT /B
-
-:: Push data to Azure Blob Storage
-:push_data
-    ENDLOCAL & (
-        IF "%2"=="-o" CALL python scripts/azure_blob.py push "%PROJECT_DIR%" -o
-        IF "%2"=="" CALL python scripts/azure_blob.py push "%PROJECT_DIR%"
-    )
-    EXIT /B
 	
 :: Export the current environment
 :env_export

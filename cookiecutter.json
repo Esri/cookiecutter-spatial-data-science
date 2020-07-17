@@ -7,8 +7,6 @@
     "open_source_license": ["Apache 2.0", "MIT", "BSD-3-Clause", "No license file"],
     "conda_environment_name": "{{ cookiecutter.project_name }}",
     "conda_parent_environment": "arcgispro-py3",
-    "azure_storage_account_name": "",
-    "azure_storage_account_key": "",
     "esri_cloud_gis_url": "https://arcgis.com",
     "esri_cloud_gis_username": "",
     "esri_cloud_gis_password": ""
