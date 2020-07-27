@@ -40,7 +40,7 @@ GOTO %1
 :data
     ENDLOCAL & (
         CALL activate "%ENV_NAME%"
-        CALL python scripts/make_data.py
+        CALL python src/make_data.py
         ECHO ^>^>^> Data processed.
     )
     EXIT /B
