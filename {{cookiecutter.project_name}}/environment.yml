@@ -5,7 +5,7 @@ channels:
   - conda-forge
 
 dependencies:
-  - arcgis==1.8.1 
+  - arcgis==1.8.2s
   - cookiecutter
   - dask
   - fastai==1.0.54
