@@ -77,7 +77,7 @@ GOTO %1
         CALL jupyter labextension install arcgis-map-ipywidget@1.8.2 -y
 
         :: Set the ArcGIS Pro Python environment
-        proenv "%ENV_NAME%"
+        proswap "%ENV_NAME%"
     )
     EXIT /B
 
