@@ -70,7 +70,7 @@ GOTO %1
         CALL conda env update -f environment.yml
 
         :: Install the local package in development mode
-        CALL python -m pip install -e "./src/%SUPPORT_LIBRARY%"
+        CALL python -m pip install -e .
 
         :: Additional steps for the map widget to work in Jupyter Lab
         CALL jupyter labextension install @jupyter-widgets/jupyterlab-manager -y
