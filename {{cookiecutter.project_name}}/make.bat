@@ -60,7 +60,7 @@ GOTO %1
 
         :: Run this from the ArcGIS Python Command Prompt
         :: Clone and activate the new environment
-        CALL conda create --name "%ENV_NAME%" --clone "%CONDA_PARENT%"
+        CALL conda create --name "%ENV_NAME%" --clone "%CONDA_PARENT%" -y
         CALL activate "%ENV_NAME%"
 
         :: Install nodejs so it does not throw an error later
