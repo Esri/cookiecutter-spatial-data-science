@@ -4,8 +4,6 @@
 
 ## Getting Started
 
-Clone the project by 
-
 ## Project Organization
 ------------
 ```
