@@ -5,6 +5,7 @@ channels:
   - conda-forge
 
 dependencies:
+  - anaconda
   - arcgis==1.8.2
   - cookiecutter
   - dask
@@ -36,3 +37,4 @@ dependencies:
     - sphinx
     - sphinx-autodoc-typehints
     - sphinx_rtd_theme
+    - twine

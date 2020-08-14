@@ -73,16 +73,6 @@ GOTO %1
     )
     EXIT /B
 
-:: Update the current environment with resources needed to publish the package
-:env_dev
-    ENDLOCAL & (
-
-        :: Install additional packages
-        CALL conda env update -f environment_dev.yml
-
-    )
-    EXIT /B
-
 :: Activate the environment
 :env_activate
     ENDLOCAL & CALL activate "%ENV_NAME%"
