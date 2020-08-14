@@ -7,7 +7,7 @@ setup(
     name='{{ cookiecutter.support_library }}',
     package_dir={"": "src"},
     packages=find_packages('src'),
-    version='0.1.0',
+    version='0.0.0',
     description='{{ cookiecutter.description }}',
     long_description=long_description,
     author='{{ cookiecutter.author_name }}',

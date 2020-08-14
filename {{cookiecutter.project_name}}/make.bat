@@ -46,14 +46,6 @@ GOTO %1
     )
     EXIT /B
 	
-:: Export the current environment
-:env_export
-    ENDLOCAL & (
-        CALL conda env export --name "%ENV_NAME%" > environment.yml
-        ECHO ^>^>^> "%PROJECT_NAME%" conda environment exported to ./environment.yml
-    )
-    EXIT /B
-	
 :: Build the local environment from the environment file
 :env
     ENDLOCAL & (
@@ -81,6 +73,16 @@ GOTO %1
     )
     EXIT /B
 
+:: Update the current environment with resources needed to publish the package
+:env_dev
+    ENDLOCAL & (
+
+        :: Install additional packages
+        CALL conda env update -f environment_dev.yml
+
+    )
+    EXIT /B
+
 :: Activate the environment
 :env_activate
     ENDLOCAL & CALL activate "%ENV_NAME%"
@@ -93,6 +95,33 @@ GOTO %1
 		CALL conda env remove --name "%ENV_NAME%" -y
 	)
 	EXIT /B
+
+:: Make the package for uploading
+:build
+    ENDLOCAL & (
+
+        :: Build the pip package
+        CALL python setup.py sdist
+
+        :: Build conda package
+        CALL conda build ./conda-recipe --output-folder ./conda-recipe/conda-build
+
+    )
+    EXIT /B
+
+:build_upload
+    ENDLOCAL & (
+
+        :: Build the pip package
+        CALL python setup.py sdist bdist_wheel
+        CALL twine upload ./dist/*
+
+        :: Build conda package
+        CALL conda build ./conda-recipe --output-folder ./conda-recipe/conda-build
+        CALL anaconda upload ./conda-recipe/conda-build/win-64/{{ project_name }}*.tar.bz2
+
+    )
+    EXIT /B
 
 :: Run all tests in module
 :test

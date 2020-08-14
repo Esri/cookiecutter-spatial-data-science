@@ -1,0 +1,29 @@
+package:
+  name: {{ project_name }}
+  version: "0.0.0"
+
+source:
+  path: ../
+
+build:
+  preserve_egg_dir: True
+  script: python setup.py install --single-version-externally-managed --record=record.txt
+
+requirements:
+  build:
+    - setuptools
+  run:
+    - arcgis>=1.8.2
+    - numpy
+    - pandas
+    - requests
+    - scikit-learn
+
+about:
+#  home: https://github.com/
+  license: Apache 2.0
+  license_file: LICENSE
+  summary: "{{ description }}"
+#  dev_url: https://github.com/
+#  doc_url: https://github.com/
+#  doc_source_url: https://github.com/
