@@ -1,5 +1,5 @@
 package:
-  name: {{ project_name }}
+  name: {{ cookiecutter.project_name }}
   version: "0.0.0"
 
 source:
@@ -23,7 +23,7 @@ about:
 #  home: https://github.com/
   license: Apache 2.0
   license_file: LICENSE
-  summary: "{{ description }}"
+  summary: "{{ cookiecutter.description }}"
 #  dev_url: https://github.com/
 #  doc_url: https://github.com/
 #  doc_source_url: https://github.com/

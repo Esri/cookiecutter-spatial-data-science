@@ -118,7 +118,7 @@ GOTO %1
 
         :: Build conda package
         CALL conda build ./conda-recipe --output-folder ./conda-recipe/conda-build
-        CALL anaconda upload ./conda-recipe/conda-build/win-64/{{ project_name }}*.tar.bz2
+        CALL anaconda upload ./conda-recipe/conda-build/win-64/{{ cookiecutter.project_name }}*.tar.bz2
 
     )
     EXIT /B
