@@ -32,6 +32,7 @@ dependencies:
   - tqdm
   - pip:
     - azure-storage-blob
+    - bump2version
     - ipykernel
     - pyarrow
     - sphinx
