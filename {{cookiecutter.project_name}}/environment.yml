@@ -5,7 +5,7 @@ channels:
   - conda-forge
 
 dependencies:
-  - anaconda
+  # - anaconda  # useful if building conda packages, but REALLY heavy install
   - arcgis==1.8.2
   - cookiecutter
   - dask
