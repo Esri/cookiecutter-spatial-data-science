@@ -6,7 +6,6 @@
     "description": "A short description of the project.",
     "open_source_license": ["Apache 2.0", "MIT", "BSD-3-Clause", "No license file"],
     "conda_environment_name": "{{ cookiecutter.project_name }}",
-    "conda_parent_environment": "arcgispro-py3",
     "esri_cloud_gis_url": "https://arcgis.com",
     "esri_cloud_gis_username": "",
     "esri_cloud_gis_password": ""
