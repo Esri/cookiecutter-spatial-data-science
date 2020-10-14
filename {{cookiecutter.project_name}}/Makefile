@@ -7,7 +7,6 @@
 PROJECT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 PROJECT_NAME = {{ cookiecutter.project_name }}
 ENV_NAME = {{ cookiecutter.conda_environment_name }}
-CONDA_PARENT = {{ cookiecutter.conda_parent_environment }}
 
 # make conda commands available in the script, notably for activation
 CONDA_BASE=$(conda info --base)
