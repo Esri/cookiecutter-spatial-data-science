@@ -21,7 +21,7 @@
 #
 import os
 import sys
-sys.path.insert(0, os.path.abspath('../src'))
+sys.path.insert(0, os.path.abspath('../../src'))
 
 # -- Project information -----------------------------------------------------
 
@@ -58,7 +58,7 @@ intersphinx_mapping = {
 
 def skip(app, what, name, obj, would_skip, options):
     if name == "__init__":
-        return False
+        return True
     return would_skip
 
 def setup(app):
