@@ -1,3 +1,4 @@
 ESRI_GIS_URL = {{ cookiecutter.esri_cloud_gis_url }}
 ESRI_GIS_USERNAME = {{ cookiecutter.esri_cloud_gis_username }}
 ESRI_GIS_PASSWORD = {{ cookiecutter.esri_cloud_gis_password }}
+ESRI_GIS_GROUP = {{ cookiecutter.esri_cloud_gis_group_name }}

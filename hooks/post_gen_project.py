@@ -26,9 +26,6 @@ import tempfile
 import importlib
 from zipfile import ZipFile
 
-# backwards compatible version number
-backwards_compatible_vers = '2.4.0'
-
 # see if arcpy available to accommodate non-windows environments
 try:
     if importlib.util.find_spec("arcpy") is not None:
@@ -70,10 +67,7 @@ def _configure_aprx():
 
     # create a path toolbox with the same name as the aprx
     new_name = os.path.basename(new_project_path).split('.')[0]
-    new_toolbox_path = os.path.abspath(os.path.join(
-        os.path.dirname(new_project_path),
-        f'{new_name}.tbx'
-    ))
+    new_toolbox_path = os.path.abspath(os.path.join(os.path.dirname(new_project_path), f'{new_name}.tbx'))
 
     # copy the cookiecutter toolbox to the new location with the new name
     shutil.copyfile(old_aprx.defaultToolbox, new_toolbox_path)
@@ -158,30 +152,32 @@ def _cleanup_aprx_catalog_tree(aprx_path, min_vers=None):
 
     return aprx_path
 
+if __name__ == '__main__':
 
-# if the cookiecutter.gdb or interim.gdb exists, get rid of it
-gdb_ck = os.path.join(os.getcwd(), 'arcgis', 'cookiecutter.gdb')
-gdb_int = os.path.join(os.getcwd(), 'data', 'interim.gdb')
-for gdb in [gdb_ck, gdb_int]:
-    if os.path.exists(gdb):
-        shutil.rmtree(gdb)
 
-# ensure the data directories are present
-dir_lst = [os.path.join(os.getcwd(), 'data', drctry)
-           for drctry in ['raw', 'external', 'interim', 'processed']]
-for drctry in dir_lst:
-    if not os.path.exists(drctry):
-        os.makedirs(drctry)
+    # if the cookiecutter.gdb or interim.gdb exists, get rid of it
+    gdb_ck = os.path.join(os.getcwd(), 'arcgis', 'cookiecutter.gdb')
+    gdb_int = os.path.join(os.getcwd(), 'data', 'interim.gdb')
+    for gdb in [gdb_ck, gdb_int]:
+        if os.path.exists(gdb):
+            shutil.rmtree(gdb)
 
-# if arcpy available, set up arcgis pro resources for the project
-if has_arcpy:
+    # ensure the data directories are present
+    dir_lst = [os.path.join(os.getcwd(), 'data', drctry)
+               for drctry in ['raw', 'external', 'interim', 'processed']]
+    for drctry in dir_lst:
+        if not os.path.exists(drctry):
+            os.makedirs(drctry)
 
-    aprx_pth = _configure_aprx()
-    _cleanup_aprx_catalog_tree(aprx_pth, backwards_compatible_vers)
+    # if arcpy available, set up arcgis pro resources for the project
+    if has_arcpy:
 
-# if arcpy is not available get rid of the arcgis directory, but leave everything else
-else:
-    shutil.rmtree(os.path.abspath(r'./arcgis'))
+        aprx_pth = _configure_aprx()
+        _cleanup_aprx_catalog_tree(aprx_pth, backwards_compatible_vers)
 
-# rename the env file to .env
-os.rename('./env', './.env')
+    # if arcpy is not available get rid of the arcgis directory, but leave everything else
+    else:
+        shutil.rmtree(os.path.abspath(r'./arcgis'))
+
+    # rename the env file to .env
+    os.rename('./env', './.env')
