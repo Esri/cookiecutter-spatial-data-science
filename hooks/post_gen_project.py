@@ -106,7 +106,7 @@ def copy_aprx(dir_arcgis: Path, new_prj_name: str, old_prj_name: str = 'cookiecu
     if remove_originals:
         del old_aprx  # have to remove object instance to remove referenced file
         old_aprx_pth.unlink()
-        old_tbx_pth.unlink()
+        # old_tbx_pth.unlink()
 
     return new_aprx_pth
 
