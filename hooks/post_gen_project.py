@@ -18,166 +18,104 @@ permissions and limitations under the License.
 A copy of the license is available in the repository's
 LICENSE file.
 """
-import os
 from pathlib import Path
-import re
 import shutil
-import tempfile
 import importlib
-from zipfile import ZipFile
 
 # see if arcpy available to accommodate non-windows environments
-try:
-    if importlib.util.find_spec("arcpy") is not None:
-        import arcpy
-        has_arcpy = True
-    else:
-        has_arcpy = False
-except AttributeError:
-    if importlib.find_loader("arcpy") is not None:
-        import arcpy
-        has_arcpy = True
-    else:
-        has_arcpy = False
+if importlib.util.find_spec("arcpy") is not None:
+    import arcpy
+    has_arcpy = True
+else:
+    has_arcpy = False
+
+new_prj_name = '{{cookiecutter.project_name}}'
 
 
-def _configure_aprx():
+def setup_data(data_pth: Path) -> Path:
+    """create all the data resources for the available environment from scratch to ensure version compatibility"""
 
-    # create project location path strings
-    existing_project_path = os.path.abspath(r'./arcgis/cookiecutter.aprx')
-    new_project_path = os.path.abspath(r'./arcgis/{{ cookiecutter.project_name }}.aprx')
-
-    # copy the existing template project
-    old_aprx = arcpy.mp.ArcGISProject(existing_project_path)
-    old_aprx.saveACopy(new_project_path)
-
-    # now create a reference to the new project
-    new_aprx = arcpy.mp.ArcGISProject(new_project_path)
-
-    # create the file geodatabases if they do not exist - ensures backwards compatibility
+    # iterate the data subdirectories
     for data_name in ['interim', 'raw', 'processed', 'external']:
-        dir_path = os.path.join(os.getcwd(), 'data', data_name)
-        gdb_path = os.path.join(dir_path, f'{data_name}.gdb')        
-        if not arcpy.Exists(gdb_path):
-            arcpy.management.CreateFileGDB(dir_path, f'{data_name}.gdb')
 
-        # set the default file geodatabase for the aprx to interim
-        if data_name == 'interim':
-            new_aprx.defaultGeodatabase = gdb_path
+        # ensure the data subdirectory exists
+        dir_pth = data_pth / data_name
+        if not dir_pth.exists():
+            dir_pth.mkdir(parents=True)
 
-    # create a path toolbox with the same name as the aprx
-    new_name = os.path.basename(new_project_path).split('.')[0]
-    new_toolbox_path = os.path.abspath(os.path.join(os.path.dirname(new_project_path), f'{new_name}.tbx'))
+        # if working in an arcpy environment
+        if has_arcpy:
 
-    # copy the cookiecutter toolbox to the new location with the new name
-    shutil.copyfile(old_aprx.defaultToolbox, new_toolbox_path)
+            # remove the file geodatabase if it exists and recreate it to make sure compatible with version of Pro
+            fgdb_pth = dir_pth / f'{data_name}.gdb'
+            if fgdb_pth.exists():
+                shutil.rmtree(fgdb_pth)
+            arcpy.management.CreateFileGDB(str(dir_pth), f'{data_name}.gdb')
 
-    # update the pro project's default toolbox to this new path
-    new_aprx.defaultToolbox = new_toolbox_path
+            # do the same thing for a mobile geodatabase, a sqlite database
+            gdb_pth = dir_pth / f'{data_name}.geodatabase'
+            if gdb_pth.exists():
+                gdb_pth.unlink()
+            arcpy.management.CreateMobileGDB(str(dir_pth), f'{data_name}.geodatabase')
 
-    # save new settings for aprx
+    return data_pth
+
+
+def copy_aprx(dir_arcgis: Path, new_prj_name: str, old_prj_name: str = 'cookiecutter',
+              remove_originals: bool = True) -> Path:
+    """Copy the APRX with the new name."""
+    # aprx paths
+    old_aprx_pth = dir_arcgis / f'{old_prj_name}.aprx'
+    new_aprx_pth = dir_arcgis / f'{new_prj_name}.aprx'
+
+    assert old_aprx_pth.exists()
+
+    # copy the original aprx with a new name
+    old_aprx = arcpy.mp.ArcGISProject(old_aprx_pth)
+    old_aprx.saveACopy(new_aprx_pth)
+    new_aprx = arcpy.mp.ArcGISProject(new_aprx_pth)
+
+    assert new_aprx_pth.exists()
+
+    # copy the original tbx with a new name
+    old_tbx_pth = Path(new_aprx.defaultToolbox)
+    new_tbx_pth = Path(new_aprx.defaultToolbox.replace(old_prj_name, new_prj_name))
+
+    assert old_tbx_pth.exists()
+
+    # set the new aprx to use the new toolbox
+    if old_tbx_pth != new_tbx_pth:
+        shutil.copy(old_tbx_pth, new_tbx_pth)
+
+        assert new_tbx_pth.exists()
+
+        new_aprx.defaultToolbox = new_tbx_pth
+
+    # configure default geodatabase if not already set up
+    gdb_pth = dir_arcgis.parent / 'data' / 'interim' / 'interim.gdb'
+    old_gdb_pth = Path(new_aprx.defaultGeodatabase)
+
+    if old_gdb_pth != gdb_pth:
+        assert gdb_pth.exists()
+
+        new_aprx.defaultGeodatabase = str(gdb_pth)
+
     new_aprx.save()
 
-    # now delete the old toolbox and project
-    os.remove(old_aprx.defaultToolbox)
-    os.remove(existing_project_path)
+    # if removing original resources
+    if remove_originals:
+        del old_aprx  # have to remove object instance to remove referenced file
+        old_aprx_pth.unlink()
+        old_tbx_pth.unlink()
 
-    return Path(new_project_path)
+    return new_aprx_pth
 
-
-def _modify_file(orig_name, tmp_dir, min_vers=None, drop_regex=None):
-
-    # get the paths to the original and the one to write to
-    orig_pth = os.path.join(os.path.abspath(tmp_dir), orig_name)
-    tmp_pth = orig_pth.replace('.xml', '_modified.xml')
-
-    # version replace string
-    vrs_regex = re.compile(r'\d\.\d\.\d')
-
-    # create and open the destination file
-    with open(tmp_pth, 'w') as out_file:
-
-        # read the input file line by line
-        for line in open(orig_pth, 'r'):
-
-            # if a regular expression to use for recognizing and removing a string, do it
-            if drop_regex:
-                line = drop_regex.sub('', line)
-        
-            # roll back references to minimum versions for backwards compatibility
-            if min_vers:
-                line = vrs_regex.sub(min_vers, line)
-        
-            # save modified line
-            out_file.write(line)
-
-    # remove and replace the original with the updated file
-    os.remove(orig_pth)
-    os.rename(tmp_pth, orig_pth)
-
-    return orig_pth
-
-
-def _cleanup_aprx_catalog_tree(aprx_path, min_vers=None):
-
-    # ensure we're working with a pathlib.Path object
-    aprx_path = str(aprx_path) if isinstance(aprx_path, Path) else aprx_path
-
-    # temporary storage location for extracting contents of aprx to work with
-    tmp_dir = tempfile.mkdtemp()
-
-    # extract everything from the aprx to the temp directory
-    with ZipFile(aprx_path, 'r') as aprx:
-        aprx.extractall(tmp_dir)
-
-    # regular expression used to rip out the unneeded references to the cookiecutter resources
-    re_ck = re.compile(
-        r"<CIMProjectItem xsi:type=\"typens:CIMProjectItem\"><CatalogPath>[\.\\/a-zA-Z{}\-_]*?cookiecutter\.(?:tbx|gdb)<\/CatalogPath>.*?<\/CIMProjectItem>")
-
-    # modify the files in the aprx to be ready for using
-    _modify_file('GISProject.xml', tmp_dir, min_vers, re_ck)
-    _modify_file('DocumentInfo.xml', tmp_dir, min_vers)
-
-    # remove the original aprx file
-    os.remove(aprx_path)
-
-    # zip up the resources in the temp directory to create the new aprx archive
-    aprx_zip = shutil.make_archive(aprx_path, 'zip', tmp_dir)
-
-    # rename the file from a zip file to the orignial aprx name
-    os.rename(aprx_zip, aprx_path)
-
-    # remove the temp directory
-    shutil.rmtree(tmp_dir)
-
-    return aprx_path
 
 if __name__ == '__main__':
 
+    dir_data_pth = Path.cwd() / 'data'
+    dir_arcgis_pth = Path.cwd() / 'arcgis'
 
-    # if the cookiecutter.gdb or interim.gdb exists, get rid of it
-    gdb_ck = os.path.join(os.getcwd(), 'arcgis', 'cookiecutter.gdb')
-    gdb_int = os.path.join(os.getcwd(), 'data', 'interim.gdb')
-    for gdb in [gdb_ck, gdb_int]:
-        if os.path.exists(gdb):
-            shutil.rmtree(gdb)
+    setup_data(dir_data_pth)
 
-    # ensure the data directories are present
-    dir_lst = [os.path.join(os.getcwd(), 'data', drctry)
-               for drctry in ['raw', 'external', 'interim', 'processed']]
-    for drctry in dir_lst:
-        if not os.path.exists(drctry):
-            os.makedirs(drctry)
-
-    # if arcpy available, set up arcgis pro resources for the project
-    if has_arcpy:
-
-        aprx_pth = _configure_aprx()
-        _cleanup_aprx_catalog_tree(aprx_pth, backwards_compatible_vers)
-
-    # if arcpy is not available get rid of the arcgis directory, but leave everything else
-    else:
-        shutil.rmtree(os.path.abspath(r'./arcgis'))
-
-    # rename the env file to .env
-    os.rename('./env', './.env')
+    new_aprx_pth = copy_aprx(dir_arcgis_pth, new_prj_name)
