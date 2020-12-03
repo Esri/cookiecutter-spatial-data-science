@@ -28,7 +28,6 @@ SET PROJECT_DIR=%cd%
 SET PROJECT_NAME={{ cookiecutter.project_name }}
 SET SUPPORT_LIBRARY = {{ cookiecutter.support_library }}
 SET ENV_NAME={{ cookiecutter.conda_environment_name }}
-SET CONDA_PARENT=arcgispro-py3
 
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 :: COMMANDS                                                                     :
@@ -50,26 +49,14 @@ GOTO %1
 :env
     ENDLOCAL & (
 
-        :: Run this from the ArcGIS Python Command Prompt
-        :: Clone and activate the new environment
-        CALL conda create --name "%ENV_NAME%" --clone "%CONDA_PARENT%" -y
-        CALL activate "%ENV_NAME%"
-
-        :: Install nodejs so it does not throw an error later
-        CALL conda install -y nodejs
-
-        :: Install additional packages
-        CALL conda env update -f environment.yml
+        :: Create new environment from environment file
+        CALL conda env create -f environment.yml
 
         :: Install the local package in development mode
         CALL python -m pip install -e .
 
-        :: Additional steps for the map widget to work in Jupyter Lab
-        CALL jupyter labextension install @jupyter-widgets/jupyterlab-manager -y
-        CALL jupyter labextension install arcgis-map-ipywidget@1.8.2 -y
-
         :: Set the ArcGIS Pro Python environment
-        proswap "%ENV_NAME%"
+        ::proswap "%ENV_NAME%"
     )
     EXIT /B
 
