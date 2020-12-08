@@ -113,9 +113,17 @@ def copy_aprx(dir_arcgis: Path, new_prj_name: str, old_prj_name: str = 'cookiecu
 
 if __name__ == '__main__':
 
-    dir_data_pth = Path.cwd() / 'data'
-    dir_arcgis_pth = Path.cwd() / 'arcgis'
+    # set up some paths to resources
+    dir_prj = Path.cwd()
+    dir_data_pth = dir_prj / 'data'
+    dir_arcgis_pth = dir_prj / 'arcgis'
+    env_pth = dir_prj / 'env'
 
+    # ensure the data directories and geodatabases are all set up
     setup_data(dir_data_pth)
 
+    # set up the ArcGIS Pro project
     new_aprx_pth = copy_aprx(dir_arcgis_pth, new_prj_name)
+
+    # rename the env file
+    env_pth.rename(dir_prj / '.env')
