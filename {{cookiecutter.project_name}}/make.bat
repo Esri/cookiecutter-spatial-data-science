@@ -52,11 +52,9 @@ GOTO %1
         :: Create new environment from environment file
         CALL conda env create -f environment.yml
 
-        :: Install the local package in development mode
+        :: Install the local package in development (experimental) mode
         CALL python -m pip install -e .
 
-        :: Set the ArcGIS Pro Python environment
-        ::proswap "%ENV_NAME%"
     )
     EXIT /B
 
