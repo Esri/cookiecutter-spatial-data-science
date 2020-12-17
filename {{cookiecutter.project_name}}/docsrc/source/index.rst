@@ -9,7 +9,8 @@ Welcome to {{cookiecutter.project_name}}'s documentation!
    :maxdepth: 2
    :caption: Contents:
 
-
+.. automodule:: {{cookiecutter.support_library}}
+   :members:
 
 Indices and tables
 ==================

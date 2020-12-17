@@ -5,7 +5,6 @@ channels:
   - conda-forge
 
 dependencies:
-  # - anaconda  # useful if building conda packages, but REALLY heavy install
   - arcgis
   - arcpy
   - cookiecutter

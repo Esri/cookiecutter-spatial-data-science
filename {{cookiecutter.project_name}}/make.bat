@@ -44,7 +44,14 @@ GOTO %1
         ECHO ^>^>^> Data processed.
     )
     EXIT /B
-	
+
+:: Make documentation using Sphinx!
+:docs
+    ENDLOCAL & (
+        CALL docsrc/make.bat github
+    )
+	EXIT /B
+
 :: Build the local environment from the environment file
 :env
     ENDLOCAL & (
@@ -55,6 +62,24 @@ GOTO %1
         :: Install the local package in development (experimental) mode
         CALL python -m pip install -e .
 
+        CALL activate "%ENV_NAME%"
+    )
+    EXIT /B
+
+:: If pre ArcGIS Pro 2.7
+:env_old
+    ENDLOCAL & (
+
+        :: Clone the main arcgispro-py3 environment
+        CALL conda create --name "%ENV_NAME%" --clone arcgispro-py3
+
+        :: Create new environment from environment file
+        CALL conda env update -e "%ENV_NAME%" -f environment.yml
+
+        :: Install the local package in development (experimental) mode
+        CALL python -m pip install -e .
+
+        CALL activate "%ENV_NAME%"
     )
     EXIT /B
 
@@ -66,7 +91,7 @@ GOTO %1
 :: Remove the environment
 :env_remove
 	ENDLOCAL & (
-		CALL deactivate
+		CALL conda deactivate
 		CALL conda env remove --name "%ENV_NAME%" -y
 	)
 	EXIT /B
