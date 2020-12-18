@@ -33,7 +33,7 @@ goto end
 :github
 echo %SPHINXBUILD% -M html %SOURCEDIR% %BUILDDIR% %SPHINXOPTS%
 %SPHINXBUILD% -M html %SOURCEDIR% %BUILDDIR% %SPHINXOPTS%
-xcopy /s %BUILDDIR%\html ..\docs
+xcopy /s %BUILDDIR%\html ..\docs /K /D /H /Y
 goto end
 
 :help
