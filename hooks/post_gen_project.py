@@ -20,10 +20,10 @@ LICENSE file.
 """
 from pathlib import Path
 import shutil
-import importlib
+import importlib.util
 
 # see if arcpy available to accommodate non-windows environments
-if importlib.util.find_spec("arcpy") is not None:
+if importlib.util.find_spec('arcpy') is not None:
     import arcpy
     has_arcpy = True
 else:
