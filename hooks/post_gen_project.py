@@ -122,8 +122,11 @@ if __name__ == '__main__':
     # ensure the data directories and geodatabases are all set up
     setup_data(dir_data_pth)
 
-    # set up the ArcGIS Pro project
-    new_aprx_pth = copy_aprx(dir_arcgis_pth, new_prj_name)
+    # set up the ArcGIS Pro project if it exists
+    if has_arcpy:
+        new_aprx_pth = copy_aprx(dir_arcgis_pth, new_prj_name)
+    else:
+        shutil.rmtree(dir_arcgis_pth)
 
     # rename the env file
     env_pth.rename(dir_prj / '.env')

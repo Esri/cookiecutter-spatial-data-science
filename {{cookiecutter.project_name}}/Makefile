@@ -8,17 +8,13 @@ PROJECT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 PROJECT_NAME = {{ cookiecutter.project_name }}
 ENV_NAME = {{ cookiecutter.conda_environment_name }}
 
-# make conda commands available in the script, notably for activation
-CONDA_BASE=$(conda info --base)
-source $CONDA_BASE/etc/profile.d/conda.sh
-
 #################################################################################
 # COMMANDS                                                                      #
 #################################################################################
 
 ## Make Dataset
 data:
-	. activate $(ENV_NAME)
+	conda activate $(ENV_NAME)
 	python src/data/make_dataset.py
 	@echo ">>> Data processed."
 
@@ -29,9 +25,8 @@ clean:
 
 ## Build the local environment from the environment file
 env:
-	conda env create -f environment.yml
-	conda activate $(ENV_NAMEs)
-	python -m pip install -e .
+	conda env create -f environment_dev_nix.yml
+	conda run -n $(PROJECT_NAME) python -m pip install -e .
 	@echo ">>> New conda environment, $(ENV_NAME), created. Activate with:\n- conda activate $(ENV_NAME)"
 
 # If working in an EC2 environment, set everything up - BETA FEATURE
@@ -58,12 +53,11 @@ ec2:
 
 # create a new kernel
 create_kernel:
-	python -m ipykernel install --user --name $(ENV_NAME) --display-name "$(PROJECT_NAME)"
+	conda run -n $(ENV_NAME) python -m ipykernel install --user --name $(ENV_NAME) --display-name "$(PROJECT_NAME)"
 
 ## Run all tests in module
 test:
-	. activate $(ENV_NAME)
-	pytest
+	conda run -n $(ENV_NAME) python -m pytest
 
 #################################################################################
 # PROJECT RULES                                                                 #
