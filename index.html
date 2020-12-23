@@ -8,7 +8,7 @@
     <meta name="description" content="A project template and directory structure for Python geograpihc data science projects.">
     <meta name="author" content="Esri Advanced Analytics Team">
     <link rel="canonical" href="https://github.com/esri/geoai-cookiecutter/">
-    <link rel="img/favicon.ico">
+    <link rel="shortcut icon" href="img/favicon.ico">
 
     
     <title>Home - GeoAI-Cookiecutter</title>
@@ -23,6 +23,10 @@
     <link href="css/base.min.css" rel="stylesheet">
     <link href="css/cinder.min.css" rel="stylesheet">
 
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/github.min.css">
+        
     
     <link href="css/extra.css" rel="stylesheet">
 
@@ -55,7 +59,9 @@
 
             <!-- Main title -->
 
-            <a class="navbar-brand" href=".">GeoAI-Cookiecutter</a>
+            
+              <a class="navbar-brand" href=".">GeoAI-Cookiecutter</a>
+            
         </div>
 
         <!-- Expanded navigation -->
@@ -174,35 +180,37 @@
 <p>GeoAI-Cookiecutter provides a template for starting projects taking advantage of the combined capabilities of <a href="https://www.esri.com/en-us/arcgis/products/arcgis-pro/overview">ArcGIS Pro</a>, Esri Cloud GIS (<a href="https://enterprise.arcgis.com/en/">ArcGIS Enterprise</a> or <a href="https://www.arcgis.com/index.html">ArcGIS Online</a>), and the broad ecosystem of Machine Learning technologies using Python in a <a href="https://docs.conda.io/en/latest/">Conda</a> environment. Although it is designed to accommodate environments <em>not</em> including ArcGIS Pro, it then becomes little more than Cookiecutter Data Science. Consequently, it is <em>highly</em> recommended you use GeoAI-Cookiecutter in an ArcGIS Pro Python Conda environment, which is installed with ArcGIS Pro.</p>
 <h4 id="requirements">Requirements</h4>
 <ul>
-<li>ArcGIS Pro 2.4 or greater (Python 3.6 and Conda come with it)</li>
+<li>ArcGIS Pro 2.7</li>
+<li>Conda - either Anaconda3 or miniconda</li>
 <li>Cookiecutter</li>
 </ul>
-<p>Cookiecutter is <em>not</em> installed by default, but can easily be installed by opening the Python Command Prompt by going to Start &gt; Programs &gt; ArcGIS &gt; Python Command Prompt. This opens a command prompt with the default Conda environment for ArcGIS Pro activated. This environment is named <code>arcgispro-py3</code>, and is in parentheses prefixing the normal command prompt on the left side.</p>
-<p>This default environment <em>should not be modified</em>. Rather, copy and modify the copied environment. First, start by copying the environment. If following the convention in these code snippets, your new environment will be named <code>arcgis</code>.</p>
-<pre><code class="batch">&gt; conda create --name arcgis --clone arcgispro-py3
+<p>Getting up and started with your first new environment is as easy as...</p>
+<pre><code class="language-batch">&gt; conda create --name arcgis python=3.7
 </code></pre>
-
 <p>Next, activate this new environment.</p>
-<pre><code class="batch">&gt; activate arcgis
+<pre><code class="language-batch">&gt; activate arcgis
 </code></pre>
-
+<p>Now, install <code>arcpy</code> and <code>arcgis</code>.</p>
+<pre><code class="language-batch">&gt; conda install -c esri arcgis arcpy -y
+</code></pre>
 <p>Finally, install Cookiecutter.</p>
-<pre><code class="batch">&gt; conda install -c conda-forge cookiecutter -y
+<pre><code class="language-batch">&gt; conda install -c conda-forge cookiecutter -y
 </code></pre>
+<p>Now, you have an environment ready to go!</p>
+<p>If you are want to see this a walkthrough, well, we have that as well.</p>
+<iframe width="825" height="464" src="https://www.youtube.com/embed/ti4ge5wUqUY" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 <h4 id="starting-a-new-project">Starting a New Project</h4>
 <p>Now, once you have Cookiecutter installed in an environment, you can use the GeoAI-Cookiecutter template to quickly start a new project.</p>
-<pre><code class="batch">&gt; cookiecutter https://github.com/esri/geoai-cookiecutter
+<pre><code class="language-batch">&gt; cookiecutter https://github.com/esri/geoai-cookiecutter
 </code></pre>
-
 <p>Once you answer all the questions, the new project is now created as a new directory in the current working directory. Assuming your project name is <code>sik-pro</code>, your new Conda environment is going to be named <code>sik_pro</code>. Hence, to create this environment, run the following.</p>
-<pre><code class="bash">&gt; cd sik-pro
+<pre><code class="language-bash">&gt; cd sik-pro
 &gt; make env
 </code></pre>
-
 <p>This creates the environment and gets it ready for use. The following prompt will indicate this new environment is active by displaying the new environment name in parenthesis to the left of the command prompt. You are ready to get to work.</p>
-<p>The video below walks through not only the process of making a new project, but also the process of syncing data with Azure using the configured keys optionally set during project setup. It is <em>much</em> easier to see if you view it full screen.</p>
-<iframe src="https://player.vimeo.com/video/391614279" width="825" height="464" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+<p>If you also want to see a video of this, here you go!</p>
+<iframe width="825" height="464" src="https://www.youtube.com/embed/_9DsxlCBQ_0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 <h2 id="project-organization-and-structure">Project Organization and Structure</h2>
 <p>The GeoAI-Cookiecutter template provides a structure for project resources, marrying data science directory structure with the functionality of ArcGIS Pro. This primarily means organizing the project following most of the best practices and conventions from Cookiecutter Data Science, and adapting ArcGIS Pro to easily work within this paradigm.</p>
@@ -227,7 +235,8 @@
     │   │   └── processed.gdb
     │   └── raw            &lt;- The original, immutable data dump.
     │       └── raw.gdb
-    ├── docs               &lt;- A default Sphinx project; see sphinx-doc.org for details
+    ├── docs               &lt;- Location where all built html docs will reside.
+    ├── docsrc             &lt;- A default Sphinx project; see sphinx-doc.org for details
     ├── models             &lt;- Trained and serialized models, model predictions, or model summaries
     ├── notebooks          &lt;- Jupyter notebooks. Naming convention is a 2 digits (for ordering),
     │   │                     descriptive name. e.g.: 01_exploratory_analysis.ipynb
@@ -242,29 +251,16 @@
         └── {{ cookiecutter.support_library }} &lt;- Library containing the bulk of code used in this 
                                                   project. 
 </code></pre>
-
 <h3 id="arcgis-pro-project-aprx-configuration">ArcGIS Pro Project (aprx) Configuration</h3>
 <p>While the ArcGIS Pro project is located in the <code>./arcgis</code> directory, the data is located in another directory. To make life easier, the three file geodatabases, interim.gdb, processed.gdb and raw.gdb are all already registered. Additionally, the arcgis, data, and notebooks directories are all also registered in the Pro project. This makes it easy to access useful resources from ArcGIS Pro.</p>
 <p><img alt="agp_catalog" src="resources/arcgis_pro_catalog_tree.png" title="ArcGIS Pro Catalog Tree" /></p>
-<blockquote>
-<p><strong>NOTE:</strong> The notebooks directory is included due to support for Jupyter Notebooks introduced with ArcGIS Pro 2.5. If using a version below 2.5, while this directory still will be visible, it will appear as if nothing is in the directory when viewed from the Catalog Tree in ArcGIS Pro. This is due to ArcGIS Pro only displaying recognized file types, and Notebook files (<code>.ipynb</code>) are not recognized until version 2.5.</p>
-</blockquote>
 <h2 id="opinions">Opinions</h2>
 <p>Opinions guide best practices, but are still only opinions. However, following the best practices and conventions laid out by these opinions will go a long ways towards achieving repeatability, facilitating collaboration and increasing both your <em>and</em> your colleagues confidence in your work. In the case of our team, these opionions embody team practices and Esri company policies.</p>
 <h3 id="autonomous-environment">Autonomous Environment</h3>
 <p>The available machine learning and deep learning technologies available in Python is staggering. Fortunately, a large number of them are available simply as installable pip or conda packages. A very large part of reproducibility is being able to reproduce the environment. </p>
 <p>GeoAI-Cookiecutter facilitates this process by streamlining the process of creating a full functioning new Conda environment for a new project. To create a project preflighted with a few useful packages, simply ensure you are in the root of the project and type the following into the command line.</p>
-<pre><code class="bash">&gt; make env
+<pre><code class="language-bash">&gt; make env
 </code></pre>
-
-<p>If you add more packages to this environment, to ensure repeatability, simply capture the packages in your environment by using the following command.</p>
-<pre><code class="bash">&gt; conda env export &gt; environment.yml
-</code></pre>
-
-<p>This will replace the original <code>environment.yml</code>. This enables recreating the modified project environment on a new machine as simple as again using the <code>make env</code> command.</p>
-<blockquote>
-<p><strong>CAUTION:</strong> Simply using the normal Conda method of creating a new environment from the <code>environment.yml</code> file <em>will not work</em>. The new environment will not have <code>arcpy</code> available. To maintain the ability to use <code>arcpy</code>, the <code>arcgispro-py3</code> environment must be cloned, and then the new environment must be updated using the <code>environment.yml</code> file as a template. This is what the <code>make env</code> command automatically takes care of.</p>
-</blockquote>
 <h3 id="notebooks-are-for-exploration-and-communication">Notebooks are for <em>Exploration</em> and <em>Communication</em></h3>
 <p>Jupyter Notebooks are for exploration, experimentation and communication. Notebooks are NOT for data production and analysis reproduction.</p>
 <p>Notebooks have revolutionized data exploration and experimentation with code, and for this reason, are a favorite tool for exploring new ideas. For this reason, they <em>should</em> be used frequently to explore workflows.</p>
@@ -294,10 +290,9 @@ ESRI_GIS_URL = https://myorgname.maps.arcgis.com
 ESRI_GIS_USERNAME = my_cloud_gis_username
 ESRI_GIS_PASSWORD = R3@!!y_H@rd_T0_Gu3$$_@nd_H@rd3r_T0_R3m3mb3r_P@$$w0rd
 </code></pre>
-
 <h4 id="load-variables-using-dotenv">Load Variables Using Dotenv</h4>
 <p>Among the packages included in the default <code>environment.yml</code> file is <a href="https://github.com/theskumar/python-dotenv">python-dotenv</a>. This package enables loading the variables so they are accessible using <code>os.getenv</code>. For instance, to be able to instantiate the GIS object, using variables stored in the <code>.env</code> file, the following can be used.</p>
-<pre><code class="python">from arcgis.gis import GIS
+<pre><code class="language-python">from arcgis.gis import GIS
 from dotenv import load_dotenv, find_dotenv
 
 # find .env automagically by walking up directories until found and load entries as env vars
@@ -310,7 +305,6 @@ gis = GIS(
     password=os.getenv('ESRI_GIS_PASSWORD')
 )
 </code></pre>
-
 <h2 id="thank-you">Thank You!</h2>
 <p>GeoAI-Cookiectutter is bulit on the shoulders of giants. It is merely an evoloution of existing work by DrivenData and Cookiecutter to suit the needs we have working at the intersection of geography and artificial intelligence. We owe a huge debt of gratitude to both.</p>
 <h3 id="drivendata"><a href="https://www.drivendata.org">DrivenData</a></h3>
@@ -329,21 +323,31 @@ gis = GIS(
         
     </div>
 
-    <footer class="col-md-12 text-center">
-        
-        <hr>
-        <p>
-        <small>Esri Advanced Analytics Team</small><br>
-        
-        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
-        </p>
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Esri Advanced Analytics Team</small><br>
+            
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
 
-        
-        
-    </footer>
+          
+          
+      </footer>
+    
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="js/bootstrap-3.0.3.min.js"></script>
+
     
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
     <script>var base_url = "."</script>
     
     <script src="js/base.js"></script>
@@ -420,6 +424,6 @@ gis = GIS(
 </html>
 
 <!--
-MkDocs version : 1.0.4
-Build Date UTC : 2020-02-25 21:43:55
+MkDocs version : 1.1.2
+Build Date UTC : 2020-12-23 17:12:41.480951+00:00
 -->
