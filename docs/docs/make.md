@@ -14,12 +14,16 @@ The initial step of preparing the data for analysis can take a decent amount of 
 
 ## Environment Management
 
-Managing the Python Conda environment is dramatically streamlined using the commands contained in `make.bat`. Quite honestly, this is one of the single largest motivating factors for initially creating it.
+Managing the Python Conda environment is dramatically streamlined using the commands contained in `make.bat`. Quite honestly, this is one of the single largest motivating factors for initially creating it. These are the two most common commands, but there are more in there if you want to look.
 
 ### `> make env`
 
-This is the most commonly used command. This command creates a Conda environment using the name set up when originally creating the project.
+This is the most commonly used command. This command creates a Conda environment using the name set up when originally creating the project, and also installs the local module using pip in experimental mode. This means your custom code built to accompnay the module will be available in this new conda environment.
 
 ### `> make env_remove`
 
 Multiple environments for projects quickly litter your computer. Hence, once finished with an environment for a project, this makes it easier to remove the environment from the machine.
+
+### `> make ec2`
+
+This is only included in the Linux version in `Makefile`. This is used to configure an AWS EC2 instance to be able to run your project _if your project does not require `arcpy`_.

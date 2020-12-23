@@ -8,7 +8,8 @@ GeoAI-Cookiecutter project grew out of a need within the Advanced Analytics team
 
 ## Requirements
 
- * ArcGIS Pro 2.4 or greater (Python 3.6 and Conda come with it)
+ * ArcGIS Pro 2.7
+ * [Conda (Anaconda or miniconda)](https://docs.conda.io/projects/conda/en/latest/user-guide/install/windows.html)
  * [Cookiecutter](http://cookiecutter.readthedocs.org/en/latest/installation.html) >= 1.4.0
 
 ``` cmd
