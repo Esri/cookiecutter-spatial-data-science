@@ -57,7 +57,7 @@ GOTO %1
     ENDLOCAL & (
 
         :: Create new environment from environment file
-        CALL conda env create -f environment.yml
+        CALL conda env create -f environment_dev.yml
 
         :: Install the local package in development (experimental) mode
         CALL python -m pip install -e .

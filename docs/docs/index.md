@@ -44,15 +44,14 @@ GeoAI-Cookiecutter provides a template for starting projects taking advantage of
 
 #### Requirements
 
-* ArcGIS Pro 2.4 or greater (Python 3.6 and Conda come with it)
+* ArcGIS Pro 2.7
+* Conda - either Anaconda3 or miniconda
 * Cookiecutter
 
-Cookiecutter is _not_ installed by default, but can easily be installed by opening the Python Command Prompt by going to Start > Programs > ArcGIS > Python Command Prompt. This opens a command prompt with the default Conda environment for ArcGIS Pro activated. This environment is named `arcgispro-py3`, and is in parentheses prefixing the normal command prompt on the left side.
-
-This default environment _should not be modified_. Rather, copy and modify the copied environment. First, start by copying the environment. If following the convention in these code snippets, your new environment will be named `arcgis`.
+Getting up and started with your first new environment is as easy as...
 
 ```batch
-> conda create --name arcgis --clone arcgispro-py3
+> conda create --name arcgis python=3.7
 ```
 
 Next, activate this new environment.
@@ -61,11 +60,23 @@ Next, activate this new environment.
 > activate arcgis
 ```
 
+Now, install `arcpy` and `arcgis`.
+
+```batch
+> conda install -c esri arcgis arcpy -y
+```
+
 Finally, install Cookiecutter.
 
 ```batch
 > conda install -c conda-forge cookiecutter -y
 ```
+
+Now, you have an environment ready to go!
+
+If you are want to see this a walkthrough, well, we have that as well.
+
+<iframe width="825" height="464" src="https://www.youtube.com/embed/ti4ge5wUqUY" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 #### Starting a New Project
 
@@ -84,9 +95,9 @@ Once you answer all the questions, the new project is now created as a new direc
 
 This creates the environment and gets it ready for use. The following prompt will indicate this new environment is active by displaying the new environment name in parenthesis to the left of the command prompt. You are ready to get to work.
 
-The video below walks through not only the process of making a new project, but also the process of syncing data with Azure using the configured keys optionally set during project setup. It is _much_ easier to see if you view it full screen.
+If you also want to see a video of this, here you go!
 
-<iframe src="https://player.vimeo.com/video/391614279" width="825" height="464" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+<iframe width="825" height="464" src="https://www.youtube.com/embed/_9DsxlCBQ_0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 ## Project Organization and Structure
 
@@ -115,7 +126,8 @@ The GeoAI-Cookiecutter template provides a structure for project resources, marr
     │   │   └── processed.gdb
     │   └── raw            <- The original, immutable data dump.
     │       └── raw.gdb
-    ├── docs               <- A default Sphinx project; see sphinx-doc.org for details
+    ├── docs               <- Location where all built html docs will reside.
+    ├── docsrc             <- A default Sphinx project; see sphinx-doc.org for details
     ├── models             <- Trained and serialized models, model predictions, or model summaries
     ├── notebooks          <- Jupyter notebooks. Naming convention is a 2 digits (for ordering),
     │   │                     descriptive name. e.g.: 01_exploratory_analysis.ipynb
@@ -137,8 +149,6 @@ While the ArcGIS Pro project is located in the `./arcgis` directory, the data is
 
 ![agp_catalog][agp_catalog]
 
-> __NOTE:__ The notebooks directory is included due to support for Jupyter Notebooks introduced with ArcGIS Pro 2.5. If using a version below 2.5, while this directory still will be visible, it will appear as if nothing is in the directory when viewed from the Catalog Tree in ArcGIS Pro. This is due to ArcGIS Pro only displaying recognized file types, and Notebook files (`.ipynb`) are not recognized until version 2.5.
-
 ## Opinions
 
 Opinions guide best practices, but are still only opinions. However, following the best practices and conventions laid out by these opinions will go a long ways towards achieving repeatability, facilitating collaboration and increasing both your _and_ your colleagues confidence in your work. In the case of our team, these opionions embody team practices and Esri company policies.
@@ -152,16 +162,6 @@ GeoAI-Cookiecutter facilitates this process by streamlining the process of creat
 ```bash
 > make env
 ```
-
-If you add more packages to this environment, to ensure repeatability, simply capture the packages in your environment by using the following command.
-
-```bash
-> conda env export > environment.yml
-```
-
-This will replace the original `environment.yml`. This enables recreating the modified project environment on a new machine as simple as again using the `make env` command.
-
-> __CAUTION:__ Simply using the normal Conda method of creating a new environment from the `environment.yml` file _will not work_. The new environment will not have `arcpy` available. To maintain the ability to use `arcpy`, the `arcgispro-py3` environment must be cloned, and then the new environment must be updated using the `environment.yml` file as a template. This is what the `make env` command automatically takes care of.
 
 ### Notebooks are for _Exploration_ and _Communication_
 
