@@ -1,0 +1,38 @@
+name: {{ cookiecutter.conda_environment_name }}
+
+channels:
+  - esri
+  - conda-forge
+
+dependencies:
+  - arcgis
+  - cookiecutter
+  - dask
+  - h3-py
+  - jupyterlab
+  - mkdocs
+  - nodejs
+  - pip
+  - progress
+  - pylint
+  - pytest
+  - python=3.7
+  - python-dotenv
+  - pyyaml
+  - scipy
+  - scikit-learn
+  - seaborn
+  - shapely
+  - swifter
+  - tabulate
+  - tqdm
+  - pip:
+    - azure-storage-blob
+    - boto3
+    - bump2version
+    - ipykernel
+    - pyarrow
+    - sphinx
+    - sphinx-autodoc-typehints
+    - sphinx_rtd_theme
+    - twine
