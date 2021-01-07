@@ -13,5 +13,6 @@ dependencies:
   - python
   - python-dotenv
   - pip:
+    - azure-storage-blob
     - boto3
     - pyarrow
