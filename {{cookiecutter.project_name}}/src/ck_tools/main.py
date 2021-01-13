@@ -76,6 +76,7 @@ def add_group(gis: GIS = None, group_name: str = None) -> Group:
 
     return grp
 
+
 def create_local_data_resources(data_pth: Path = None) -> Path:
     """create all the data resources for the available environment"""
     # default to the expected project structure
@@ -110,6 +111,7 @@ def create_local_data_resources(data_pth: Path = None) -> Path:
 
     return data_pth
 
+
 class Paths:
     """Object to easily reference data resources"""
 
@@ -132,3 +134,34 @@ class Paths:
         self.dir_reports = self.dir_prj/'reports'
 
         self.dir_fig = self.dir_reports/'figures'
+
+    @staticmethod
+    def _create(pth:Path)->Path:
+        """Internal function to create resources."""
+
+        # see if we're working with a file geodatabase
+        is_fgdb = str(pth).endswith('.gdb')
+
+        # if a geodatabase, the path dir is one level up
+        pth_dir = pth.parent if is_fgdb else pth
+
+        # ensure the file directory exists including parents as necessary
+        if not pth_dir.exists():
+            pth_dir.mkdir(parents=True)
+
+        # if a file geodatabase, create it
+        if is_fgdb:
+            arcpy.management.CreateFileGDB(pth_dir, pth.name)
+
+        return pth
+
+    def create_resources(self):
+        """Create data storage resources if they do not already exist."""
+        # get the data resources from the object properties
+        pth_lst = [p for p in dir(self) if isinstance(p, Path)]
+
+        # iterate the paths and create any necessary resources
+        for pth in pth_lst:
+            self._create(pth)
+
+        return
