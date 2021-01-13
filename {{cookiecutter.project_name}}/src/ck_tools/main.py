@@ -109,3 +109,26 @@ def create_local_data_resources(data_pth: Path = None) -> Path:
             arcpy.management.CreateMobileGDB(str(dir_pth), f'{data_name}.geodatabase')
 
     return data_pth
+
+class Paths:
+    """Object to easily reference data resources"""
+
+    def __init__(self):
+        self.dir_prj = Path(__file__).parent.parent.parent
+
+        self.dir_data = self.dir_prj/'data'
+        
+        self.dir_raw = self.dir_data/'raw'
+        self.dir_ext = self.dir_data/'external'
+        self.dir_int = self.dir_data/'interim'
+        self.dir_out = self.dir_data/'processed'
+
+        self.gdb_raw = self.dir_raw/'raw.gdb'
+        self.gdb_int = self.dir_int/'interim.gdb'
+        self.gdb_out = self.dir_out/'processed.gdb'
+
+        self.dir_models = self.dir_prj/'models'
+
+        self.dir_reports = self.dir_prj/'reports'
+
+        self.dir_fig = self.dir_reports/'figures'
