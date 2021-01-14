@@ -11,6 +11,7 @@ from dotenv import find_dotenv, load_dotenv
 # see if arcpy available to accommodate non-windows environments
 if importlib.util.find_spec('arcpy') is not None:
     import arcpy
+
     has_arcpy = True
 else:
     has_arcpy = False
@@ -52,7 +53,6 @@ def add_group(gis: GIS = None, group_name: str = None) -> Group:
 
     # if no group name provided
     if group_name is None:
-
         # load the group name
         group_name = os.getenv('ESRI_GIS_GROUP')
 
@@ -81,7 +81,7 @@ def create_local_data_resources(data_pth: Path = None) -> Path:
     """create all the data resources for the available environment"""
     # default to the expected project structure
     if data_pth is None:
-        data_pth = Path(__file__).parent.parent.parent/'data'
+        data_pth = Path(__file__).parent.parent.parent / 'data'
 
     # cover if a string is inadvertently passed in as the path
     data_pth = Path(data_pth) if isinstance(data_pth, str) else data_pth
@@ -118,41 +118,51 @@ class Paths:
     def __init__(self):
         self.dir_prj = Path(__file__).parent.parent.parent
 
-        self.dir_data = self.dir_prj/'data'
-        
-        self.dir_raw = self.dir_data/'raw'
-        self.dir_ext = self.dir_data/'external'
-        self.dir_int = self.dir_data/'interim'
-        self.dir_out = self.dir_data/'processed'
+        self.dir_data = self.dir_prj / 'data'
 
-        self.gdb_raw = self.dir_raw/'raw.gdb'
-        self.gdb_ext = self.dir_ext/'external.gdb'
-        self.gdb_int = self.dir_int/'interim.gdb'
-        self.gdb_out = self.dir_out/'processed.gdb'
+        self.dir_raw = self.dir_data / 'raw'
+        self.dir_ext = self.dir_data / 'external'
+        self.dir_int = self.dir_data / 'interim'
+        self.dir_out = self.dir_data / 'processed'
 
-        self.dir_models = self.dir_prj/'models'
+        self.gdb_raw = self.dir_raw / 'raw.gdb'
+        self.gdb_ext = self.dir_ext / 'external.gdb'
+        self.gdb_int = self.dir_int / 'interim.gdb'
+        self.gdb_out = self.dir_out / 'processed.gdb'
 
-        self.dir_reports = self.dir_prj/'reports'
+        self.dir_models = self.dir_prj / 'models'
 
-        self.dir_fig = self.dir_reports/'figures'
+        self.dir_reports = self.dir_prj / 'reports'
+
+        self.dir_fig = self.dir_reports / 'figures'
 
     @staticmethod
-    def _create(pth:Path)->Path:
+    def _create_resource(pth: Path) -> Path:
         """Internal function to create resources."""
 
         # see if we're working with a file geodatabase
-        is_fgdb = str(pth).endswith('.gdb')
+        is_gdb = (pth.suffix == '.gdb' or pth.suffix == '.geodatabase')
 
         # if a geodatabase, the path dir is one level up
-        pth_dir = pth.parent if is_fgdb else pth
+        pth_dir = pth.parent if is_gdb else pth
 
         # ensure the file directory exists including parents as necessary
         if not pth_dir.exists():
             pth_dir.mkdir(parents=True)
 
-        # if a file geodatabase, create it
-        if is_fgdb and not arcpy.Exists(str(pth)):
-            arcpy.management.CreateFileGDB(pth_dir, pth.stem)
+        # now if a geodatabase, create it
+        if is_gdb:
+
+            # flag if-exists so only run function once
+            gdb_exists = arcpy.Exists(str(pth))
+
+            # if a file geodatabase, create it
+            if pth.suffix == '.gdb' and not gdb_exists:
+                arcpy.management.CreateFileGDB(pth_dir, pth.stem)
+
+            # if a mobile geodatabase, create it
+            if pth.suffix == '.geodatabase' and not gdb_exists:
+                arcpy.management.CreateMobileGDB(pth_dir, pth.stem)
 
         return pth
 
@@ -163,6 +173,6 @@ class Paths:
 
         # iterate the paths and create any necessary resources
         for pth in pth_lst:
-            self._create(pth)
+            self._create_resource(pth)
 
         return
