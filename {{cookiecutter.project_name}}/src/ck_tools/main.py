@@ -126,6 +126,7 @@ class Paths:
         self.dir_out = self.dir_data/'processed'
 
         self.gdb_raw = self.dir_raw/'raw.gdb'
+        self.gdb_ext = self.dir_ext/'external.gdb'
         self.gdb_int = self.dir_int/'interim.gdb'
         self.gdb_out = self.dir_out/'processed.gdb'
 
@@ -150,8 +151,8 @@ class Paths:
             pth_dir.mkdir(parents=True)
 
         # if a file geodatabase, create it
-        if is_fgdb:
-            arcpy.management.CreateFileGDB(pth_dir, pth.name)
+        if is_fgdb and not arcpy.Exists(str(pth)):
+            arcpy.management.CreateFileGDB(pth_dir, pth.stem)
 
         return pth
 
