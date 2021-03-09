@@ -62,7 +62,9 @@ GOTO %1
         :: Install the local package in development (experimental) mode
         CALL python -m pip install -e .
 
+        :: Activate the enironment so you can get to work
         CALL activate "%ENV_NAME%"
+
     )
     EXIT /B
 
@@ -79,6 +81,7 @@ GOTO %1
         :: Install the local package in development (experimental) mode
         CALL python -m pip install -e .
 
+        :: Activate teh environment so you can get to work
         CALL activate "%ENV_NAME%"
     )
     EXIT /B

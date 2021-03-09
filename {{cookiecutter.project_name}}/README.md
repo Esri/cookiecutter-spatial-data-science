@@ -4,6 +4,16 @@
 
 ## Getting Started
 
+1 - Clone this repo.
+
+2 - Create an environment with the requirements.
+    
+```
+        > make env
+```
+
+3 - What else?
+
 ## Project Organization
 ------------
 ```

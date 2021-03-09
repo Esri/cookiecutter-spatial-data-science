@@ -18,6 +18,7 @@ permissions and limitations under the License.
 A copy of the license is available in the repository's
 LICENSE file.
 """
+import os
 from pathlib import Path
 import shutil
 import importlib.util
@@ -130,3 +131,7 @@ if __name__ == '__main__':
 
     # rename the env file
     env_pth.rename(dir_prj / '.env')
+
+    # initialize git
+    prj_pth_str = str(dir_prj.absolute())
+    os.system(f'cd /d {prj_pth_str} && git init && git add -A && git commit -q -m "initial commit"')
