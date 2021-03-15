@@ -13,10 +13,12 @@ dependencies:
   - h3-py
   - jupyterlab
   - mkdocs
+  - munch
   - nodejs
   - pip
   - progress
   - pylint
+  - pypandoc
   - pytest
   - python=3.7
   - python-dotenv
