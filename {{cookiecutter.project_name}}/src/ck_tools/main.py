@@ -16,6 +16,9 @@ if importlib.util.find_spec('arcpy') is not None:
 else:
     has_arcpy = False
 
+# load the .env into the namespace
+load_dotenv(find_dotenv())
+
 
 def _not_none_and_len(string: str) -> bool:
     """helper to figure out if not none and string is populated"""
@@ -23,6 +26,29 @@ def _not_none_and_len(string: str) -> bool:
     has_len = False if re.match(r'\S{5,}', '') is None else True
     status = True if has_len and is_str else False
     return status
+
+
+def get_gis():
+    """Try to get a GIS object first from an active_gis and then trying to create from the .env file."""
+    # if there is an active_gis, just use it
+    if isinstance(active_gis, GIS):
+        gis = active_gis
+
+    # if not an active_gis, see what may be available in the .env file
+    else:
+        url = os.getenv('ESRI_GIS_URL')
+        usr = os.getenv('ESRI_GIS_USERNAME')
+        pswd = os.getenv('ESRI_GIS_PASSWORD')
+
+        # if credentials are found, use them to create a gis (url is not needed since defaults to AGOL)
+        if url is not None and usr is not None and pswd is not None:
+            gis = GIS(url, username=usr, password=pswd)
+        elif usr is not None and pswd is not None:
+            gis = GIS(username=usr, password=pswd)
+        else:
+            gis = None
+
+    return gis
 
 
 def add_group(gis: GIS = None, group_name: str = None) -> Group:
@@ -39,20 +65,9 @@ def add_group(gis: GIS = None, group_name: str = None) -> Group:
 
     Returns: Group
     """
-    # load the .env into the namespace
-    load_dotenv(find_dotenv())
-
-    # try to figure out what GIS to use
-    if gis is None and isinstance(active_gis, GIS):
-        gis = active_gis
-
-    if gis is None and not isinstance(active_gis, GIS):
-        url = os.getenv('ESRI_GIS_URL')
-        usr = os.getenv('ESRI_GIS_USERNAME')
-        pswd = os.getenv('ESRI_GIS_PASSWORD')
-
     # if no group name provided
     if group_name is None:
+
         # load the group name
         group_name = os.getenv('ESRI_GIS_GROUP')
 
@@ -60,21 +75,56 @@ def add_group(gis: GIS = None, group_name: str = None) -> Group:
         assert isinstance(group_name, str), err_msg
         assert len(group_name), err_msg
 
-    # create an instance of the content manager
-    cmgr = gis.groups
+    # create an instance of the group manager
+    gmgr = gis.groups
 
-    # make sure the group does not already exist
-    assert len([grp for grp in cmgr.search() if
-                grp.title.lower() == group_name.lower()]) is 0, f'A group named "{group_name}" already exists. ' \
-                                                                'Please select another group name.'
+    # determine if group exists
+    grp_srch = [g for g in gmgr.search() if g.title.lower() == group_name.lower()]
 
-    # create the group
-    grp = cmgr.create(group_name)
+    # if the group does not exist
+    if len(grp_srch) == 0:
 
-    # ensure the group was successfully created
-    assert isinstance(grp, Group), 'Failed to create the group in the Cloud GIS.'
+        # create the group
+        grp = gmgr.create(group_name)
+
+        # ensure the group was successfully created
+        assert isinstance(grp, Group), 'Failed to create the group in the Cloud GIS.'
+
+    # if the group already exists, just get it
+    else:
+        grp = grp_srch[0]
 
     return grp
+
+
+def add_directory_to_gis(dir_name: str = None, gis: GIS = None):
+    """Add a directory in a GIS user's content."""
+    # get the directory from the .env file using the project name
+    if dir_name is None:
+        dir_name = os.getenv('PROJECT_NAME')
+
+    assert isinstance(dir_name, str), 'A name for the directory must be provided explicitly in the "dir_name" ' \
+                                      'parameter if there is not a PROJECT_NAME specified in the .env file.'
+
+    # try to figure out what GIS to use
+    if gis is None:
+        gis = get_gis()
+
+    assert isinstance(gis, GIS), 'A GIS instance, either an active_gis in the session, credentials in the .env file, ' \
+                                 'or an active GIS instance explicitly passed into the "gis" parameter.'
+
+    # create the directory
+    res = gis.content.create_folder(dir_name)
+
+    # if the response is None, the folder already exists, so don't worry about it
+    if res is None:
+        status = True
+
+    # otherwise, set status based on if the title is in the response
+    else:
+        status = 'title' in res.keys()
+
+    return status
 
 
 def create_local_data_resources(data_pth: Path = None) -> Path:
