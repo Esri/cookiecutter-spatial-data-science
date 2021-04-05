@@ -136,6 +136,6 @@ if __name__ == '__main__':
     prj_pth_str = str(dir_prj.absolute())
     git_init_cmd = 'git init -b master && git add -A && git commit -q -m "initial commit"'
     if os.name == 'nt':  # Windows
-        os.system(f'cd /d {prj_pth_str} && {git_init_cmd')
+        os.system(f'cd /d {prj_pth_str} && {git_init_cmd}')
     else:  # *nix
         os.system(f'cd {prj_pth_str} && {git_init_cmd}')
