@@ -134,4 +134,7 @@ if __name__ == '__main__':
 
     # initialize git
     prj_pth_str = str(dir_prj.absolute())
-    os.system(f'cd /d {prj_pth_str} && git init && git add -A && git commit -q -m "initial commit"')
+    if os.name == 'nt':  # Windows
+        os.system(f'cd /d {prj_pth_str} && git init && git add -A && git commit -q -m "initial commit"')
+    else:  # *nix
+        os.system(f'cd {prj_pth_str} && git init && git add -A && git commit -q -m "initial commit"')
