@@ -20,7 +20,7 @@ dependencies:
   - pylint
   - pypandoc
   - pytest
-  - python=3.7
+  - python
   - python-dotenv
   - pyyaml
   - scipy

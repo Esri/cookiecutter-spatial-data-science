@@ -8,6 +8,7 @@ dependencies:
   - arcgis
   - cookiecutter
   - dask
+  - fiona
   - h3-py
   - jupyterlab
   - mkdocs

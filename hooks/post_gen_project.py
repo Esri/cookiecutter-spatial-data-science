@@ -93,7 +93,7 @@ def copy_aprx(dir_arcgis: Path, new_prj_name: str, old_prj_name: str = 'cookiecu
         new_aprx.defaultToolbox = new_tbx_pth
 
     # configure default geodatabase if not already set up
-    gdb_pth = dir_arcgis.parent / 'data' / 'interim' / 'interim.gdb'
+    gdb_pth = dir_arcgis.parent/'data'/'interim'/'interim.gdb'
     old_gdb_pth = Path(new_aprx.defaultGeodatabase)
 
     if old_gdb_pth != gdb_pth:
@@ -116,9 +116,9 @@ if __name__ == '__main__':
 
     # set up some paths to resources
     dir_prj = Path.cwd()
-    dir_data_pth = dir_prj / 'data'
-    dir_arcgis_pth = dir_prj / 'arcgis'
-    env_pth = dir_prj / 'env'
+    dir_data_pth = dir_prj/'data'
+    dir_arcgis_pth = dir_prj/'arcgis'
+    env_pth = dir_prj/'env'
 
     # ensure the data directories and geodatabases are all set up
     setup_data(dir_data_pth)
@@ -130,7 +130,7 @@ if __name__ == '__main__':
         shutil.rmtree(dir_arcgis_pth)
 
     # rename the env file
-    env_pth.rename(dir_prj / '.env')
+    env_pth.rename(dir_prj/'.env')
 
     # initialize git
     prj_pth_str = str(dir_prj.absolute())
