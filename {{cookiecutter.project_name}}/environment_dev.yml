@@ -5,10 +5,10 @@ channels:
   - conda-forge
 
 dependencies:
-  - arcgis
-  - arcpy
+  - esri::arcgis
+  - esri::arcpy
   - cookiecutter
-  - deep-learning-essentials
+  - esri::deep-learning-essentials
   - dask
   - h3-py
   - jupyterlab
@@ -20,8 +20,9 @@ dependencies:
   - pylint
   - pypandoc
   - pytest
-  - python
+  - python=3.7
   - python-dotenv
+  - esri::pyarrow
   - pyyaml
   - scipy
   - scikit-learn
@@ -36,7 +37,6 @@ dependencies:
     - bump2version
     - ipykernel
     - placekey
-    - pyarrow
     - sphinx
     - sphinx-autodoc-typehints
     - sphinx_rtd_theme

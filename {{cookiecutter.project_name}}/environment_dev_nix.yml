@@ -16,6 +16,7 @@ dependencies:
   - nodejs
   - pip
   - progress
+  - conda-forge::pyarrow
   - pylint
   - pypandoc
   - pytest
@@ -35,7 +36,6 @@ dependencies:
     - bump2version
     - ipykernel
     - placekey
-    - pyarrow
     - sphinx
     - sphinx-autodoc-typehints
     - sphinx_rtd_theme
