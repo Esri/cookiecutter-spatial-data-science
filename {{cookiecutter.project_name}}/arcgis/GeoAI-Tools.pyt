@@ -183,24 +183,8 @@ class CreateAoiMask(object):
         aoi_fc = parameters[0].value
         out_fc = parameters[1].valueAsText
 
-        # ensure the aoi is a polygon
-        geom_type = arcpy.Describe(aoi_fc).shapeType
-        if not geom_type == 'Polygon':
-            raise Exception(f'The area of interest input must be the Polygon geometry type, not {geom_type}.')
+        # invoke the function
+        lyr = ck_tools.create_aoi_mask_layer(aoi_fc, out_fc)
 
-        # create a geomery list with one geometry, a rectangle covering the globe
-        mask_geom = Geometry({
-            "rings": [[[-180.0, -90.0], [-180.0, 90.0], [180.0, 90.0], [180.0, -90.0], [-180.0, -90.0]]],
-            "spatialReference": {"wkid": 4326, "latestWkid": 4326}
-        })
-        extent_features = [mask_geom.as_arcpy]
-
-        # create a mask feature class by punching out the area of interest
-        mask_fc = arcpy.analysis.Erase(extent_features, aoi_fc, out_fc)[0]
-
-        # get a layer to work with, and apply nice symbology
-        lyr = arcpy.management.MakeFeatureLayer(mask_fc)[0]
-        arcpy.management.ApplySymbologyFromLayer(lyr, './layer_files/aoi_mask.lyrx')
-
-        # add the mask to the map
-        self.aprx_map.addLayer(lyr)
+        # add the mask to the map at the top so it masks everything
+        self.aprx_map.addLayer(lyr, 'TOP')

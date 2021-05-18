@@ -127,7 +127,7 @@ def add_directory_to_gis(dir_name: str = None, gis: GIS = None):
     return status
 
 
-def create_local_data_resources(data_pth: Path = None) -> Path:
+def create_local_data_resources(data_pth: Path = None, mobile_geodatabases=False) -> Path:
     """create all the data resources for the available environment"""
     # default to the expected project structure
     if data_pth is None:
@@ -154,37 +154,40 @@ def create_local_data_resources(data_pth: Path = None) -> Path:
             arcpy.management.CreateFileGDB(str(dir_pth), f'{data_name}.gdb')
 
             # do the same thing for a mobile geodatabase, a sqlite database
-            gdb_pth = dir_pth / f'{data_name}.geodatabase'
-            if gdb_pth.exists():
-                gdb_pth.unlink()
-            arcpy.management.CreateMobileGDB(str(dir_pth), f'{data_name}.geodatabase')
+            if mobile_geodatabases:
+                gdb_pth = dir_pth / f'{data_name}.geodatabase'
+                if gdb_pth.exists():
+                    gdb_pth.unlink()
+                arcpy.management.CreateMobileGDB(str(dir_pth), f'{data_name}.geodatabase')
 
     return data_pth
 
 
 class Paths:
-    """Object to easily reference data resources"""
+    """Object to easily reference project resources"""
 
-    def __init__(self):
-        self.dir_prj = Path(__file__).parent.parent.parent
+    dir_prj = Path(__file__).parent.parent.parent
 
-        self.dir_data = self.dir_prj / 'data'
+    dir_data = dir_prj / 'data'
 
-        self.dir_raw = self.dir_data / 'raw'
-        self.dir_ext = self.dir_data / 'external'
-        self.dir_int = self.dir_data / 'interim'
-        self.dir_out = self.dir_data / 'processed'
+    dir_raw = dir_data / 'raw'
+    dir_ext = dir_data / 'external'
+    dir_int = dir_data / 'interim'
+    dir_out = dir_data / 'processed'
 
-        self.gdb_raw = self.dir_raw / 'raw.gdb'
-        self.gdb_ext = self.dir_ext / 'external.gdb'
-        self.gdb_int = self.dir_int / 'interim.gdb'
-        self.gdb_out = self.dir_out / 'processed.gdb'
+    gdb_raw = dir_raw / 'raw.gdb'
+    gdb_ext = dir_ext / 'external.gdb'
+    gdb_int = dir_int / 'interim.gdb'
+    gdb_out = dir_out / 'processed.gdb'
 
-        self.dir_models = self.dir_prj / 'models'
+    dir_models = dir_prj / 'models'
 
-        self.dir_reports = self.dir_prj / 'reports'
+    dir_reports = dir_prj / 'reports'
 
-        self.dir_fig = self.dir_reports / 'figures'
+    dir_fig = dir_reports / 'figures'
+
+    dir_arcgis = dir_prj / 'arcgis'
+    dir_arcgis_lyrs = dir_arcgis / 'layer_files'
 
     @staticmethod
     def _create_resource(pth: Path) -> Path:
@@ -226,3 +229,41 @@ class Paths:
             self._create_resource(pth)
 
         return
+
+
+def create_aoi_mask_layer(aoi_feature_layer, output_feature_class, style_layer=None):
+    """Create a visibility mask to focus on an Area of Interest in a map."""
+    assert has_arcpy, 'ArcPy is required (environment with arcpy referencing ArcGIS Pro functionality) to create an AOI mask.'
+
+    # get the style layer if one is not provided
+    styl_lyr = Paths.dir_arcgis_lyrs / 'aoi_mask.lyrx' if style_layer is None else style_layer
+
+    # ensure aoi is polygon
+    geom_typ = arcpy.Describe(aoi_feature_layer).shapeType
+    assert geom_typ == 'Polygon', 'The area of interest must be a polygon.'
+
+    # if multiple polygons, dissolve into one
+    if int(arcpy.management.GetCount(aoi_feature_layer)[0]) > 1:
+        aoi_feature_layer = arcpy.analysis.PairwiseDissolve(aoi_feature_layer, arcpy.Geometry())
+
+    # simplify the geometry for rendering efficiency later
+    desc = arcpy.Describe(aoi_feature_layer)
+    tol_val = (desc.extent.width + desc.extent.height) / 2 * 0.01
+    smpl_feat = arcpy.cartography.SimplifyPolygon(aoi_feature_layer, out_feature_class=arcpy.Geometry(),
+                                                  algorithm='POINT_REMOVE', tolerance=tol_val,
+                                                  collapsed_point_option='NO_KEEP').split(';')[0]
+
+    # create polygon covering the entire globe to cut out from
+    coord_lst = [[-180.0, -90.0], [-180.0, 90.0], [180.0, 90.0], [180.0, -90.0], [-180.0, -90.0]]
+    coord_arr = arcpy.Array((arcpy.Point(x, y) for x, y in coord_lst))
+    mask_geom = [arcpy.Polygon(coord_arr, arcpy.SpatialReference(4326))]
+
+    # erase the simplified area of interest from the global extent polygon
+    mask_fc = arcpy.analysis.Erase(mask_geom, smpl_feat, output_feature_class)
+
+    # create a layer and make it pretty
+    strt_lyr = arcpy.management.MakeFeatureLayer(mask_fc)[0]
+    styl_lyr = str(styl_lyr) if isinstance(styl_lyr, Path) else styl_lyr
+    lyr = arcpy.management.ApplySymbologyFromLayer(strt_lyr, styl_lyr)[0]
+
+    return lyr
