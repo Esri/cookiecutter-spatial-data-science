@@ -6,13 +6,24 @@ channels:
 
 dependencies:
   - esri::arcgis
-  - cookiecutter
+  - dask
+  - fiona
+  - h3-py
   - jupyterlab
+  - munch
   - nodejs
   - pip
   - conda-forge::pyarrow
   - python=3.7
   - python-dotenv
+  - pyyaml
+  - scipy
+  - scikit-learn
+  - seaborn
+  - shapely
+  - swifter
+  - tqdm
   - pip:
     - azure-storage-blob
     - boto3
+    - placekey
