@@ -12,7 +12,18 @@
         > make env
 ```
 
-3 - What else?
+3 - Explore - If you are more into Python, a good place to start is `jupyter lab` from the root of the project, and look in the `./notebooks` directory. If GIS is more your schtick, open the project `./arcgis/{{cookiecutter.project_name}}.aprx`.
+
+## BumpVersion Cliff Notes
+
+[Bump2Version](https://github.com/c4urself/bump2version) is preconfigured based on hints from [this article on Medium](https://williamhayes.medium.com/versioning-using-bumpversion-4d13c914e9b8).
+
+If you want to...
+
+- increment the minor version (no breaking changes), `bumpversion minor`
+- apply a patch, `bumpversion patch`
+- increment major version (breaking changes), `bumpversion major`
+- create a release (tagged in vesrion control - Git), `bumpversion --tag release`
 
 ## Project Organization
 ------------
