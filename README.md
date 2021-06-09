@@ -17,7 +17,7 @@ Cookiecutter-Spatial-Data-Science project grew out of a need within the Advanced
 ## To start a new project, run:
 
 ``` cmd
-> cookiecutter https://github.com/esri/geo-data-science-cookiecutter
+> cookiecutter https://github.com/esri/cookiecutter-spatial-data-science
 ```
 
 ## Using Make - common commands
