@@ -7,7 +7,7 @@ from pathlib import Path
 import sys
 
 # get paths to useful resources - notably where the src directory is
-self_pth = Path(__file__).absolute
+self_pth = Path(__file__)
 dir_test = self_pth.parent
 dir_prj = dir_test.parent
 dir_src = dir_prj/'src'

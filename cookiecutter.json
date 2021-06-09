@@ -1,8 +1,8 @@
 {
-    "project_name": "geoai-project",
+    "project_name": "spatial-data-science-project",
     "repo_name": "{{ cookiecutter.project_name.lower().replace(' ', '-') }}",
 	"support_library": "{{ cookiecutter.project_name.lower().replace(' ', '_').replace('-', '_') }}",
-    "author_name": "Esri Advanced Analytics Team",
+    "author_name": "Rad People who do Geography AND Data Science.",
     "description": "A short description of the project.",
     "open_source_license": ["Apache 2.0", "MIT", "BSD-3-Clause", "No license file"],
     "conda_environment_name": "{{ cookiecutter.project_name }}",
