@@ -13,7 +13,7 @@ dependencies:
   - munch
   - nodejs
   - pip
-  - conda-forge::pyarrow
+  - esri::pyarrow
   - python=3.7
   - python-dotenv
   - pyyaml
@@ -22,7 +22,7 @@ dependencies:
   - seaborn
   - shapely
   - swifter
-  - tqdm
+  - tabulate
   - pip:
     - azure-storage-blob
     - boto3

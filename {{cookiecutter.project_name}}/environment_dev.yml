@@ -8,7 +8,7 @@ dependencies:
   - esri::arcgis
   - esri::arcpy
   - cookiecutter
-  - esri::deep-learning-essentials
+#  - esri::deep-learning-essentials
   - dask
   - h3-py
   - jupyterlab
@@ -16,9 +16,6 @@ dependencies:
   - munch
   - nodejs
   - pip
-  - progress
-  - pylint
-  - pypandoc
   - pytest
   - python=3.7
   - python-dotenv
