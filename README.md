@@ -1,10 +1,8 @@
-# [GeoAI-Cookiecutter](https://esri.github.io/geoai-cookiecutter)
+# [Geo-Data-Science-Cookiecutter]
 
-[GeoAI-Cookiecutter Project Homepage](https://esri.github.io/geoai-cookiecutter)
+Geo-Data-Science-Cookiecutter strives to streamline and promote use of best practices for projects combining Geography and Data Science through a logical, reasonably standardized, and flexible project structure.
 
-GeoAI-Cookiecutter strives to streamline and promote use of best practices for projects combining Geography and Artificial Intelligence through a logical, reasonably standardized, and flexible project structure.
-
-GeoAI-Cookiecutter project grew out of a need within the Advanced Analytics team at Esri to streamline project bootstrapping, encourage innovation, increase repeatability, encourage documentation, and encourage best practices.
+Geo-Data-Science-Cookiecutter project grew out of a need within the Advanced Analytics team at Esri to streamline project bootstrapping, encourage innovation, increase repeatability, encourage documentation, and encourage best practices.
 
 ## Requirements
 
@@ -19,7 +17,7 @@ GeoAI-Cookiecutter project grew out of a need within the Advanced Analytics team
 ## To start a new project, run:
 
 ``` cmd
-> cookiecutter https://github.com/esri/geoai-cookiecutter
+> cookiecutter https://github.com/esri/geo-data-science-cookiecutter
 ```
 
 ## Issues
