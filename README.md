@@ -24,7 +24,7 @@ Cookiecutter-Spatial-Data-Science project grew out of a need within the Advanced
 
 Based on the pattern provided in the [Cookiecutter Data Science template by Driven Data](https://drivendata.github.io/cookiecutter-data-science/) this template streamlines a number of commands using the `make` command pattern.
 
-- `make env` - builds the Conda environment with all the name and dependencies from `environment_dev.yml` and installs the local project package `{{cookiecutter.support_library}}` using the command `python -m pip install -e ./src/src/{{cookiecutter.support_library}}` so you can easily test against the package as you are developing it.
+- `make env` - builds the Conda environment with all the name and dependencies from `environment_dev.yml` and installs the local project package using the command `python -m pip install -e ./src/src/<project_package>` so you can easily test against the package as you are developing it.
 
 - `make env_clone` - designed for environments using the default Conda instance installed with ArcGIS Pro. It is similar to `make env`, except this command clones the `arcgispro-py3` environment. Otherwise, it still installs the packages listed in `environment_dev.yml` and installs the local package using `pip` as described above.
 
