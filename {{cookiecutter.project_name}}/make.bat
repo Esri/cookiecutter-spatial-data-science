@@ -69,7 +69,7 @@ GOTO %1
     EXIT /B
 
 :: If pre ArcGIS Pro 2.7
-:env_old
+:env_clone
     ENDLOCAL & (
 
         :: Clone the main arcgispro-py3 environment
@@ -130,7 +130,7 @@ GOTO %1
 :test
 	ENDLOCAL & (
 		activate "%ENV_NAME%"
-		pytest
+		pytest testing/
 	)
 	EXIT /B
 

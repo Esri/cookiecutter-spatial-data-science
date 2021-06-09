@@ -19,9 +19,9 @@ lib64/
 parts/
 sdist/
 var/
-*.egg-info/
+**/*.egg-info/
 .installed.cfg
-*.egg
+**/*.egg
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
@@ -35,20 +35,21 @@ pip-delete-this-directory.txt
 
 # Unit test / coverage reports
 htmlcov/
-.tox/
-.coverage
-.coverage.*
-.cache
-nosetests.xml
-coverage.xml
-*.cover
+**/*.tox/
+**/*.coverage
+**/*.coverage.*
+**/*.cache
+**/*nosetests.xml
+**/*coverage.xml
+**/*.cover
+**/*.pytest_cache
 
 # Translations
-*.mo
-*.pot
+**/*.mo
+**/*.pot
 
 # Django stuff:
-*.log
+**/*.log
 
 # Sphinx documentation
 docsrc/_build/
@@ -61,8 +62,8 @@ target/
 .env
 
 # Database
-*.db
-*.rdb
+**/*.db
+**/*.rdb
 
 # Pycharm
 .idea
@@ -81,7 +82,7 @@ data/
 models/
 
 # Mac OS-specific storage files
-.DS_Store
+**/*.DS_Store
 
 # ignore the caches created for ArcMap
 arcgis/Index
