@@ -1,8 +1,8 @@
-# Geo-Data-Science-Cookiecutter
+# Cookiecutter-Spatial-Data-Science
 
-Geo-Data-Science-Cookiecutter strives to streamline and promote use of best practices for projects combining Geography and Data Science through a logical, reasonably standardized, and flexible project structure.
+Cookiecutter-Spatial-Data-Science strives to streamline and promote use of best practices for projects combining Geography and Data Science through a logical, reasonably standardized, and flexible project structure.
 
-Geo-Data-Science-Cookiecutter project grew out of a need within the Advanced Analytics team at Esri to streamline project bootstrapping, encourage innovation, increase repeatability, encourage documentation, and encourage best practices.
+Cookiecutter-Spatial-Data-Science project grew out of a need within the Advanced Analytics team at Esri to streamline project bootstrapping, encourage innovation, increase repeatability, encourage documentation, and encourage best practices.
 
 ## Requirements
 
