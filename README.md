@@ -1,4 +1,4 @@
-# [Geo-Data-Science-Cookiecutter]
+# Geo-Data-Science-Cookiecutter
 
 Geo-Data-Science-Cookiecutter strives to streamline and promote use of best practices for projects combining Geography and Data Science through a logical, reasonably standardized, and flexible project structure.
 
