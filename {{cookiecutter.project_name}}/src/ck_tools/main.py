@@ -6,7 +6,6 @@ import shutil
 
 from arcgis.gis import GIS, Group
 from arcgis.env import active_gis
-from dotenv import find_dotenv, load_dotenv
 
 # see if arcpy available to accommodate non-windows environments
 if importlib.util.find_spec('arcpy') is not None:
@@ -16,8 +15,10 @@ if importlib.util.find_spec('arcpy') is not None:
 else:
     has_arcpy = False
 
-# load the .env into the namespace
-load_dotenv(find_dotenv())
+# load the .env into the namespace if dotenv available
+if importlib.util.find_spec('dotenv') is not None:
+    from dotenv import find_dotenv, load_dotenv
+    load_dotenv(find_dotenv())
 
 
 def _not_none_and_len(string: str) -> bool:
@@ -28,7 +29,7 @@ def _not_none_and_len(string: str) -> bool:
     return status
 
 
-def get_gis():
+def get_gis() -> GIS:
     """Try to get a GIS object first from an active_gis and then trying to create from the .env file."""
     # if there is an active_gis, just use it
     if isinstance(active_gis, GIS):
@@ -97,7 +98,7 @@ def add_group(gis: GIS = None, group_name: str = None) -> Group:
     return grp
 
 
-def add_directory_to_gis(dir_name: str = None, gis: GIS = None):
+def add_directory_to_gis(dir_name: str = None, gis: GIS = None) -> bool:
     """Add a directory in a GIS user's content."""
     # get the directory from the .env file using the project name
     if dir_name is None:
@@ -231,25 +232,24 @@ class Paths:
         return
 
 
-def create_aoi_mask_layer(aoi_feature_layer, output_feature_class, style_layer=None):
+def create_aoi_mask_layer(aoi_features, output_feature_class, style_layer=None):
     """Create a visibility mask to focus on an Area of Interest in a map."""
+
     assert has_arcpy, 'ArcPy is required (environment with arcpy referencing ArcGIS Pro functionality) to create an AOI mask.'
 
-    # get the style layer if one is not provided
-    styl_lyr = Paths.dir_arcgis_lyrs / 'aoi_mask.lyrx' if style_layer is None else style_layer
+    # get a describe object to work with
+    desc = arcpy.Describe(aoi_features)
 
     # ensure aoi is polygon
-    geom_typ = arcpy.Describe(aoi_feature_layer).shapeType
-    assert geom_typ == 'Polygon', 'The area of interest must be a polygon.'
+    assert desc.shapeType == 'Polygon', 'The area of interest must be a polygon.'
 
     # if multiple polygons, dissolve into one
-    if int(arcpy.management.GetCount(aoi_feature_layer)[0]) > 1:
-        aoi_feature_layer = arcpy.analysis.PairwiseDissolve(aoi_feature_layer, arcpy.Geometry())
+    if int(arcpy.management.GetCount(aoi_features)[0]) > 1:
+        aoi_features = arcpy.analysis.PairwiseDissolve(aoi_features, arcpy.Geometry())
 
     # simplify the geometry for rendering efficiency later
-    desc = arcpy.Describe(aoi_feature_layer)
-    tol_val = (desc.extent.width + desc.extent.height) / 2 * 0.01
-    smpl_feat = arcpy.cartography.SimplifyPolygon(aoi_feature_layer, out_feature_class=arcpy.Geometry(),
+    tol_val = (desc.extent.width + desc.extent.height) / 2 * 0.0001
+    smpl_feat = arcpy.cartography.SimplifyPolygon(aoi_features, out_feature_class=arcpy.Geometry(),
                                                   algorithm='POINT_REMOVE', tolerance=tol_val,
                                                   collapsed_point_option='NO_KEEP').split(';')[0]
 
@@ -260,6 +260,9 @@ def create_aoi_mask_layer(aoi_feature_layer, output_feature_class, style_layer=N
 
     # erase the simplified area of interest from the global extent polygon
     mask_fc = arcpy.analysis.Erase(mask_geom, smpl_feat, output_feature_class)
+
+    # get the style layer if one is not provided
+    styl_lyr = Paths.dir_arcgis_lyrs / 'aoi_mask.lyrx' if style_layer is None else style_layer
 
     # create a layer and make it pretty
     strt_lyr = arcpy.management.MakeFeatureLayer(mask_fc)[0]

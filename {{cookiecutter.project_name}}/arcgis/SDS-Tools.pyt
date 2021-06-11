@@ -1,14 +1,12 @@
 # -*- coding: utf-8 -*-
+import importlib
 import os
 from pathlib import Path
-import re
 import sys
-import tempfile
 
 from arcgis.geometry import Geometry
 from arcgis.gis import GIS
 import arcpy
-from dotenv import find_dotenv, load_dotenv
 
 # get path to included resources and add to sys.path for imports
 prj_pth = Path(__file__).parent.parent
@@ -18,8 +16,10 @@ sys.path.insert(0, str(src_pth))
 # import geoai-cookiecuter support package
 import ck_tools
 
-# load the dotenv file
-load_dotenv(find_dotenv())
+# load the .env into the namespace if dotenv available
+if importlib.util.find_spec('dotenv') is not None:
+    from dotenv import find_dotenv, load_dotenv
+    load_dotenv(find_dotenv())
 
 # ensure outputs can be overwritten
 arcpy.env.overwriteOutput = True
@@ -180,8 +180,11 @@ class CreateAoiMask(object):
         """The source code of the tool."""
 
         # retrieve the parameters
-        aoi_fc = parameters[0].value
+        aoi_lyr = parameters[0].value
         out_fc = parameters[1].valueAsText
+
+        # get the path to the aoi_fc
+        aoi_fc = arcpy.da.Describe(aoi_lyr)['catalogPath']
 
         # invoke the function
         lyr = ck_tools.create_aoi_mask_layer(aoi_fc, out_fc)
