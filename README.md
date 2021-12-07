@@ -6,7 +6,7 @@ Cookiecutter-Spatial-Data-Science project grew out of a need within the Advanced
 
 ## Requirements
 
- * ArcGIS Pro 2.7
+ * ArcGIS Pro 2.9
  * [Conda (Anaconda or miniconda)](https://docs.conda.io/projects/conda/en/latest/user-guide/install/windows.html)
  * [Cookiecutter](http://cookiecutter.readthedocs.org/en/latest/installation.html) >= 1.4.0
 
