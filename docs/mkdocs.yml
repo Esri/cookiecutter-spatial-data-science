@@ -1,6 +1,6 @@
 site_name: GeoAI-Cookiecutter
 site_url: https://github.com/esri/geoai-cookiecutter
-site_description: A project template and directory structure for Python geograpihc data science projects.
+site_description: A project template and directory structure for Python geographic data science projects.
 site_author: Esri Advanced Analytics Team
 repo_name: GeoAI-Cookiecutter on GitHub
 repo_url: https://github.com/esri/geoai-cookiecutter/
