@@ -72,9 +72,9 @@ def copy_aprx(dir_arcgis: Path, new_prj_name: str, old_prj_name: str = 'cookiecu
     assert old_aprx_pth.exists()
 
     # copy the original aprx with a new name
-    old_aprx = arcpy.mp.ArcGISProject(old_aprx_pth)
-    old_aprx.saveACopy(new_aprx_pth)
-    new_aprx = arcpy.mp.ArcGISProject(new_aprx_pth)
+    old_aprx = arcpy.mp.ArcGISProject(str(old_aprx_pth))
+    old_aprx.saveACopy(str(new_aprx_pth))
+    new_aprx = arcpy.mp.ArcGISProject(str(new_aprx_pth))
 
     assert new_aprx_pth.exists()
 
