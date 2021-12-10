@@ -69,43 +69,31 @@ def copy_aprx(dir_arcgis: Path, new_prj_name: str, old_prj_name: str = 'cookiecu
     old_aprx_pth = dir_arcgis / f'{old_prj_name}.aprx'
     new_aprx_pth = dir_arcgis / f'{new_prj_name}.aprx'
 
-    assert old_aprx_pth.exists()
+    # get a project object instance to monkey with
+    aprx = arcpy.mp.ArcGISProject(str(old_aprx_pth))
 
-    # copy the original aprx with a new name
-    old_aprx = arcpy.mp.ArcGISProject(str(old_aprx_pth))
-    old_aprx.saveACopy(str(new_aprx_pth))
-    new_aprx = arcpy.mp.ArcGISProject(str(new_aprx_pth))
+    # copy the original tbx with a new name if not the same name and set the aprx to use it
+    old_tbx_pth = Path(aprx.defaultToolbox)
+    new_tbx_pth = old_tbx_pth.parent / old_tbx_pth.name.replace(old_prj_name, new_prj_name)
 
-    assert new_aprx_pth.exists()
-
-    # copy the original tbx with a new name
-    old_tbx_pth = Path(new_aprx.defaultToolbox)
-    new_tbx_pth = Path(new_aprx.defaultToolbox.replace(old_prj_name, new_prj_name))
-
-    assert old_tbx_pth.exists()
-
-    # set the new aprx to use the new toolbox
     if old_tbx_pth != new_tbx_pth:
         shutil.copy(old_tbx_pth, new_tbx_pth)
-
         assert new_tbx_pth.exists()
-
-        new_aprx.defaultToolbox = new_tbx_pth
+        aprx.defaultToolbox = str(new_tbx_pth)
 
     # configure default geodatabase if not already set up
     gdb_pth = dir_arcgis.parent/'data'/'interim'/'interim.gdb'
-    old_gdb_pth = Path(new_aprx.defaultGeodatabase)
+    old_gdb_pth = Path(aprx.defaultGeodatabase)
 
     if old_gdb_pth != gdb_pth:
         assert gdb_pth.exists()
+        aprx.defaultGeodatabase = str(gdb_pth)
 
-        new_aprx.defaultGeodatabase = str(gdb_pth)
-
-    new_aprx.save()
+    aprx.saveACopy(str(new_aprx_pth))
 
     # if removing original resources
     if remove_originals:
-        del old_aprx  # have to remove object instance to remove referenced file
+        del aprx  # have to remove object instance to remove referenced file
         old_aprx_pth.unlink()
         # old_tbx_pth.unlink()
 
