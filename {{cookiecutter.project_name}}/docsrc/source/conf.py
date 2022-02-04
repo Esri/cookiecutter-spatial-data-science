@@ -48,7 +48,7 @@ def all_but_ipynb(dir, contents):
 shutil.rmtree(os.path.join(prj_dir, "docsrc", "source", "_notebooks"), ignore_errors=True)
 shutil.copytree(
     os.path.join(prj_dir, "notebooks"),
-    os.path.join(prj_dir, "docsrc", "source", "_notebooks"),
+    os.path.join(prj_dir, "docsrc", "source", "notebooks"),
     ignore=all_but_ipynb
 )
 
@@ -140,7 +140,10 @@ html_theme = 'alabaster'
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
 # documentation.
-# html_theme_options = {}
+html_theme_options = {
+    'page_width': '70%',
+    'fixed_sidebar': True
+}
 
 # Add any paths that contain custom themes here, relative to this directory.
 # html_theme_path = []
