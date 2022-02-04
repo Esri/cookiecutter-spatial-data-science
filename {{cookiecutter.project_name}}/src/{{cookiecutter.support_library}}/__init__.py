@@ -2,7 +2,7 @@ __title__ = '{{ cookiecutter.project_name }}'
 __version__ = '0.0.0'
 __author__ = '{{ cookiecutter.author_name }}'
 __license__ = '{{ cookiecutter.open_source_license }}'
-__copyright__ = 'Copyright 2020 by {{ cookiecutter.author_name }}'
+__copyright__ = 'Copyright 2021 by {{ cookiecutter.author_name }}'
 
 __all__ = ['example_function', 'ExampleObject']
 

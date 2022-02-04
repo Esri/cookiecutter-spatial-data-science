@@ -12,11 +12,13 @@ Since not everybody knows the reStructured Text syntax cold, it does help to hav
 * `reStructured Text Cheat Sheet <https://thomas-cokelaer.info/tutorials/sphinx/rest_syntax.html>`_
 
 .. toctree::
-   :maxdepth: 2
-   :caption: Contents:
+    :maxdepth: 2
+    :caption: Contents:
+
+    Notebook Template <_notebooks/notebook-template>
 
 .. automodule:: {{cookiecutter.support_library}}
-   :members:
+    :members:
 
 Indices and tables
 ==================

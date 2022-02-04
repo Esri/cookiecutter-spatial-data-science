@@ -57,32 +57,17 @@ GOTO %1
     ENDLOCAL & (
 
         :: Create new environment from environment file
-        CALL conda env create -f environment_dev.yml
+        CALL conda create --name "%ENV_NAME%" --clone "C:\Program Files\ArcGIS\Pro\bin\Python\envs\arcgispro-py3"
 
-        :: Install the local package in development (experimental) mode
-        CALL python -m pip install -e .
-
-        :: Activate the enironment so you can get to work
-        CALL activate "%ENV_NAME%"
-
-    )
-    EXIT /B
-
-:: If pre ArcGIS Pro 2.7
-:env_clone
-    ENDLOCAL & (
-
-        :: Clone the main arcgispro-py3 environment
-        CALL conda create --name "%ENV_NAME%" --clone arcgispro-py3
-
-        :: Create new environment from environment file
+        :: Add more fun stuff from environment file
         CALL conda env update -e "%ENV_NAME%" -f environment.yml
 
         :: Install the local package in development (experimental) mode
         CALL python -m pip install -e .
 
-        :: Activate teh environment so you can get to work
+        :: Activate the environment so you can get to work
         CALL activate "%ENV_NAME%"
+
     )
     EXIT /B
 
