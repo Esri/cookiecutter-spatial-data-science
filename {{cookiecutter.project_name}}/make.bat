@@ -56,6 +56,7 @@ GOTO %1
     ENDLOCAL & (
         CAll python src/ck_tools/create_reveal_slides.py
     )
+    EXIT /B
 
 :: Build the local environment from the environment file
 :env
