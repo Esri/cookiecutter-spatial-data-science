@@ -39,7 +39,6 @@ GOTO %1
 :: Perform data preprocessing steps contained in the make_data.py script.
 :data
     ENDLOCAL & (
-        CALL activate "%ENV_NAME%"
         CALL python src/make_data.py
         ECHO ^>^>^> Data processed.
     )
@@ -51,6 +50,12 @@ GOTO %1
         CALL docsrc/make.bat github
     )
 	EXIT /B
+
+:: Create the Reveal.js slides from all the notebooks
+:slides
+    ENDLOCAL & (
+        CAll python src/ck_tools/create_reveal_slides.py
+    )
 
 :: Build the local environment from the environment file
 :env
@@ -114,7 +119,6 @@ GOTO %1
 :: Run all tests in module
 :test
 	ENDLOCAL & (
-		activate "%ENV_NAME%"
 		pytest testing/
 	)
 	EXIT /B
