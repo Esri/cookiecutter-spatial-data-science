@@ -35,7 +35,7 @@ release = '0.0.0'
 
 # -- Copying notebooks for inclusion -----------------------------------------
 
-print("Copy example notebooks into docsrc/_notebooks")
+print("Copy example notebooks into docsrc/notebooks")
 prj_dir = os.path.abspath('../../')
 
 def all_but_ipynb(dir, contents):
