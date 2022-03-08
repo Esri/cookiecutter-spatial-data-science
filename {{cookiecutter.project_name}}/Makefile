@@ -25,7 +25,7 @@ clean:
 
 ## Build the local environment from the environment file
 env:
-	conda env create -f environment_dev_nix.yml
+	conda env create -p ./env -f environment.yml
 	conda run -n $(ENV_NAME) pip install -e .
 	@echo ">>> New conda environment, $(ENV_NAME), created. Activate with:\n- conda activate $(ENV_NAME)"
 

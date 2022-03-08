@@ -14,3 +14,6 @@ tests/__pycache__/*
 
 # remove built docsrc
 docs/site/
+
+# local environemnt
+env/*

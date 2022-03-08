@@ -25,9 +25,7 @@
 
 SETLOCAL
 SET PROJECT_DIR=%cd%
-SET PROJECT_NAME={{ cookiecutter.project_name }}
-SET SUPPORT_LIBRARY = {{ cookiecutter.support_library }}
-SET ENV_NAME={{ cookiecutter.conda_environment_name }}
+SET PROJECT_NAME=cookiecutter-spatial-data-science
 
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 :: COMMANDS                                                                     :
@@ -36,14 +34,6 @@ SET ENV_NAME={{ cookiecutter.conda_environment_name }}
 :: Jump to command
 GOTO %1
 
-:: Perform data preprocessing steps contained in the make_data.py script.
-:data
-    ENDLOCAL & (
-        CALL python src/make_data.py
-        ECHO ^>^>^> Data processed.
-    )
-    EXIT /B
-
 :: Make documentation using Sphinx!
 :docs
     ENDLOCAL & (
@@ -51,22 +41,12 @@ GOTO %1
     )
 	EXIT /B
 
-:: Create the Reveal.js slides from all the notebooks
-:slides
-    ENDLOCAL & (
-        CAll python src/ck_tools/create_reveal_slides.py
-    )
-    EXIT /B
-
 :: Build the local environment from the environment file
 :env
     ENDLOCAL & (
 
-        :: Create new environment from environment file
-        CALL conda create --path ./env --clone "C:\Program Files\ArcGIS\Pro\bin\Python\envs\arcgispro-py3"
-
-        :: Add more fun stuff from environment file
-        CALL conda env update -p ./env -f environment.yml
+        :: Create environment
+        CALL conda env create -p ./env -f environment.yml
 
         :: Activate the environment
         CALL activate ./env
@@ -77,50 +57,11 @@ GOTO %1
     )
     EXIT /B
 
-:: Activate the environment
-:env_activate
-    ENDLOCAL & CALL activate ./env
-    EXIT /B
-
 :: Remove the environment
 :env_remove
 	ENDLOCAL & (
 		CALL conda deactivate
 		CALL conda env remove --path ./env -y
-	)
-	EXIT /B
-
-:: Make the package for uploading
-:build
-    ENDLOCAL & (
-
-        :: Build the pip package
-        CALL python setup.py sdist
-
-        :: Build conda package
-        CALL conda build ./conda-recipe --output-folder ./conda-recipe/conda-build
-
-    )
-    EXIT /B
-
-:build_upload
-    ENDLOCAL & (
-
-        :: Build the pip package
-        CALL python setup.py sdist bdist_wheel
-        CALL twine upload ./dist/*
-
-        :: Build conda package
-        CALL conda build ./conda-recipe --output-folder ./conda-recipe/conda-build
-        CALL anaconda upload ./conda-recipe/conda-build/win-64/{{ cookiecutter.project_name }}*.tar.bz2
-
-    )
-    EXIT /B
-
-:: Run all tests in module
-:test
-	ENDLOCAL & (
-		pytest testing/
 	)
 	EXIT /B
 

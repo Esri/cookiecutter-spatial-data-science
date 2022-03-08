@@ -1,0 +1,13 @@
+name: cookiecutter-spatial-data-science
+
+channels:
+  - conda-forge
+
+dependencies:
+  - cookiecutter
+  - pip
+  - pip:
+    - bump2version
+    - nbsphinx
+    - sphinx
+    - sphinx-autodoc-typehints
