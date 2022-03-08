@@ -18,6 +18,7 @@ dependencies:
   - python=3.7
   - python-dotenv
   - pyarrow
+  - pytest
   - pyyaml
   - scipy
   - scikit-learn

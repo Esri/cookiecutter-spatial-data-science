@@ -89,4 +89,4 @@ arcgis/Index
 arcgis/ImportLog
 
 # make sure the environment is not included
-env/*
+env/
