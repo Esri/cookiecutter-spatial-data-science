@@ -26,29 +26,12 @@ sys.path.insert(0, os.path.abspath('../../src'))
 
 # -- Project information -----------------------------------------------------
 
-project = '{{cookiecutter.project_name}}'
-copyright = '2021, {{cookiecutter.author_name}}'
-author = '{{cookiecutter.author_name}}'
+project = 'Cookiecutter-Spatial-Data-Science'
+copyright = '2021, Esri'
+author = 'Joel McCune'
 
 # The full version, including alpha/beta/rc tags
 release = '0.0.0'
-
-# -- Copying notebooks for inclusion -----------------------------------------
-prj_dir = os.path.abspath('../../')
-
-def all_but_ipynb(dir, contents):
-    result = []
-    for c in contents:
-        if os.path.isfile(os.path.join(dir,c)) and (not c.endswith(".ipynb")):
-            result += [c]
-    return result
-
-shutil.rmtree(os.path.join(prj_dir, "docsrc", "source", "notebooks"), ignore_errors=True)
-shutil.copytree(
-    os.path.join(prj_dir, "notebooks"),
-    os.path.join(prj_dir, "docsrc", "source", "notebooks"),
-    ignore=all_but_ipynb
-)
 
 # -- General configuration -----------------------------------------------------
 

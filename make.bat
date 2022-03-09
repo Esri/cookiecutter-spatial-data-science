@@ -51,9 +51,6 @@ GOTO %1
         :: Activate the environment
         CALL activate ./env
 
-        :: Install the local package in development (experimental) mode
-        CALL python -m pip install -e .
-
     )
     EXIT /B
 
