@@ -1,4 +1,4 @@
-name: {{ cookiecutter.conda_environment_name }}
+name: {{ cookiecutter.project_name.lower().replace(' ', '-').replace('_', '-') }}
 
 channels:
   - esri
@@ -6,6 +6,7 @@ channels:
 
 dependencies:
   - arcgis
+  - black>=21
   - cookiecutter
   - dask
   - h3-py
