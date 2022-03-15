@@ -63,7 +63,7 @@ GOTO %1
     ENDLOCAL & (
 
         :: Create new environment from environment file
-        CALL conda create --path ./env --clone "C:\Program Files\ArcGIS\Pro\bin\Python\envs\arcgispro-py3"
+        CALL conda create --p ./env --clone "C:\Program Files\ArcGIS\Pro\bin\Python\envs\arcgispro-py3"
 
         :: Add more fun stuff from environment file
         CALL conda env update -p ./env -f environment.yml
@@ -86,9 +86,15 @@ GOTO %1
 :env_remove
 	ENDLOCAL & (
 		CALL conda deactivate
-		CALL conda env remove --path ./env -y
+		CALL conda env remove -p ./env -y
 	)
 	EXIT /B
+
+:: Start Jupyter Lab
+:jupyter
+    :jupyter
+    ENDLOCAL & CALL conda activate ./env && jupyter lab --ip=0.0.0.0 --allow-root --no-browser --NotebookApp.token=""
+    EXIT /B
 
 :: Make the package for uploading
 :build

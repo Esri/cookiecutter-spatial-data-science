@@ -27,15 +27,15 @@ clean:
 env:
 	conda env create -p ./env -f environment.yml
 	conda run -n $(ENV_NAME) pip install -e .
-	@echo ">>> New conda environment, $(ENV_NAME), created. Activate with:\n- conda activate $(ENV_NAME)"
+	@echo ">>> New conda environment created. Activate with:\n- conda activate -p ./env"
 
 ## Make it easier to clean up the project when finished
 env_remove:
-	conda env remove -n $(ENV_NAME)
+	conda env remove -p ./env
 
 ## Run jupyter without having to explicitly activate the environment
 jupyter:
-	conda run -n $(ENV_NAME) jupyter lab
+	conda run -p ./env jupyter lab
 
 # If working in an EC2 environment, set everything up - BETA FEATURE
 ec2:
