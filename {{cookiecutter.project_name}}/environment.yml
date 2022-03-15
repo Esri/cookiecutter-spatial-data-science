@@ -28,6 +28,7 @@ dependencies:
   - tabulate
   - tqdm
   - pip:
+    - arrow
     - azure-storage-blob
     - boto3
     - bump2version
