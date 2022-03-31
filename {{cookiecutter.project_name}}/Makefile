@@ -6,7 +6,7 @@
 
 PROJECT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 PROJECT_NAME = {{ cookiecutter.project_name }}
-ENV_NAME = {{ cookiecutter.conda_environment_name }}
+ENV_NAME = {{ cookiecutter.support_library }}
 
 #################################################################################
 # COMMANDS                                                                      #
@@ -14,7 +14,7 @@ ENV_NAME = {{ cookiecutter.conda_environment_name }}
 
 ## Make Dataset
 data:
-	conda activate $(ENV_NAME)
+	conda activate -p ./env
 	python src/data/make_dataset.py
 	@echo ">>> Data processed."
 
@@ -26,7 +26,7 @@ clean:
 ## Build the local environment from the environment file
 env:
 	conda env create -p ./env -f environment.yml
-	conda run -n $(ENV_NAME) pip install -e .
+	conda run -p ./env pip install -e .
 	@echo ">>> New conda environment created. Activate with:\n- conda activate -p ./env"
 
 ## Make it easier to clean up the project when finished
@@ -37,7 +37,7 @@ env_remove:
 jupyter:
 	conda run -p ./env jupyter lab
 
-# If working in an EC2 environment, set everything up - BETA FEATURE
+## If working in an EC2 environment, set everything up - BETA FEATURE
 ec2:
 
 	# get install and configure miniconda
@@ -59,13 +59,13 @@ ec2:
 	sed -i '1 i\c.NotebookApp.password = u"sha1:b37cb398255d:3f676cfe9b00e0c485385b435584ae5518bd14a4"' ~/.jupyter/jupyter_notebook_config.py
 	sed -i '1 i\c.NotebookApp.ip = "0.0.0.0"' ~/.jupyter/jupyter_notebook_config.py
 
-# create a new kernel
+## create a new kernel
 create_kernel:
-	conda run -n $(ENV_NAME) python -m ipykernel install --user --name $(ENV_NAME) --display-name "$(PROJECT_NAME)"
+	conda run -p ./env python -m ipykernel install --user --name $(ENV_NAME) --display-name "$(PROJECT_NAME)"
 
 ## Run all tests in module
 test:
-	conda run -n $(ENV_NAME) python -m pytest
+	conda run -p ./env python -m pytest
 
 #################################################################################
 # PROJECT RULES                                                                 #

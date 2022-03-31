@@ -27,7 +27,6 @@ SETLOCAL
 SET PROJECT_DIR=%cd%
 SET PROJECT_NAME={{ cookiecutter.project_name }}
 SET SUPPORT_LIBRARY = {{ cookiecutter.support_library }}
-SET ENV_NAME={{ cookiecutter.conda_environment_name }}
 
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 :: COMMANDS                                                                     :
@@ -54,7 +53,7 @@ GOTO %1
 :: Create the Reveal.js slides from all the notebooks
 :slides
     ENDLOCAL & (
-        CAll python src/ck_tools/create_reveal_slides.py
+        CAll conda run -p ./env python src/ck_tools/create_reveal_slides.py
     )
     EXIT /B
 

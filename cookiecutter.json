@@ -4,7 +4,6 @@
     "description": "A short description of the project.",
     "repo_name": "{{ cookiecutter.project_name.lower().replace(' ', '-') }}",
 	"support_library": "{{ cookiecutter.project_name.lower().replace(' ', '_').replace('-', '_') }}",
-    "conda_environment_name": "{{ cookiecutter.project_name }}",
     "esri_cloud_gis_url": "https://arcgis.com",
     "esri_cloud_gis_username": "",
     "esri_cloud_gis_password": "",
