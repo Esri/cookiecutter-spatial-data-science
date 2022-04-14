@@ -1,4 +1,4 @@
-name: {{ cookiecutter.project_name.lower().replace(' ', '-').replace('_', '-') }}
+name: {{ cookiecutter.support_library }}
 
 channels:
   - esri
@@ -19,7 +19,6 @@ dependencies:
   - python=3.7
   - python-dotenv
   - pyarrow
-  - pytest
   - pyyaml
   - scipy
   - scikit-learn
@@ -29,6 +28,7 @@ dependencies:
   - tabulate
   - tqdm
   - pip:
+    - arrow
     - azure-storage-blob
     - boto3
     - bump2version
@@ -37,6 +37,7 @@ dependencies:
     - placekey
     - sphinx
     - sphinx-autodoc-typehints
+    - sphinx-copybutton
     - tox
     - tox-conda
     - twine
