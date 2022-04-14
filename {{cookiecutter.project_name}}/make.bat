@@ -91,7 +91,6 @@ GOTO %1
 
 :: Start Jupyter Lab
 :jupyter
-    :jupyter
     ENDLOCAL & CALL conda activate ./env && jupyter lab --ip=0.0.0.0 --allow-root --no-browser --NotebookApp.token=""
     EXIT /B
 
