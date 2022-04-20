@@ -16,7 +16,7 @@ dependencies:
   - nodejs
   - pip
   - pytest
-  - python=3.7
+  - python=3.9
   - python-dotenv
   - pyarrow
   - pyyaml
@@ -28,7 +28,6 @@ dependencies:
   - tabulate
   - tqdm
   - pip:
-    - arrow
     - azure-storage-blob
     - boto3
     - bump2version

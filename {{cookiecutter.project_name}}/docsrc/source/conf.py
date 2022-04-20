@@ -210,7 +210,7 @@ html_static_path = ['_static']
 html_file_suffix = '.htm'
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = f'{{cookiecutter.repo_name}}_doc'
+htmlhelp_basename = f'{{ cookiecutter.support_library }}_doc'
 
 # For NBSphinx, since the sys.path additions stop conversion, ignore errors
 nbsphinx_allow_errors = True

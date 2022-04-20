@@ -128,10 +128,4 @@ if __name__ == '__main__':
     else:  # *nix
         os.system(f'cd {prj_pth_str} && {git_init_cmd}')
 
-    {% if cookiecutter.create_conda_environment == 'yes' %}
-    if os.name == 'nt':  # Windows
-        os.system(f'{prj_pth_str}/make env')
-    else:  # *nix
-        os.system(f'make -D {prj_pth_str} env')
-    {% endif %}
 
