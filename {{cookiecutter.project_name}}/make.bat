@@ -46,7 +46,7 @@ GOTO %1
 :: Make documentation using Sphinx!
 :docs
     ENDLOCAL & (
-        CALL docsrc/make.bat github
+        CALL conda run -p ./env sphinx-build -a -b html docsrc docs
     )
 	EXIT /B
 

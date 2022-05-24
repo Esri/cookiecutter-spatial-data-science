@@ -23,6 +23,11 @@ clean:
 	find . -type f -name "*.py[co]" -delete
 	find . -type d -name "__pycache__" -delete
 
+## Build the docs
+docs:
+	conda run -p ./env sphinx-build -a -b html docsrc/source docs
+	@echo ">>> Documents successfully built and saved to ./docs!"
+
 ## Build the local environment from the environment file
 env:
 	conda env create -p ./env -f environment.yml

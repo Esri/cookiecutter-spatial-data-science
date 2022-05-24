@@ -34,7 +34,7 @@ author = '{{cookiecutter.author_name}}'
 release = '0.0.0'
 
 # -- Copying notebooks for inclusion -----------------------------------------
-prj_dir = os.path.abspath('../../')
+prj_dir = os.path.abspath('../')
 
 def all_but_ipynb(dir, contents):
     result = []
@@ -43,10 +43,10 @@ def all_but_ipynb(dir, contents):
             result += [c]
     return result
 
-shutil.rmtree(os.path.join(prj_dir, "docsrc", "source", "notebooks"), ignore_errors=True)
+shutil.rmtree(os.path.join(prj_dir, "docsrc", "notebooks"), ignore_errors=True)
 shutil.copytree(
     os.path.join(prj_dir, "notebooks"),
-    os.path.join(prj_dir, "docsrc", "source", "notebooks"),
+    os.path.join(prj_dir, "docsrc", "notebooks"),
     ignore=all_but_ipynb
 )
 
