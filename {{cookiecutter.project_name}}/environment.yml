@@ -10,7 +10,9 @@ dependencies:
   - cookiecutter
   - dask
   - h3-py
+  - isort
   - jupyterlab
+  - jupyterlab_code_formatter
   - mkdocs
   - munch
   - nodejs
