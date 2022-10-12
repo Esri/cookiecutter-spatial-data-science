@@ -33,6 +33,7 @@ dependencies:
     - azure-storage-blob
     - boto3
     - bump2version
+    - furo
     - ipykernel
     - nbsphinx
     - placekey
