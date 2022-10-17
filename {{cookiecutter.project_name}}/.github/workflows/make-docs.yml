@@ -1,0 +1,91 @@
+name: Make Sphinx Docs
+
+on:
+
+  # when any pushes are made to any branch with changes to the source, notebooks or docs directory
+  push:
+    branches:
+      - main
+    paths:
+      - "src/**/*.py"
+      - "notebooks/**/*.ipynb"
+      - "docs/**/*"
+      - ".github/workflows/**/*"
+
+  # test workflow as well...
+  workflow_dispatch:
+
+# allow one concurrent deployment
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+
+  build:
+
+    # run on linux since simpliest enviroment and no operating system dependencies are required
+    runs-on: ubuntu-latest
+
+    steps:
+
+    # get the repo contents
+    - uses: actions/checkout@v2
+
+    # install pandoc so nbsphinx will work
+    - name: Install PanDoc
+      run: "sudo apt-get install pandoc"
+
+    # install miniconda so can install pandoc using conda
+    - name: Install Miniconda
+      run: |
+        wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+        chmod +x Miniconda3-latest-Linux-x86_64.sh
+        ./Miniconda3-latest-Linux-x86_64.sh -b
+        conda update -n base -c defaults conda
+
+    # create and activate the conda environment
+    - name: Create Conda Environment
+      run: conda create -n sphinx python=3.9
+
+    # install python packages
+    - name: Install Python Packages
+      run: |
+        conda run -n sphinx conda install -c conda-forge pandoc ipython jinja2 -y
+        conda run -n sphinx pip install furo nbsphinx sphinx-autodoc-typehints sphinx-copybutton sphinxcontrib-youtube
+        conda run -n sphinx pip install .
+
+    # build docs
+    - name: Build Sphinx Documentation
+      run: conda run -n sphinx sphinx-build -a -b html docsrc docs
+
+    # ensure pages configured correctly
+    - uses: actions/configure-pages@v2
+      
+    # upload docs directory
+    - uses: actions/upload-pages-artifact@v1
+      with:
+        # Upload contents of docs directory
+        path: "docs"
+
+  deploy:
+
+    # wait for build before running
+    needs: build
+
+    # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
+    permissions:
+      pages: write      # to deploy to Pages
+      id-token: write   # to verify the deployment originates from an appropriate source
+
+    # Deploy to the github-pages environment
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    # Specify runner + deployment step
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v1
