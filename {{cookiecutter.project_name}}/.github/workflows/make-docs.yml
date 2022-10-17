@@ -30,7 +30,7 @@ jobs:
     steps:
 
     # get the repo contents
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
 
     # install pandoc so nbsphinx will work
     - name: Install PanDoc
