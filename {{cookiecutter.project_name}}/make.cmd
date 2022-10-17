@@ -27,6 +27,7 @@ SETLOCAL
 SET PROJECT_DIR=%cd%
 SET PROJECT_NAME={{ cookiecutter.project_name }}
 SET SUPPORT_LIBRARY = {{ cookiecutter.support_library }}
+SET CONDA_DIR="%~dp0env"
 
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 :: COMMANDS                                                                     :
@@ -37,95 +38,80 @@ GOTO %1
 
 :: Perform data preprocessing steps contained in the make_data.py script.
 :data
-    ENDLOCAL & (
-        CALL python src/make_data.py
-        ECHO ^>^>^> Data processed.
-    )
-    EXIT /B
+    CALL python src/make_data.py
+    GOTO end
 
 :: Make documentation using Sphinx!
 :docs
-    ENDLOCAL & (
-        CALL conda run -p ./env sphinx-build -a -b html docsrc docs
-    )
-	EXIT /B
+    CALL conda run -p %CONDA_DIR% sphinx-build -a -b html docsrc docs
+    GOTO end
 
 :: Create the Reveal.js slides from all the notebooks
 :slides
-    ENDLOCAL & (
-        CAll conda run -p ./env python src/ck_tools/create_reveal_slides.py
-    )
-    EXIT /B
+    CAll conda run -p %CONDA_DIR% python src/ck_tools/create_reveal_slides.py
+    GOTO end
 
 :: Build the local environment from the environment file
 :env
-    ENDLOCAL & (
+    :: Create new environment from environment file
+    CALL conda create -p %CONDA_DIR% --clone "C:\Program Files\ArcGIS\Pro\bin\Python\envs\arcgispro-py3"
+    GOTO add_dependencies
 
-        :: Create new environment from environment file
-        CALL conda create --p ./env --clone "C:\Program Files\ArcGIS\Pro\bin\Python\envs\arcgispro-py3"
+:: Add python dependencies from environment.yml to the project environment
+:add_dependencies
+        
+    :: Add more fun stuff from environment file
+    CALL conda env update -p %CONDA_DIR% -f environment.yml
 
-        :: Add more fun stuff from environment file
-        CALL conda env update -p ./env -f environment.yml
+    :: Install the local package in development (experimental) mode
+    CALL conda run -p %CONDA_DIR% python -m pip install -e .
 
-        :: Activate the environment
-        CALL activate ./env
-
-        :: Install the local package in development (experimental) mode
-        CALL python -m pip install -e .
-
-    )
-    EXIT /B
+    :: Activate the environment
+    GOTO activate_env
 
 :: Activate the environment
-:env_activate
-    ENDLOCAL & CALL activate ./env
-    EXIT /B
+:activate_env
+    ENDLOCAL & CALL activate %CONDA_DIR%
+    GOTO end
 
 :: Remove the environment
-:env_remove
-	ENDLOCAL & (
-		CALL conda deactivate
-		CALL conda env remove -p ./env -y
-	)
-	EXIT /B
+:remove_env
+    CALL conda deactivate
+    CALL conda env remove -p %CONDA_DIR% -y
+	GOTO end
 
 :: Start Jupyter Lab
 :jupyter
-    ENDLOCAL & CALL conda activate ./env && jupyter lab --ip=0.0.0.0 --allow-root --no-browser --NotebookApp.token=""
-    EXIT /B
+    CALL conda run -p %CONDA_DIR% jupyter lab --ip=0.0.0.0 --allow-root --NotebookApp.token=""
+    GOTO end
 
 :: Make the package for uploading
 :build
-    ENDLOCAL & (
 
-        :: Build the pip package
-        CALL python setup.py sdist
+    :: Build the pip package
+    CALL python setup.py sdist
 
-        :: Build conda package
-        CALL conda build ./conda-recipe --output-folder ./conda-recipe/conda-build
+    :: Build conda package
+    CALL conda build ./conda-recipe --output-folder ./conda-recipe/conda-build
 
-    )
-    EXIT /B
+    GOTO end
 
 :build_upload
-    ENDLOCAL & (
 
-        :: Build the pip package
-        CALL python setup.py sdist bdist_wheel
-        CALL twine upload ./dist/*
+    :: Build the pip package
+    CALL python setup.py sdist bdist_wheel
+    CALL twine upload ./dist/*
 
-        :: Build conda package
-        CALL conda build ./conda-recipe --output-folder ./conda-recipe/conda-build
-        CALL anaconda upload ./conda-recipe/conda-build/win-64/{{ cookiecutter.project_name }}*.tar.bz2
+    :: Build conda package
+    CALL conda build ./conda-recipe --output-folder ./conda-recipe/conda-build
+    CALL anaconda upload ./conda-recipe/conda-build/win-64/{{ cookiecutter.project_name }}*.tar.bz2
 
-    )
-    EXIT /B
+    GOTO end
 
 :: Run all tests in module
 :test
-	ENDLOCAL & (
-		pytest testing/
-	)
-	EXIT /B
+	CALL conda run -p %CONDA_DIR% pytest "%~dp0testing"
+	GOTO end
 
-EXIT /B
+:end
+    EXIT /B

@@ -27,7 +27,7 @@ sys.path.insert(0, os.path.abspath('../../src'))
 # -- Project information -----------------------------------------------------
 
 project = '{{cookiecutter.project_name}}'
-copyright = '2021, {{cookiecutter.author_name}}'
+copyright = '2022, {{cookiecutter.author_name}}'
 author = '{{cookiecutter.author_name}}'
 
 # The full version, including alpha/beta/rc tags
@@ -135,14 +135,30 @@ pygments_style = 'sphinx'
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
-html_theme = 'alabaster'
+html_theme = 'furo'
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
 # documentation.
 html_theme_options = {
-    'page_width': '70%',
-    'fixed_sidebar': True
+    "light_css_variables": {
+        "color-api-name": "blue",
+        "color-api-pre-name": "blue"
+    },
+    "dark_css_variables": {
+        "color-api-name": "#00b0ff",
+        "color-api-pre-name": "#00b0ff"
+    },
+    "sidebar_hide_name": False,
+    "navigation_with_keys": False,
+    "top_of_page_button": "edit",
+    # "light_logo": "logolight.png",
+    # "dark_logo": "logodark.png",
+}
+
+autodoc_default_options = {
+    'autosummary': True,
+    'autosummary-no-titles': True
 }
 
 # Add any paths that contain custom themes here, relative to this directory.
@@ -168,6 +184,7 @@ html_theme_options = {
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
+html_css_files = ['overrides.css']
 
 # If not '', a 'Last updated on:' timestamp is inserted at every page bottom,
 # using the given strftime format.
@@ -215,3 +232,9 @@ htmlhelp_basename = f'{{ cookiecutter.support_library }}_doc'
 
 # For NBSphinx, since the sys.path additions stop conversion, ignore errors
 nbsphinx_allow_errors = True
+
+# include __init__ docstrings for class description
+autoclass_content = 'both'
+
+# enable building of docs on instances without arcpy (on a Mac when building docs)
+autodoc_mock_imports = ["arcpy"]
