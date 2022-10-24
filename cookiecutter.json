@@ -6,5 +6,8 @@
     "esri_web_gis_url": "https://arcgis.com",
     "esri_web_gis_username": "",
     "esri_web_gis_password": "",
-    "open_source_license": ["Apache 2.0", "MIT", "BSD-3-Clause", "No license file"]
+    "open_source_license": ["Apache 2.0", "MIT", "BSD-3-Clause", "No license file"],
+    "_copy_without_render": [
+        ".github/workflows/make-docs.yml"
+    ]
 }
