@@ -237,4 +237,4 @@ nbsphinx_allow_errors = True
 autoclass_content = 'both'
 
 # enable building of docs on instances without arcpy (on a Mac when building docs)
-autodoc_mock_imports = ["arcpy"]
+autodoc_mock_imports = ["arcpy", "arcgis"]
