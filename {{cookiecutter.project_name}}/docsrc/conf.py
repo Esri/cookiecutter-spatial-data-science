@@ -238,3 +238,6 @@ autoclass_content = 'both'
 
 # enable building of docs on instances without arcpy (on a Mac when building docs)
 autodoc_mock_imports = ["arcpy", "arcgis"]
+
+# prevent nbsphinx from trying to run unrun notebook cells
+nbsphinx_execute = 'never'
