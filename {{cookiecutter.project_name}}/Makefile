@@ -25,7 +25,7 @@ clean:
 
 ## Build the docs
 docs:
-	conda run -p ./env sphinx-build -a -b html docsrc/source docs
+	conda run -p ./env sphinx-build -a -b html docsrc docs
 	@echo ">>> Documents successfully built and saved to ./docs!"
 
 ## Build the local environment from the environment file

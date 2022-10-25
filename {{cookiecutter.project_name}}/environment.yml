@@ -16,6 +16,7 @@ dependencies:
   - mkdocs
   - munch
   - nodejs
+  - pandoc
   - pip
   - pytest
   - python=3.9
@@ -30,6 +31,7 @@ dependencies:
   - tabulate
   - tqdm
   - pip:
+    - autodocsumm
     - azure-storage-blob
     - boto3
     - bump2version
@@ -38,6 +40,7 @@ dependencies:
     - nbsphinx
     - placekey
     - sphinx
+    - sphinxcontrib-youtube
     - sphinx-autodoc-typehints
     - sphinx-copybutton
     - tox
