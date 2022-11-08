@@ -10,6 +10,7 @@ on:
       - "src/**/*.py"
       - "notebooks/**/*.ipynb"
       - "docs/**/*"
+      - "docsrc/**/*"
       - ".github/workflows/**/*"
 
   # test workflow as well...
