@@ -46,3 +46,4 @@ dependencies:
     - tox
     - tox-conda
     - twine
+    - git+https://github.com/dsc/bunch
