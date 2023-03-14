@@ -9,7 +9,6 @@ on:
     paths:
       - "src/**/*.py"
       - "notebooks/**/*.ipynb"
-      - "docs/**/*"
       - "docsrc/**/*"
       - ".github/workflows/**/*"
 
@@ -25,7 +24,7 @@ jobs:
 
   build:
 
-    # run on linux since simpliest enviroment and no operating system dependencies are required
+    # run on linux since simplest environment and no operating system dependencies are required
     runs-on: ubuntu-latest
 
     steps:
@@ -36,6 +35,10 @@ jobs:
     # install pandoc so nbsphinx will work
     - name: Install PanDoc
       run: "sudo apt-get install pandoc"
+
+    # install krb5-config so it is available when building the environment
+    - name: Install libkrb5-dev
+      run: "sudo apt-get install libkrb5-dev"
 
     # install miniconda so can install pandoc using conda
     - name: Install Miniconda
@@ -53,7 +56,7 @@ jobs:
     - name: Install Python Packages
       run: |
         conda run -n sphinx conda install -c conda-forge pandoc ipython jinja2 -y
-        conda run -n sphinx pip install furo nbsphinx sphinx-autodoc-typehints sphinx-copybutton sphinxcontrib-youtube
+        conda run -n sphinx pip install furo nbsphinx sphinx-autodoc-typehints sphinx-copybutton sphinxcontrib-youtube autodocsumm
         conda run -n sphinx pip install .
 
     # build docs
@@ -62,7 +65,7 @@ jobs:
 
     # ensure pages configured correctly
     - uses: actions/configure-pages@v2
-      
+
     # upload docs directory
     - uses: actions/upload-pages-artifact@v1
       with:
