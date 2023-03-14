@@ -34,6 +34,7 @@ dependencies:
     - autodocsumm
     - azure-storage-blob
     - boto3
+    - build
     - bump2version
     - furo
     - ipykernel

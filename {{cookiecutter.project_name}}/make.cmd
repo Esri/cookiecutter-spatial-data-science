@@ -86,25 +86,10 @@ GOTO %1
     GOTO end
 
 :: Make the package for uploading
-:build
+:wheel
 
     :: Build the pip package
-    CALL python setup.py sdist
-
-    :: Build conda package
-    CALL conda build ./conda-recipe --output-folder ./conda-recipe/conda-build
-
-    GOTO end
-
-:build_upload
-
-    :: Build the pip package
-    CALL python setup.py sdist bdist_wheel
-    CALL twine upload ./dist/*
-
-    :: Build conda package
-    CALL conda build ./conda-recipe --output-folder ./conda-recipe/conda-build
-    CALL anaconda upload ./conda-recipe/conda-build/win-64/{{ cookiecutter.project_name }}*.tar.bz2
+    CALL conda run -p %CONDA_DIR% python -m build --wheel
 
     GOTO end
 

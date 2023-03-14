@@ -1,0 +1,46 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = '{{ cookiecutter.project_name }}'
+version = "0.0.0"
+authors = [
+  { name="{{ cookiecutter.author_name }}"},
+]
+description = "{{ cookiecutter.description }}"
+readme = "README.md"
+requires-python = ">=3.6, <=3.10"
+classifiers = [
+    "Programming Language :: Python :: 3",
+]
+license = {file = "LICENSE"}
+dependencies = [
+    "arcgis>=2.0.1",
+    "azure-storage-file",
+    "boto3",
+    "h3",
+    "numpy>=1.7",
+    "openpyxl",
+    "pandas>=1.0.5",
+    "pyarrow>=1.0.0"
+]
+
+[project.optional-dependencies]
+dev = [
+    "bump2version",
+    "jupyterlab",
+    "nodejs",
+    "pytest",
+    "build"
+]
+docs = [
+    "autodocsumm",
+    "nbsphinx",
+    "furo",
+    "sphinx",
+    "sphinx-autobuild",
+    "sphinx-autodoc-typehints",
+    "sphinx-copybutton",
+    "sphinxcontrib-youtube"
+]
