@@ -119,7 +119,7 @@ if __name__ == '__main__':
         shutil.rmtree(dir_arcgis_pth)
 
     # rename the configuration file
-    env_pth.rename(dir_prj/'.env')
+    # env_pth.rename(dir_prj/'.env')
     config_pth.rname(dir_prj/'config.ini')
 
     # initialize git
