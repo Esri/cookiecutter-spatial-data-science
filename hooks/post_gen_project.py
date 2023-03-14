@@ -107,6 +107,7 @@ if __name__ == '__main__':
     dir_data_pth = dir_prj/'data'
     dir_arcgis_pth = dir_prj/'arcgis'
     env_pth = dir_prj/'env'
+    config_pth = dir_prj/'config_template.ini'
 
     # ensure the data directories and geodatabases are all set up
     setup_data(dir_data_pth)
@@ -117,8 +118,9 @@ if __name__ == '__main__':
     else:
         shutil.rmtree(dir_arcgis_pth)
 
-    # rename the env file
+    # rename the configuration file
     env_pth.rename(dir_prj/'.env')
+    config_pth.rname(dir_prj/'config.ini')
 
     # initialize git
     prj_pth_str = str(dir_prj.absolute())
