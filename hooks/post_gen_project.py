@@ -120,7 +120,7 @@ if __name__ == '__main__':
 
     # rename the configuration file
     # env_pth.rename(dir_prj/'.env')
-    config_pth.rname(dir_prj/'config.ini')
+    config_pth.rename(dir_prj/'config.ini')
 
     # initialize git
     prj_pth_str = str(dir_prj.absolute())
