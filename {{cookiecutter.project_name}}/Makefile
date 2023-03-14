@@ -1,4 +1,4 @@
-.PHONY: data clean env_create env_export env_activate env_build test create_kernel
+.PHONY: data clean docs env env_remove jupyter env_build create_kernel test black
 
 #################################################################################
 # GLOBALS                                                                       #
@@ -6,7 +6,7 @@
 
 PROJECT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 PROJECT_NAME = {{ cookiecutter.project_name }}
-ENV_NAME = {{ cookiecutter.support_library }}
+ENV = $(PROJECT_DIR)/env
 
 #################################################################################
 # COMMANDS                                                                      #
@@ -14,9 +14,7 @@ ENV_NAME = {{ cookiecutter.support_library }}
 
 ## Make Dataset
 data:
-	conda activate -p ./env
-	python src/data/make_dataset.py
-	@echo ">>> Data processed."
+	conda run -p $(ENV) python scripts/make_data.py
 
 ## Delete all compiled Python files
 clean:
@@ -25,22 +23,22 @@ clean:
 
 ## Build the docs
 docs:
-	conda run -p ./env sphinx-build -a -b html docsrc docs
+	conda run -p $(ENV) sphinx-build -a -b html docsrc docs
 	@echo ">>> Documents successfully built and saved to ./docs!"
 
 ## Build the local environment from the environment file
 env:
-	conda env create -p ./env -f environment.yml
-	conda run -p ./env pip install -e .
-	@echo ">>> New conda environment created. Activate with:\n- conda activate -p ./env"
+	conda env create -p $(ENV) -f environment.yml
+	conda run -p $(ENV) pip install -e .
+	@echo ">>> New conda environment created. Activate with:\n- conda activate -p $(ENV)"
 
 ## Make it easier to clean up the project when finished
 env_remove:
-	conda env remove -p ./env
+	conda env remove -p $(ENV)
 
 ## Run jupyter without having to explicitly activate the environment
 jupyter:
-	conda run -p ./env jupyter lab
+	conda run -p $(ENV) jupyter lab
 
 ## If working in an EC2 environment, set everything up - BETA FEATURE
 ec2:
@@ -66,11 +64,15 @@ ec2:
 
 ## create a new kernel
 create_kernel:
-	conda run -p ./env python -m ipykernel install --user --name $(ENV_NAME) --display-name "$(PROJECT_NAME)"
+	conda run -p $(ENV) python -m ipykernel install --user --name $(ENV_NAME) --display-name "$(PROJECT_NAME)"
 
 ## Run all tests in module
 test:
-	conda run -p ./env python -m pytest
+	conda run -p $(ENV) python -m pytest
+
+## Black formatting
+black:
+	conda run -p $(ENV) python -m black /src
 
 #################################################################################
 # PROJECT RULES                                                                 #

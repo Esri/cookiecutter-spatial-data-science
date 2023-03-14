@@ -98,5 +98,13 @@ GOTO %1
 	CALL conda run -p %CONDA_DIR% pytest "%~dp0testing"
 	GOTO end
 
+:: black formatting
+:black
+    CALL conda run -p %CONDA_dIR% black src/ --verbose
+    GOTO end
+
+:linter
+    GOTO black
+
 :end
     EXIT /B

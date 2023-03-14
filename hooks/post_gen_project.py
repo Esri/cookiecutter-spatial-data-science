@@ -54,10 +54,10 @@ def setup_data(data_pth: Path) -> Path:
             arcpy.management.CreateFileGDB(str(dir_pth), f'{data_name}.gdb')
 
             # do the same thing for a mobile geodatabase, a sqlite database
-            gdb_pth = dir_pth / f'{data_name}.geodatabase'
-            if gdb_pth.exists():
-                gdb_pth.unlink()
-            arcpy.management.CreateMobileGDB(str(dir_pth), f'{data_name}.geodatabase')
+            # gdb_pth = dir_pth / f'{data_name}.geodatabase'
+            # if gdb_pth.exists():
+            #     gdb_pth.unlink()
+            # arcpy.management.CreateMobileGDB(str(dir_pth), f'{data_name}.geodatabase')
 
     return data_pth
 
