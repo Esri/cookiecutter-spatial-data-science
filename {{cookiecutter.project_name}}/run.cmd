@@ -7,12 +7,12 @@ GOTO %1
 
 :: jupyter lab
 :jupyter
-    CALL conda run -p %CONDA_DIR% jupyter lab --ip=0.0.0.0 --allow-root --NotebookApp.token=""
+    CALL conda run -p %CONDA_DIR% python -m jupyterlab --ip=0.0.0.0 --allow-root --NotebookApp.token=""
     GOTO end
 
 :: black formatting
 :black
-    CALL conda run -p %CONDA_dIR% black src/ --verbose
+    CALL conda run -p %CONDA_DIR% black src/ --verbose
     GOTO end
 
 :linter
