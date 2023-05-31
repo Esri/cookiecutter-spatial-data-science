@@ -18,5 +18,24 @@ permissions and limitations under the License.
 A copy of the license is available in the repository's
 LICENSE file.
 """
+import pkgutil
 
+# if the project package is not installed in the environment
+if pkgutil.find_loader('{{cookiecutter.support_library}}') is None:
+    
+    # late imports for finding the package relative to the script
+    from pathlib import Path
+    import sys
+    
+    # get the relative path to where the source directory is located
+    src_dir = Path(__file__).parent.parent / 'src'
+
+    # throw an error if the source directory cannot be located
+    if not src_dir.exists():
+        raise EnvironmentError('Unable to import {{cookiecutter.support_library}}.')
+
+    # add the source directory to the paths searched when importing
+    sys.path.insert(0, str(src_dir))
+
+# import the project package
 import {{cookiecutter.support_library}}
