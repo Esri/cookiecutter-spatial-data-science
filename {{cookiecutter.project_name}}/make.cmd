@@ -47,9 +47,9 @@ GOTO %1
     GOTO end
 
 :: Create the Reveal.js slides from all the notebooks
-:slides
-    CAll conda run -p %CONDA_DIR% python src/ck_tools/create_reveal_slides.py
-    GOTO end
+:::slides
+::    CAll conda run -p %CONDA_DIR% python src/ck_tools/create_reveal_slides.py
+::    GOTO end
 
 :: Build the local environment from the environment file
 :env
