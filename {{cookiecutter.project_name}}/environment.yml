@@ -13,14 +13,11 @@ dependencies:
   - isort
   - jupyterlab
   - jupyterlab_code_formatter
-  - mkdocs
-  - munch
   - nodejs
   - pandoc
   - pip
   - pytest
   - python=3.9
-  - python-dotenv
   - pyarrow
   - pyyaml
   - scipy
@@ -47,4 +44,3 @@ dependencies:
     - tox
     - tox-conda
     - twine
-    - git+https://github.com/dsc/bunch

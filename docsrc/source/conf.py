@@ -31,7 +31,7 @@ copyright = '2021, Esri'
 author = 'Joel McCune'
 
 # The full version, including alpha/beta/rc tags
-release = '0.1.1'
+release = '2.1.0'
 
 # -- General configuration -----------------------------------------------------
 

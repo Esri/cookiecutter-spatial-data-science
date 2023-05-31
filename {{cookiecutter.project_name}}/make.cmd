@@ -47,9 +47,9 @@ GOTO %1
     GOTO end
 
 :: Create the Reveal.js slides from all the notebooks
-:slides
-    CAll conda run -p %CONDA_DIR% python src/ck_tools/create_reveal_slides.py
-    GOTO end
+:::slides
+::    CAll conda run -p %CONDA_DIR% python src/ck_tools/create_reveal_slides.py
+::    GOTO end
 
 :: Build the local environment from the environment file
 :env
@@ -82,7 +82,7 @@ GOTO %1
 
 :: Start Jupyter Lab
 :jupyter
-    CALL conda run -p %CONDA_DIR% jupyter lab --ip=0.0.0.0 --allow-root --NotebookApp.token=""
+    CALL conda run -p %CONDA_DIR% python -m jupyterlab --ip=0.0.0.0 --allow-root --NotebookApp.token=""
     GOTO end
 
 :: Make the package for uploading
@@ -97,6 +97,14 @@ GOTO %1
 :test
 	CALL conda run -p %CONDA_DIR% pytest "%~dp0testing"
 	GOTO end
+
+:: black formatting
+:black
+    CALL conda run -p %CONDA_dIR% black src/ --verbose
+    GOTO end
+
+:linter
+    GOTO black
 
 :end
     EXIT /B

@@ -27,7 +27,7 @@ sys.path.insert(0, os.path.abspath('../../src'))
 # -- Project information -----------------------------------------------------
 
 project = '{{cookiecutter.project_name}}'
-copyright = '2022, {{cookiecutter.author_name}}'
+copyright = '2023, {{cookiecutter.author_name}}'
 author = '{{cookiecutter.author_name}}'
 
 # The full version, including alpha/beta/rc tags
@@ -236,8 +236,8 @@ nbsphinx_allow_errors = True
 # include __init__ docstrings for class description
 autoclass_content = 'both'
 
-# enable building of docs on instances without arcpy (on a Mac when building docs)
-autodoc_mock_imports = ["arcpy", "arcgis"]
+# enable building of docs on instances without needing to install dependencies
+autodoc_mock_imports = ["arcpy", "arcgis", "pandas"]
 
 # prevent nbsphinx from trying to run unrun notebook cells
 nbsphinx_execute = 'never'
