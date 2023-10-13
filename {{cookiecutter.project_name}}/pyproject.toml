@@ -53,3 +53,7 @@ docs = [
     "sphinx-copybutton",
     "sphinxcontrib-youtube"
 ]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["{{ cookiecutter.support_library }}"]
