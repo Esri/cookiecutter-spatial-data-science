@@ -59,7 +59,7 @@ docsrc/build/
 target/
 
 # configuration file
-config.ini
+./config.ini
 .env
 
 # Database
