@@ -237,7 +237,7 @@ nbsphinx_allow_errors = True
 autoclass_content = 'both'
 
 # enable building of docs on instances without needing to install dependencies
-autodoc_mock_imports = ["arcpy", "arcgis", "pandas"]
+autodoc_mock_imports = ["arcpy", "arcgis", "pandas", "pyspark"]
 
 # prevent nbsphinx from trying to run unrun notebook cells
 nbsphinx_execute = 'never'

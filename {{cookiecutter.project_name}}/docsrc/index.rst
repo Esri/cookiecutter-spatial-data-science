@@ -39,6 +39,14 @@ project located in ``./src/{{cookiecutter.support_library}}``.
 .. automodule:: {{cookiecutter.support_library}}
     :members:
 
+{{cookiecutter.support_library}}.utils
+-----------------------------------------------------------
+
+These utilities are included by default to speed up the development process.
+
+.. automodule:: {{cookiecutter.support_library}}.utils
+    :members:
+
 Indices and tables
 ==================
 
