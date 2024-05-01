@@ -61,6 +61,8 @@ GOTO %1
     :: Install the local package in development (experimental) mode
     CALL conda run -p %CONDA_DIR% python -m pip install -e .
 
+    GOTO end
+
 :: Remove the environment
 :remove_env
     CALL conda deactivate
