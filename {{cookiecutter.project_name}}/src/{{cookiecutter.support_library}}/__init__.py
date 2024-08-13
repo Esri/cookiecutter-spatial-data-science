@@ -4,15 +4,15 @@ __author__ = '{{ cookiecutter.author_name }}'
 __license__ = '{{ cookiecutter.open_source_license }}'
 __copyright__ = 'Copyright 2023 by {{ cookiecutter.author_name }}'
 
-__all__ = ['example_function', 'ExampleObject']
-
-# add specific imports below if you want to organize your code into modules, which is mostly what I do
-## from . import utils
+__all__ = ['example_function', 'ExampleObject', 'utils']
 
 from typing import Union
 from pathlib import Path
 
 import pandas as pd
+
+# add specific imports below if you want to organize your code into modules, which is mostly what I do
+from . import utils
 
 
 def example_function(in_path: Union[str, Path]) -> pd.DataFrame:

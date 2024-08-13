@@ -38,18 +38,13 @@ GOTO %1
 
 :: Perform data preprocessing steps contained in the make_data.py script.
 :data
-    CALL python src/make_data.py
+    CALL conda run -p %CONDA_DIR% python src/make_data.py
     GOTO end
 
 :: Make documentation using Sphinx!
 :docs
     CALL conda run -p %CONDA_DIR% sphinx-build -a -b html docsrc docs
     GOTO end
-
-:: Create the Reveal.js slides from all the notebooks
-:::slides
-::    CAll conda run -p %CONDA_DIR% python src/ck_tools/create_reveal_slides.py
-::    GOTO end
 
 :: Build the local environment from the environment file
 :env
@@ -66,12 +61,6 @@ GOTO %1
     :: Install the local package in development (experimental) mode
     CALL conda run -p %CONDA_DIR% python -m pip install -e .
 
-    :: Activate the environment
-    GOTO activate_env
-
-:: Activate the environment
-:activate_env
-    ENDLOCAL & CALL activate %CONDA_DIR%
     GOTO end
 
 :: Remove the environment
@@ -80,7 +69,7 @@ GOTO %1
     CALL conda env remove -p %CONDA_DIR% -y
 	GOTO end
 
-:: Start Jupyter Lab
+:: Start Jupyter Label
 :jupyter
     CALL conda run -p %CONDA_DIR% python -m jupyterlab --ip=0.0.0.0 --allow-root --NotebookApp.token=""
     GOTO end
@@ -102,6 +91,9 @@ GOTO %1
 :black
     CALL conda run -p %CONDA_dIR% black src/ --verbose
     GOTO end
+
+:lint
+    GOTO black
 
 :linter
     GOTO black
