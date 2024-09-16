@@ -57,6 +57,9 @@ class ArcpyHandler(logging.Handler):
         # run through the formatter to honor logging formatter settings
         msg = self.format(record)
 
+        # late import to avoid issues in non-ArcPy environments
+        import arcpy
+
         # route anything NOTSET (0), DEBUG (10) or INFO (20) through AddMessage
         if record.levelno <= 20:
             arcpy.AddMessage(msg)
@@ -117,22 +120,25 @@ def configure_logging(
         raise ValueError(f'If providing an integer for log_level, it must be one of the following, {log_int_lst}.')
     
     # get default logger and set logging level at the same time
-    logger = logging.basicConfig(level=level)
+    logger = logging.getLogger()
+    logger.setLevel(level=level)
+
+    # clear handlers
+    logger.handlers.clear()
 
     # configure formatting
     log_frmt = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+
+    # make sure at least a stream handler is present
+    ch = logging.StreamHandler()
+    ch.setFormatter(log_frmt)
+    logger.addHandler(ch)
 
     # if in an environment with ArcPy, add handler to bubble logging up to ArcGIS through ArcPy
     if has_arcpy:
         ah = ArcpyHandler()
         ah.setFormatter(log_frmt)
         logger.addHandler(ah)
-
-    # create handler to console if arcpy is not providing status
-    else:
-        ch = logging.StreamHandler()
-        ch.setFormatter(log_frmt)
-        logger.addHandler(ch)
 
     # if a path for the logfile is provided, log results to the file
     if logfile_path is not None:
@@ -146,13 +152,10 @@ def configure_logging(
         fh.setFormatter(log_frmt)
         logger.addHandler(fh)
 
-    # keep logging from bubbling up - keep messages just in these handlers
-    logger.propagate = False
-
     return logger
 
 
-def format_pandas_for_logging(pandas_df: pd.DataFrame, title: str, line_tab_prefix='\t\t') -> None:
+def format_pandas_for_logging(pandas_df: pd.DataFrame, title: str, line_tab_prefix='\t\t') -> str:
     """
     Helper function facilitating outputting a :class:`Pandas DataFrame<pandas.DataFrame>` into a logfile. This function only
         formats the data frame into text for output. It should be used in conjunction with a logging method.
