@@ -17,7 +17,6 @@ dependencies:
   - pandoc
   - pip
   - pytest
-  - python=3.9
   - pyarrow
   - pyyaml
   - scipy
@@ -41,6 +40,4 @@ dependencies:
     - sphinxcontrib-youtube
     - sphinx-autodoc-typehints
     - sphinx-copybutton
-    - tox
-    - tox-conda
     - twine
