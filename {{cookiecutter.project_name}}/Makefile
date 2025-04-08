@@ -1,4 +1,4 @@
-.PHONY: data clean docs env env_remove jupyter env_build create_kernel test black
+.PHONY: data clean docs env jupyter test black
 
 #################################################################################
 # GLOBALS                                                                       #
@@ -14,7 +14,7 @@ ENV = $(PROJECT_DIR)/env
 
 ## Make Dataset
 data:
-	conda run -p $(ENV) python scripts/make_data.py
+	conda run -p "$(ENV)" python scripts/make_data.py
 
 ## Delete all compiled Python files
 clean:
@@ -23,56 +23,26 @@ clean:
 
 ## Build the docs
 docs:
-	conda run -p $(ENV) sphinx-build -a -b html docsrc docs
+	conda run -p "$(ENV)" sphinx-build -a -b html docsrc docs
 	@echo ">>> Documents successfully built and saved to ./docs!"
 
 ## Build the local environment from the environment file
 env:
-	conda env create -p $(ENV) -f environment.yml
-	conda run -p $(ENV) pip install -e .
-	@echo ">>> New conda environment created. Activate with:\n- conda activate -p $(ENV)"
-
-## Make it easier to clean up the project when finished
-env_remove:
-	conda env remove -p $(ENV)
+	conda env create -p "$(ENV)" -f environment.yml
+	conda run -p "$(ENV)" pip install -e .
+	@echo ">>> New conda environment created. Activate with:\n- conda activate -p "$(ENV)""
 
 ## Run jupyter without having to explicitly activate the environment
 jupyter:
-	conda run -p $(ENV) jupyter lab
-
-## If working in an EC2 environment, set everything up - BETA FEATURE
-ec2:
-
-	# get install and configure miniconda
-	wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh
-	~/miniconda.sh -b -p $(HOME)/miniconda
-	~/miniconda/bin/conda init
-	sed -i '1 i\export PATH=/home/ubuntu/miniconda/bin:$PATH' ~/.bashrc
-
-	# create and activate the project conda environment
-	~/miniconda/bin/conda env create -f ./environment.yml
-	~/miniconda/bin/conda activate $(ENV_NAME)
-
-	# install the local package
-	python -m pip install -e .
-
-	# configure jupyter for remote access with password "jovyan"
-	jupyter notebook --generate-config
-	sed -i '1 i\c.NotebookApp.port = 8888' ~/.jupyter/jupyter_notebook_config.py
-	sed -i '1 i\c.NotebookApp.password = u"sha1:b37cb398255d:3f676cfe9b00e0c485385b435584ae5518bd14a4"' ~/.jupyter/jupyter_notebook_config.py
-	sed -i '1 i\c.NotebookApp.ip = "0.0.0.0"' ~/.jupyter/jupyter_notebook_config.py
-
-## create a new kernel
-create_kernel:
-	conda run -p $(ENV) python -m ipykernel install --user --name $(ENV_NAME) --display-name "$(PROJECT_NAME)"
+	conda run -p "$(ENV)" jupyter lab
 
 ## Run all tests in module
 test:
-	conda run -p $(ENV) python -m pytest
+	conda run -p "$(ENV)" python -m pytest
 
 ## Black formatting
 black:
-	conda run -p $(ENV) python -m black /src
+	conda run -p "$(ENV)" python -m black /src
 
 #################################################################################
 # PROJECT RULES                                                                 #
