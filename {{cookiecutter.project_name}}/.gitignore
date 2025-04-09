@@ -58,8 +58,8 @@ docsrc/build/
 # PyBuilder
 target/
 
-# configuration file
-./config.ini
+# configuration files
+**/secrets.ini
 .env
 
 # Database

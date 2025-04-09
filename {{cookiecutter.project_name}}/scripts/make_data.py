@@ -21,14 +21,14 @@ LICENSE file.
 from configparser import ConfigParser
 import logging
 from pathlib import Path
-import pkgutil
+import importlib.util
 import sys
 
 # path to the root of the project
 dir_prj = Path(__file__).parent.parent
 
 # if the project package is not installed in the environment
-if pkgutil.find_loader('{{cookiecutter.support_library}}') is None:
+if importlib.util.find_spec('{{cookiecutter.support_library}}') is None:
     
     # get the relative path to where the source directory is located
     src_dir = dir_prj / 'src'

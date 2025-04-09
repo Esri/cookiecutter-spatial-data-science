@@ -107,7 +107,7 @@ if __name__ == '__main__':
     dir_data_pth = dir_prj/'data'
     dir_arcgis_pth = dir_prj/'arcgis'
     env_pth = dir_prj/'env'
-    config_pth = dir_prj/'config_template.ini'
+    config_pth = dir_prj / 'config' / 'secrets_template.ini'
 
     # ensure the data directories and geodatabases are all set up
     setup_data(dir_data_pth)
@@ -120,14 +120,14 @@ if __name__ == '__main__':
 
     # rename the configuration file
     # env_pth.rename(dir_prj/'.env')
-    config_pth.rename(dir_prj/'config.ini')
+    config_pth.rename(dir_prj / 'config' / 'secrets.ini')
 
     # initialize git
     prj_pth_str = str(dir_prj.absolute())
     git_init_cmd = 'git init --initial-branch=main && git add -A && git commit -q -m "initial commit"'
     if os.name == 'nt':  # Windows
-        os.system(f'cd /d {prj_pth_str} && {git_init_cmd}')
+        os.system(f'cd /d "{prj_pth_str}" && {git_init_cmd}')
     else:  # *nix
-        os.system(f'cd {prj_pth_str} && {git_init_cmd}')
+        os.system(f'cd "{prj_pth_str}" && {git_init_cmd}')
 
 

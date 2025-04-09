@@ -38,7 +38,7 @@ GOTO %1
 
 :: Perform data preprocessing steps contained in the make_data.py script.
 :data
-    CALL conda run -p %CONDA_DIR% python src/make_data.py
+    CALL conda run -p %CONDA_DIR% python scripts/make_data.py
     GOTO end
 
 :: Make documentation using Sphinx!
@@ -73,6 +73,10 @@ GOTO %1
 :jupyter
     CALL conda run -p %CONDA_DIR% python -m jupyterlab --ip=0.0.0.0 --allow-root --NotebookApp.token=""
     GOTO end
+
+:: Make *.pyt zipped archive with requirements
+:pyt_pkg
+    CALL conda run -p %CONDA_DIR% python -m scripts/make_pyt_archive.py
 
 :: Make the package for uploading
 :wheel

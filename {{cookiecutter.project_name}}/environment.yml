@@ -17,7 +17,6 @@ dependencies:
   - pandoc
   - pip
   - pytest
-  - python=3.9
   - pyarrow
   - pyyaml
   - scipy
@@ -34,13 +33,11 @@ dependencies:
     - build
     - bump2version
     - furo
-    - ipykernel
     - nbsphinx
     - placekey
     - sphinx
     - sphinxcontrib-youtube
     - sphinx-autodoc-typehints
     - sphinx-copybutton
-    - tox
-    - tox-conda
+    - streamlit
     - twine
