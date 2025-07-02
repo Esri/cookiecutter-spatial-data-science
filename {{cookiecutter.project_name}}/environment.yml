@@ -5,6 +5,7 @@ channels:
   - conda-forge
 
 dependencies:
+  - appnope
   - arcgis
   - black>=21
   - cookiecutter
