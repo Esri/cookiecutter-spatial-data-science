@@ -34,11 +34,11 @@ dependencies:
     - build
     - bump2version
     - furo
-    - ipykernel
     - nbsphinx
     - placekey
     - sphinx
     - sphinxcontrib-youtube
     - sphinx-autodoc-typehints
     - sphinx-copybutton
+    - streamlit
     - twine
