@@ -54,12 +54,4 @@ GOTO %1
     )
     EXIT /B
 
-:: Remove the environment
-:env_remove
-	ENDLOCAL & (
-		CALL conda deactivate
-		CALL conda env remove --path ./env -y
-	)
-	EXIT /B
-
 EXIT /B

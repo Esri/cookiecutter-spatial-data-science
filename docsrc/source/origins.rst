@@ -24,5 +24,5 @@ This frustration led us to begin using the Cookiecutter-Data-Science template, b
 we quickly ran into some challenges when trying to marry ArcGIS Pro projects with
 this new structure. Our evolution of this paradigm to integrate ArcGIS Pro projects
 into the original template, add support for Windows environments, and use
-Conda for Python environment management is the Cookiecutter-Spatial-Data-Science
+Conda for Python environment management led to the Cookiecutter-Spatial-Data-Science
 template.

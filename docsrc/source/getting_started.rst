@@ -8,7 +8,7 @@ so I can attest to it working in both environments.
 
 Admittedly, I typically start projects on my Windows machine with ArcGIS Pro. This
 enables the project to initialize with a configured ArcGIS Pro project (``*.aprx`` file).
-From there, I sync the project with a Git repository, and work on it in both enviroments.
+From there, I sync the project with a Git repository, and work on it in both environments.
 
 Requirements
 ------------

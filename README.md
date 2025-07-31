@@ -3,9 +3,8 @@
 Cookiecutter-Spatial-Data-Science strives to streamline and promote use of best practices for projects combining 
 Geography and Data Science through a logical, reasonably standardized, and flexible project structure.
 
-Cookiecutter-Spatial-Data-Science project grew out of a need within the Advanced Analytics team at Esri to streamline 
-project bootstrapping, encourage innovation, increase repeatability, encourage documentation, and encourage best 
-practices.
+Cookiecutter-Spatial-Data-Science project grew out of a need to streamline project bootstrapping, encourage 
+innovation, increase repeatability, encourage documentation, and encourage best practices.
 
 ## Requirements
 
@@ -20,7 +19,7 @@ practices.
 ## To start a new project, run:
 
 ``` cmd
-> cookiecutter https://github.com/esri/cookiecutter-spatial-data-science
+cookiecutter https://github.com/esri/cookiecutter-spatial-data-science
 ```
 
 ## Using Make - common commands
@@ -71,7 +70,7 @@ Esri welcomes contributions from anyone and everyone. Please see our
 
 ## Licensing
 
-Copyright 2020 Esri
+Copyright 2025 Esri
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with 
 the License. You may obtain a copy of the License at
