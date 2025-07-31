@@ -1,5 +1,4 @@
-Getting Started
-================
+# Getting Started
 
 At an absolute minimum, you need a version of Conda to work with. Also extremely useful,
 but not absolutely necessary, is an installation of ArcGIS Pro as well. I frequently
@@ -8,62 +7,88 @@ so I can attest to it working in both environments.
 
 Admittedly, I typically start projects on my Windows machine with ArcGIS Pro. This
 enables the project to initialize with a configured ArcGIS Pro project (``*.aprx`` file).
-From there, I sync the project with a Git repository, and work on it in both enviroments.
+From there, I sync the project with a Git repository, and work on it in both environments.
 
-Requirements
-------------
+## Requirements
 
-Essential
-++++++++++
+### Essential
 
 * Conda
-    * Miniconda or Anaconda
+    * [Miniconda](https://www.anaconda.com/docs/getting-started/miniconda/install) or 
+    [Anaconda](https://www.anaconda.com/docs/getting-started/anaconda/install)
     * can be bundled with ArcGIS Pro
-* Cookiecutter
+* [Cookiecutter](https://cookiecutter.readthedocs.io/en/stable/installation.html)
 
 It really does not matter how Conda is available, provided it is available. There are two
 versions of Conda you may have, either Miniconda or Anaconda. Miniconda is the *much*
-lighter weight option. Anaconda is *far* more robust. Either provides Conda, and Conda
-is what Cookiecutter-Spatial-Data-Science uses for Python environment management.
+lighter weight option. Either provides Conda, and Conda is what 
+Cookiecutter-Spatial-Data-Science uses for Python environment management.
+
+### Optional
+
+* ArcGIS Pro
+
+## Use
+
+### Use with ArcGIS Pro
 
 If you have ArcGIS Pro installed, Miniconda is included and bundled with ArcGIS Pro. The
 largest difference is you will need to access the command line from Start > ArcGIS > Python 
 Command Prompt. This will ensure you have all the Conda commands available.
 
-Optional
-+++++++++
+Cookiecutter is not included with the default Conda environment shipped with ArcGIS Pro.
+If you want to get started with the Cookiecutter-Spatial-Data-Science template, you can
+start by creating a Conda environment named `ck` in the Python Command Prompt.
 
-* ArcGIS Pro
+``` cmd
+conda create -n ck
+```
 
-Use
-----
+Once created, you can activate this environment.
 
-Create A Project
-+++++++++++++++++
+``` cmd
+conda activate ck
+```
+
+This Conda environemnt includes nothing more than Python. Next, you need to add Cookiecutter.
+
+``` cmd
+conda install -c conda-forge cookiecutter
+```
+
+Now, you are ready to start using Cookiecutter-Spatial-Data-Science.
+
+``` cmd
+cookiecutter https://github.com/esri/cookiecutter-spatial-data-science/
+```
+
+Now, with the Conda environment set up, all you need to do is activate the environment to use
+Cookiecutter-Spatial-Data-Science by following the steps discussed below.
+
+``` cmd
+conda activate ck
+```
+
+### Create A Project
 
 From the command line, in a folder or directory you want to create a new project, ensure the
 Conda environment with Cookiecutter installed is active, and then use...
 
-.. code-block::
-
-  cookiecutter https://github.com/esri/cookiecutter-spatial-data-science
-
-...to start a new project.
+``` cmd
+cookiecutter https://github.com/esri/cookiecutter-spatial-data-science
+```
 
 You will be prompted to answer a few questions for setting up the project, and once answered,
 your new project will be created in its own directory. The project setup includes initializing
 the project with Git and performing an initial commit enabling you to quickly get to work.
 
-
-.. note::
-
+!!! tip
     Once created, you normally will want to jump into this directory and continue working. If 
     not as familiar with the command line, you can move to different directories using
     the ``cd`` (change directory) command. Hence, if your project directory is named 
     ``sik-project``, you can jump into this directory using the command ``cd sik-project``.
 
-Create Conda Environment
-+++++++++++++++++++++++++
+### Create Project Conda Environment
 
 While not always enrirely necessary, it is a good practice to create a Conda enviroment for your
 project. Cookiecutter-Spatial-Data-Science includes an ``environment.yml`` file with a number
@@ -77,9 +102,9 @@ of a new Conda environment.
 
 The command...
 
-.. code-block::
-
-    make env
+``` cmd
+make env
+```
 
 ...will create your new Conda environment. Rather than using the default location for Conda
 environments, this command creates the environment right in the project in the ``./env``
@@ -89,6 +114,6 @@ Conda environments.
 
 Once created, you can now use this environment using the command...
 
-.. code-block::
-
-    conda activate ./env
+``` cmd
+conda activate ./env
+```
