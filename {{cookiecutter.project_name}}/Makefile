@@ -23,14 +23,12 @@ clean:
 
 ## Build the docs
 docs:
-	conda run -p "$(ENV)" sphinx-build -a -b html docsrc docs
-	@echo ">>> Documents successfully built and saved to ./docs!"
+	conda run -p "$(ENV)" mkdocs build -f ./docsrc/mkdocs.yml
 
 ## Build the local environment from the environment file
 env:
 	conda env create -p "$(ENV)" -f environment.yml
 	conda run -p "$(ENV)" pip install -e .
-	@echo ">>> New conda environment created. Activate with:\n- conda activate -p "$(ENV)""
 
 ## Run jupyter without having to explicitly activate the environment
 jupyter:

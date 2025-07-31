@@ -41,9 +41,14 @@ GOTO %1
     CALL conda run -p %CONDA_DIR% python scripts/make_data.py
     GOTO end
 
-:: Make documentation using Sphinx!
+:: Make documentation using MkDocs!
 :docs
-    CALL conda run -p %CONDA_DIR% sphinx-build -a -b html docsrc docs
+    CALL conda run -p %CONDA_DIR% mkdocs build -f ./docsrc/mkdocs.yml
+    GOTO end
+
+:: MkDocs live documentation server
+:docserve
+    CALL conda run -p %CONDA_DIR% mkdocs serve -f ./docsrc/mkdocs.yml
     GOTO end
 
 :: Build the local environment from the environment file
@@ -63,20 +68,15 @@ GOTO %1
 
     GOTO end
 
-:: Remove the environment
-:remove_env
-    CALL conda deactivate
-    CALL conda env remove -p %CONDA_DIR% -y
-	GOTO end
-
 :: Start Jupyter Label
 :jupyter
     CALL conda run -p %CONDA_DIR% python -m jupyterlab --ip=0.0.0.0 --allow-root --NotebookApp.token=""
     GOTO end
 
 :: Make *.pyt zipped archive with requirements
-:pyt_pkg
+:pytzip
     CALL conda run -p %CONDA_DIR% python -m scripts/make_pyt_archive.py
+    GOTO end
 
 :: Make the package for uploading
 :wheel

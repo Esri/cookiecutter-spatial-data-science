@@ -5,16 +5,16 @@ channels:
   - conda-forge
 
 dependencies:
+  - appnope
   - arcgis
+  - arcgis-mapping
   - black>=21
   - cookiecutter
   - dask
   - h3-py
-  - isort
   - jupyterlab
   - jupyterlab_code_formatter
   - nodejs
-  - pandoc
   - pip
   - pytest
   - pyarrow
@@ -22,22 +22,19 @@ dependencies:
   - scipy
   - scikit-learn
   - seaborn
-  - shapely
   - swifter
   - tabulate
   - tqdm
   - pip:
-    - autodocsumm
     - azure-storage-blob
     - boto3
     - build
     - bump2version
-    - furo
-    - nbsphinx
+    - mkdocs
+    - mkdocs-glightbox
+    - mkdocs-include-markdown-plugin
+    - mkdocs-jupyter
+    - mkdocs-material
+    - mkdocstrings[python]>=0.18
     - placekey
-    - sphinx
-    - sphinxcontrib-youtube
-    - sphinx-autodoc-typehints
-    - sphinx-copybutton
-    - streamlit
     - twine

@@ -13,7 +13,7 @@ tests/__pycache__/*
 .vscode/
 
 # remove built docsrc
-docs/site/
+docs/
 
 # local environemnt
 env/

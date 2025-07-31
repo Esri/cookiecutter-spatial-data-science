@@ -1,0 +1,6 @@
+mkdocs
+mkdocs-glightbox
+mkdocs-include-markdown-plugin
+mkdocs-jupyter
+mkdocs-material
+mkdocstrings[python]>=0.18
