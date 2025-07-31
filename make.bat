@@ -24,8 +24,7 @@
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 SETLOCAL
-SET PROJECT_DIR=%cd%
-SET PROJECT_NAME=cookiecutter-spatial-data-science
+SET CONDA_DIR="%~dp0env"
 
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 :: COMMANDS                                                                     :
@@ -34,24 +33,20 @@ SET PROJECT_NAME=cookiecutter-spatial-data-science
 :: Jump to command
 GOTO %1
 
-:: Make documentation using Sphinx!
+:: Make documentation using MkDocs!
 :docs
-    ENDLOCAL & (
-        CALL docsrc/make.bat github
-    )
-	EXIT /B
+    CALL conda run -p %CONDA_DIR% mkdocs build -f ./docsrc/mkdocs.yml
+    GOTO end
+
+:: MkDocs live documentation server
+:docserve
+    CALL conda run -p %CONDA_DIR% mkdocs serve -f ./docsrc/mkdocs.yml
+    GOTO end
 
 :: Build the local environment from the environment file
 :env
-    ENDLOCAL & (
+    CALL conda env create -p ./env -f environment.yml
+    GOTO end
 
-        :: Create environment
-        CALL conda env create -p ./env -f environment.yml
-
-        :: Activate the environment
-        CALL activate ./env
-
-    )
+:end
     EXIT /B
-
-EXIT /B
