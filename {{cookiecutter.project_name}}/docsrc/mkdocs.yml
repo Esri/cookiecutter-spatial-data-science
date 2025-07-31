@@ -54,7 +54,7 @@ markdown_extensions:
 
 plugins:
 # enable lightbox, enlarging images
-- mkdocs-glightbox
+- glightbox
 
 # extension converting included notebooks into html at build time
 - mkdocs-jupyter:
