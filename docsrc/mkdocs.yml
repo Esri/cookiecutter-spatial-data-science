@@ -1,4 +1,4 @@
-site_name: Cookiecutter-Spatial-Data-Science 3.2.0-dev0
+site_name: Cookiecutter-Spatial-Data-Science 3.2.1-dev0
 
 docs_dir: mkdocs
 site_dir: ../docs
