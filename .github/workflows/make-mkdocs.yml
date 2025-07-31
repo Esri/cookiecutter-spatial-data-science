@@ -1,3 +1,4 @@
+# title displayed in GitHub Actions for repo
 name: Make Docs Using MkDocs
 
 on:
