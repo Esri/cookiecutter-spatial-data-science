@@ -1,4 +1,4 @@
-# Cookiecutter-Spatial-Data-Science 3.2.2
+# Cookiecutter-Spatial-Data-Science 3.2.3-dev0
 
 This template integrates ArcGIS Pro projects and tools with data science workflows. Please
 think of this template as a collection of best practices, and little more. Use what works. 
