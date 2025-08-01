@@ -16,13 +16,21 @@ From there, I sync the project with a Git repository, and work on it in both env
 * Conda
     * [Miniconda](https://www.anaconda.com/docs/getting-started/miniconda/install) or 
     [Anaconda](https://www.anaconda.com/docs/getting-started/anaconda/install)
-    * can be bundled with ArcGIS Pro
-* [Cookiecutter](https://cookiecutter.readthedocs.io/en/stable/installation.html)
+    * can be bundled with ArcGIS Pro (Start > Programs > ArcGIS > Python Command Prompt)
 
 It really does not matter how Conda is available, provided it is available. There are two
-versions of Conda you may have, either Miniconda or Anaconda. Miniconda is the *much*
-lighter weight option. Either provides Conda, and Conda is what 
+versions of Conda you may have, either Miniconda or Anaconda. Either provides Conda, what 
 Cookiecutter-Spatial-Data-Science uses for Python environment management.
+
+* [Cookiecutter](https://cookiecutter.readthedocs.io/en/stable/installation.html)
+
+Cookiecutter-Spatial-Data-Science is a template for project generation. The templating
+system is Cookiecutter.
+
+* [Git](https://git-scm.com/downloads)
+
+Git is used for distributed version control. When a project is initially created, it is
+initalized as a local Git repository enabling easy version control from the start.
 
 ### Optional
 
