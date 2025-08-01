@@ -1,5 +1,5 @@
 ---
-title: {{cookiecutter.project_name}} API
+title: API
 ---
 
 ::: {{cookiecutter.support_library}}
