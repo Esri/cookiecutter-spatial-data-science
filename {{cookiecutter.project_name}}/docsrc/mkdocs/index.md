@@ -4,7 +4,21 @@ title: {{ cookiecutter.project_title }} Home
 # {{ cookiecutter.project_title }} 0.0.0 Documentation
 
 This is the documentation for {{ cookiecutter.project_title }}. All the Markdown (`md`) files in
-`./docs` become the documentation pages.
+`./docs/mkdocs` become the documentation pages.
+
+## Notebooks
+
+Any Jupyter Noteoboks located in `./docs/mkdocs/notebooks` will be converted into documentation pages able to be
+included in your table of contents specified in `./docs/mkdocs.yml`. You will need to manually move any Jupyter
+Notebooks you want included in the documentation into this directory.
+
+!!! note
+
+    I used to automatically copy Jupyter Notebooks from `./notebooks` into the documentation, but this created two problems.
+    First, a LOT of the notebooks were copied, which were not needed in the documentation. Second, frequently I did something
+    to alter the Notebook I did not really want in the documentation. Hence, to avoid these two issues, now the template
+    requires deliberately moving the Jupyter Notebooks you want to include in the documentation from `./notebooks` to
+    `./docs/mkdocs/notebooks`.
 
 ## MkDocs
 
@@ -18,6 +32,8 @@ Documentation is built using MkDocs with a few extensions.
   documentation.
 - [MkDocs-Material](https://squidfunk.github.io/mkdocs-material/) - Theme used for the documentation. Useful
   information for customizing the theme if you want.
+- [Admonitions](https://squidfunk.github.io/mkdocs-material/reference/admonitions/) - How to add Notes, etc.
+
 
 ## Commands
 
