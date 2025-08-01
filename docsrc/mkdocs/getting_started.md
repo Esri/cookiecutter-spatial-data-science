@@ -49,7 +49,7 @@ If you want to get started with the Cookiecutter-Spatial-Data-Science template, 
 start by creating a Conda environment named `ck` in the Python Command Prompt.
 
 ``` cmd
-conda create -n ck
+conda create -n ck --clone arcgispro-py3
 ```
 
 Once created, you can activate this environment.
