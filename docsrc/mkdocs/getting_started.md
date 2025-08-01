@@ -55,7 +55,7 @@ conda create -n ck --clone arcgispro-py3
 Once created, you can activate this environment.
 
 ``` cmd
-conda activate ck
+activate ck
 ```
 
 This Conda environemnt includes nothing more than Python. Next, you need to add Cookiecutter.
@@ -74,7 +74,7 @@ Now, with the Conda environment set up, all you need to do is activate the envir
 Cookiecutter-Spatial-Data-Science by following the steps discussed below.
 
 ``` cmd
-conda activate ck
+activate ck
 ```
 
 ### Create A Project
