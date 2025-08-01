@@ -57,10 +57,6 @@ plugins:
 # enable lightbox, enlarging images
 - glightbox
 
-hooks:
-# copy notebooks from notebook directory to docs for inclusion
-- copy_notebooks.py
-
 # extension converting included notebooks into html at build time
 - mkdocs-jupyter:
     include_source: True
