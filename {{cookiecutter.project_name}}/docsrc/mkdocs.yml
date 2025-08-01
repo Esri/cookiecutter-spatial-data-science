@@ -50,46 +50,46 @@ theme:
 markdown_extensions:
   - admonition
   - pymdownx.highlight:
-    anchor_linenums: true
-    line_spans: __span
-    pygments_lang_class: true
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
   - pymdownx.inlinehilite
   - pymdownx.snippets
   - pymdownx.superfences
   - attr_list
   - pymdownx.emoji:
-    emoji_index: !!python/name:material.extensions.emoji.twemoji
-    emoji_generator: !!python/name:material.extensions.emoji.to_svg
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
 
 
 plugins:
-# enable lightbox, enlarging images
-- glightbox
+  # enable lightbox, enlarging images
+  - glightbox
 
-# extension converting included notebooks into html at build time
-- mkdocs-jupyter:
-    include_source: True
+  # extension converting included notebooks into html at build time
+  - mkdocs-jupyter:
+      include_source: True
 
-# extension handling pulling docstrings from Python package
-- mkdocstrings:
+  # extension handling pulling docstrings from Python package
+  - mkdocstrings:
 
-    # explicitly enable generation of objects.ini facilitating intersphinx mapping
-    enable_inventory: true
+      # explicitly enable generation of objects.ini facilitating intersphinx mapping
+      enable_inventory: true
 
-    # show_root_heading: false
+      # show_root_heading: false
 
-    handlers:
-      python:
+      handlers:
+        python:
 
-        # where to find the local package
-        paths: [../src]
+          # where to find the local package
+          paths: [../src]
 
-        # referenced python objects will be linked
-        inventories:
-        - https://docs.python.org/3/objects.inv
-        - https://pandas.pydata.org/docs/objects.inv
-        - https://scikit-learn.org/stable/objects.inv
+          # referenced python objects will be linked
+          inventories:
+          - https://docs.python.org/3/objects.inv
+          - https://pandas.pydata.org/docs/objects.inv
+          - https://scikit-learn.org/stable/objects.inv
 
-        # use Google docstrings style
-        options:
-          docstring_style: google
+          # use Google docstrings style
+          options:
+            docstring_style: google

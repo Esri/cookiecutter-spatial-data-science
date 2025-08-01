@@ -50,7 +50,7 @@ Here are a few commonly used commands for efficient project configuration and us
 
 !!! note
 
-  These commands are defined in `./make.cmd` if you want to examine, modify or extend this capability.
+    These commands are defined in `./make.cmd` if you want to examine, modify or extend this capability.
 
 ## Documentation layout
 
