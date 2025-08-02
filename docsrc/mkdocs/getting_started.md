@@ -38,7 +38,16 @@ initalized as a local Git repository enabling easy version control from the star
 
 ## Use
 
-### Use with ArcGIS Pro
+### Setup with ArcGIS Pro
+
+<iframe 
+style="width: 100%; aspect-ratio: 16 / 9; border: 0;"
+src="https://www.youtube.com/embed/_HY7a83aU8w?si=73G7m-xb1RxkdHQy" 
+title="YouTube video player" 
+frameborder="0" 
+allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" 
+allowfullscreen>
+</iframe>
 
 If you have ArcGIS Pro installed, Miniconda is included and bundled with ArcGIS Pro. The
 largest difference is you will need to access the command line from Start > ArcGIS > Python 
@@ -64,23 +73,13 @@ This Conda environemnt includes nothing more than Python. Next, you need to add 
 conda install -c conda-forge cookiecutter
 ```
 
-Now, you are ready to start using Cookiecutter-Spatial-Data-Science.
-
-``` cmd
-cookiecutter https://github.com/esri/cookiecutter-spatial-data-science/
-```
-
-Now, with the Conda environment set up, all you need to do is activate the environment to use
-Cookiecutter-Spatial-Data-Science by following the steps discussed below.
-
-``` cmd
-activate ck
-```
+Now, you are ready to start using Cookiecutter-Spatial-Data-Science by following the steps 
+below.
 
 ### Create A Project
 
 From the command line, in a folder or directory you want to create a new project, ensure the
-Conda environment with Cookiecutter installed is active, and then use...
+Conda environment with Cookiecutter installed is active (`activate ck`), and then use...
 
 ``` cmd
 cookiecutter https://github.com/esri/cookiecutter-spatial-data-science
