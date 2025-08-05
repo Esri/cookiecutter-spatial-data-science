@@ -13,28 +13,34 @@ From there, I sync the project with a Git repository, and work on it in both env
 
 ### Essential
 
-* Conda
-    * [Miniconda](https://www.anaconda.com/docs/getting-started/miniconda/install) or 
-    [Anaconda](https://www.anaconda.com/docs/getting-started/anaconda/install)
-    * can be bundled with ArcGIS Pro (Start > Programs > ArcGIS > Python Command Prompt)
+#### Conda
+
+* [Miniconda](https://www.anaconda.com/docs/getting-started/miniconda/install) or 
+[Anaconda](https://www.anaconda.com/docs/getting-started/anaconda/install)
+* can be bundled with ArcGIS Pro (Start > Programs > ArcGIS > Python Command Prompt)
 
 It really does not matter how Conda is available, provided it is available. There are two
 versions of Conda you may have, either Miniconda or Anaconda. Either provides Conda, what 
 Cookiecutter-Spatial-Data-Science uses for Python environment management.
 
-* [Cookiecutter](https://cookiecutter.readthedocs.io/en/stable/installation.html)
+#### [Cookiecutter](https://cookiecutter.readthedocs.io/en/stable/installation.html)
 
 Cookiecutter-Spatial-Data-Science is a template for project generation. The templating
 system is Cookiecutter.
 
-* [Git](https://git-scm.com/downloads)
+#### [Git](https://git-scm.com/downloads)
 
 Git is used for distributed version control. When a project is initially created, it is
 initalized as a local Git repository enabling easy version control from the start.
 
 ### Optional
 
-* ArcGIS Pro
+#### ArcGIS Pro
+
+Although not entirely necessary, Cookiecutter-Spatial-Data-Science was developed out of a
+need to marry the best practices of Data Science and Data Engineering with ArcGIS Pro. Hence,
+although not entirely necessary, an environment with ArcGIS Pro is going to make this
+template much more useful.
 
 ## Setup with ArcGIS Pro
 

@@ -6,9 +6,8 @@ on:
   # when any pushes are made to any branch with changes to the source, notebooks or docs directory
   push:
     branches:
-      - main
+      - master
     paths:
-      - "src/**/*"
       - "docsrc/**/*"
       - ".github/workflows/**/*"
 
