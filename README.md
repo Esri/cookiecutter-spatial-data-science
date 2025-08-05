@@ -11,9 +11,10 @@ innovation, increase repeatability, encourage documentation, and encourage best 
  * ArcGIS Pro
  * [Conda (Anaconda or miniconda)](https://docs.conda.io/projects/conda/en/latest/user-guide/install/windows.html)
  * [Cookiecutter](http://cookiecutter.readthedocs.org/en/latest/installation.html) >= 1.4.0
+ * [Git](https://git-scm.com/downloads)
 
 ``` cmd
-> conda install -c conda-forge cookiecutter
+conda install -c conda-forge cookiecutter
 ```
 
 ## To start a new project, run:
@@ -35,7 +36,7 @@ template streamlines a number of commands using the `make` command pattern.
 
 - `make data` - Run `./scripts/make_data.py`, which should be the data pipeline to create an output dataset.
 
-- `make pytpkg` - Create a zipped achive of the Python (`*.pyt`) toolbox located in `./arcgis`. This uses the script,
+- `make pytzip` - Create a zipped achive of the Python (`*.pyt`) toolbox located in `./arcgis`. This uses the script,
   `./scripts/make_pyt_archive.py`, to collect the Python toolbox (`*.pyt`) along with all the supporting 
   dependencies listed in `pyproject.toml` and `*.xml` files with the tool documentation, and put into a zipped archive 
   ready for sharing.
@@ -44,20 +45,8 @@ template streamlines a number of commands using the `make` command pattern.
 
 - `make docs` - Build the documentation using MkDocs from files in `./docsrc` and save the output in `./docs`.
 
-- `make test` - activates the environment created by the `make env` or `make env_clone` and runs all the tests in the 
-  `./testing` directory using PyTest. 
-
-## BumpVersion Cliff Notes
-
-[Bump2Version](https://github.com/c4urself/bump2version) is preconfigured based on hints from 
-[this article on Medium](https://williamhayes.medium.com/versioning-using-bumpversion-4d13c914e9b8).
-
-If you want to...
-
-- apply a patch, `bumpversion patch`
-- update version with no breaking changes (minor version update), `bumpversion minor`
-- update version with breaking changes (major version update), `bumpversion major`
-- create a release (tagged in version control - Git), `bumpversion --tag release`
+- `make test` - activates the environment created by the `make env` and runs all the tests in the 
+  `./testing` directory using PyTest.
 
 ## Issues
 
