@@ -42,7 +42,7 @@ initalized as a local Git repository enabling easy version control from the star
 
 <iframe 
 style="width: 100%; aspect-ratio: 16 / 9; border: 0;"
-src="https://www.youtube.com/embed/_HY7a83aU8w?si=73G7m-xb1RxkdHQy" 
+src="https://www.youtube.com/embed/kwHRZqJZ3_g?si=T_pVUgcnoqEG3Ddn" 
 title="YouTube video player" 
 frameborder="0" 
 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" 
