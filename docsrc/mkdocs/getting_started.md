@@ -36,16 +36,15 @@ initalized as a local Git repository enabling easy version control from the star
 
 * ArcGIS Pro
 
-## Use
-
-### Setup with ArcGIS Pro
+## Setup with ArcGIS Pro
 
 <iframe 
 style="width: 100%; aspect-ratio: 16 / 9; border: 0;"
 src="https://www.youtube.com/embed/kwHRZqJZ3_g?si=T_pVUgcnoqEG3Ddn" 
 title="YouTube video player" 
 frameborder="0" 
-allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" 
+allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+referrerpolicy="strict-origin-when-cross-origin" 
 allowfullscreen>
 </iframe>
 
@@ -76,6 +75,8 @@ conda install -c conda-forge cookiecutter
 Now, you are ready to start using Cookiecutter-Spatial-Data-Science by following the steps 
 below.
 
+## Use
+
 ### Create A Project
 
 From the command line, in a folder or directory you want to create a new project, ensure the
@@ -92,19 +93,19 @@ the project with Git and performing an initial commit enabling you to quickly ge
 !!! tip
     Once created, you normally will want to jump into this directory and continue working. If 
     not as familiar with the command line, you can move to different directories using
-    the ``cd`` (change directory) command. Hence, if your project directory is named 
-    ``sik-project``, you can jump into this directory using the command ``cd sik-project``.
+    the `cd` (change directory) command. Hence, if your project directory is named 
+    `sik-project`, you can jump into this directory using the command `cd sik-project`.
 
 ### Create Project Conda Environment
 
 While not always enrirely necessary, it is a good practice to create a Conda enviroment for your
-project. Cookiecutter-Spatial-Data-Science includes an ``environment.yml`` file with a number
+project. Cookiecutter-Spatial-Data-Science includes an `environment.yml` file with a number
 of packages I typically include. My philosopy is to be rather inclusive in this file. Hence,
 before creating your project I encourage you to prune this file.
 
-Once happy with the packages included in the ``environment.yml`` file, I have streamlined the
+Once happy with the packages included in the `environment.yml` file, I have streamlined the
 many common tasks using the Makefile pattern. Although not idencial, I was able to mimic the
-behavior on Windows in the included ``make.bat`` file. One of the very common tasks is creation
+behavior on Windows in the included `make.bat` file. One of the very common tasks is creation
 of a new Conda environment.
 
 The command...
@@ -114,7 +115,7 @@ make env
 ```
 
 ...will create your new Conda environment. Rather than using the default location for Conda
-environments, this command creates the environment right in the project in the ``./env``
+environments, this command creates the environment right in the project in the `./env`
 directory. Especially if your projects reside on a different drive than where your Conda
 installation resides, this can avoid filling up your main drive with Python pacakges for
 Conda environments.
