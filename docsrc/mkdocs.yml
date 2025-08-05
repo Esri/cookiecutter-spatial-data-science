@@ -6,10 +6,9 @@ repo_url: https://github.com/esri/cookiecutter-spatial-data-science
 docs_dir: mkdocs
 site_dir: ../docs
 
-nav:
-  - Home: index.md
-  - Getting Started: getting_started.md
-  - Origins: origins.md
+# nav:
+#   - Home: index.md
+#   - Getting Started: getting_started.md
 
 theme:
   name: material

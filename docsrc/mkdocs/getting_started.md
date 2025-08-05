@@ -131,3 +131,46 @@ Once created, you can now use this environment using the command...
 ``` cmd
 conda activate ./env
 ```
+
+## Useful - User Config File
+
+If using the Cookiecutter-Spatial-Data-Science template regularly, rather than always
+typing in values such as the URL for Cookiecutter-Spatial-Data-Science, your name and 
+ArcGIS Online Orginization URL, you can create a file in your home directory called 
+`.cookiecutterrc`, with these values set as defaults and abbreviations.
+
+For instance, if the login for your computer is `gis_yoda`, create a text file located
+at `C:/Users/gis_yoda/ .cookiecutterrc`. Then, put the following in this file.
+
+``` yaml
+default_context:
+    author_name: GIS Yoda
+    email: yoda@dagobah.com
+    esri_web_gis_url: https://theresistance.maps.arcgis.com
+abbreviations:
+    sds: https://github.com/esri/cookiecutter-spatial-data-science
+```
+
+Now, when you want to start a new project, all you have to do is open the Python Command
+Prompt (Start > Programs > ArcGIS > Python Command Prompt), activate the Python enviroment
+with Cookiecutter installed...
+
+``` cmd
+activate ck
+```
+
+... and use Cookiecutter-Spatial-Data-Science using the `sds` abbreviation.
+
+``` cmd
+cookiecutter sds
+```
+
+Then, when starting the project, the values in the default context will be used, so you do
+not have to type them in every time.
+
+!!! note
+    
+    Use of a user config file is well documented in the 
+    [Cookiecutter documentation](https://cookiecutter.readthedocs.io/en/latest/advanced/user_config.html) 
+    if you want to explore more options. The key values to use for the default context can be found in
+    the `cookiecutter.json` file in the Cookiecutter-Spatial-Data-Science template.
