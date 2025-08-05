@@ -54,8 +54,8 @@ referrerpolicy="strict-origin-when-cross-origin"
 allowfullscreen>
 </iframe>
 
-If you have ArcGIS Pro installed, Miniconda is included and bundled with ArcGIS Pro. The
-largest difference is you will need to access the command line from Start > ArcGIS > Python 
+If you have ArcGIS Pro installed, Miniconda is included and bundled with ArcGIS Pro. You can
+use Conda by opening a command prompt through Start > ArcGIS > Python 
 Command Prompt. This will ensure you have all the Conda commands available.
 
 Cookiecutter is not included with the default Conda environment shipped with ArcGIS Pro.
