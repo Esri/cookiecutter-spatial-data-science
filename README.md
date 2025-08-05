@@ -8,7 +8,7 @@ innovation, increase repeatability, encourage documentation, and encourage best 
 
 ## Requirements
 
- * ArcGIS Pro
+ * ArcGIS Pro (optional, but highly recommended)
  * [Conda (Anaconda or miniconda)](https://docs.conda.io/projects/conda/en/latest/user-guide/install/windows.html)
  * [Cookiecutter](http://cookiecutter.readthedocs.org/en/latest/installation.html) >= 1.4.0
  * [Git](https://git-scm.com/downloads)
@@ -29,7 +29,7 @@ Based on the pattern provided in the
 [Cookiecutter Data Science template by Driven Data](https://drivendata.github.io/cookiecutter-data-science/) this 
 template streamlines a number of commands using the `make` command pattern.
 
-- `make env` - Clone the default ArcGIS Pro Conda environment, `arcgispro-pyu3`, add all the dependencies in
+- `make env` - Clone the default ArcGIS Pro Conda environment, `arcgispro-py3`, add all the dependencies in
   `environment.yml` and install the local project package using the command 
   `python -m pip install -e ./src/src/<project_package>` so you can easily test against the package as you are 
   developing it.
@@ -41,7 +41,7 @@ template streamlines a number of commands using the `make` command pattern.
   dependencies listed in `pyproject.toml` and `*.xml` files with the tool documentation, and put into a zipped archive 
   ready for sharing.
 
-- `make docserve` - Run live MkDocs documentation server to view documentation updates at http://127.0.0.1:8000.
+- `make docserve` - Run live MkDocs documentation server to view documentation updates at http://localhost:8000.
 
 - `make docs` - Build the documentation using MkDocs from files in `./docsrc` and save the output in `./docs`.
 
