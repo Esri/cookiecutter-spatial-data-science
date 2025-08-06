@@ -10,7 +10,7 @@ nav:
   - index.md
   - getting_started.md
   - why.md
-  - origins.md
+  # - origins.md
 
 theme:
   name: material
