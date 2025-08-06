@@ -11,30 +11,36 @@ From there, I sync the project with a Git repository, and work on it in both env
 
 ## Requirements
 
+### Optional
+
+#### ArcGIS Pro
+
+Although not entirely necessary, Cookiecutter-Spatial-Data-Science was developed out of a
+need to marry the best practices of Data Science and Data Engineering with ArcGIS Pro. Hence,
+although not entirely necessary, an environment with ArcGIS Pro is going to make this
+template much more useful.
+
 ### Essential
 
-* Conda
-    * [Miniconda](https://www.anaconda.com/docs/getting-started/miniconda/install) or 
-    [Anaconda](https://www.anaconda.com/docs/getting-started/anaconda/install)
-    * can be bundled with ArcGIS Pro (Start > Programs > ArcGIS > Python Command Prompt)
+#### Conda
+
+* [Miniconda](https://www.anaconda.com/docs/getting-started/miniconda/install) or 
+[Anaconda](https://www.anaconda.com/docs/getting-started/anaconda/install)
+* can be bundled with ArcGIS Pro (**Start > Programs > ArcGIS > Python Command Prompt**)
 
 It really does not matter how Conda is available, provided it is available. There are two
 versions of Conda you may have, either Miniconda or Anaconda. Either provides Conda, what 
 Cookiecutter-Spatial-Data-Science uses for Python environment management.
 
-* [Cookiecutter](https://cookiecutter.readthedocs.io/en/stable/installation.html)
+#### [Cookiecutter](https://cookiecutter.readthedocs.io/en/stable/installation.html)
 
 Cookiecutter-Spatial-Data-Science is a template for project generation. The templating
 system is Cookiecutter.
 
-* [Git](https://git-scm.com/downloads)
+#### [Git](https://git-scm.com/downloads)
 
 Git is used for distributed version control. When a project is initially created, it is
 initalized as a local Git repository enabling easy version control from the start.
-
-### Optional
-
-* ArcGIS Pro
 
 ## Setup with ArcGIS Pro
 
@@ -48,9 +54,9 @@ referrerpolicy="strict-origin-when-cross-origin"
 allowfullscreen>
 </iframe>
 
-If you have ArcGIS Pro installed, Miniconda is included and bundled with ArcGIS Pro. The
-largest difference is you will need to access the command line from Start > ArcGIS > Python 
-Command Prompt. This will ensure you have all the Conda commands available.
+If you have ArcGIS Pro installed, Miniconda is included and bundled with ArcGIS Pro. You can
+use Conda by opening a command prompt through **Start > ArcGIS > Python 
+Command Prompt**. This will ensure you have all the Conda commands available.
 
 Cookiecutter is not included with the default Conda environment shipped with ArcGIS Pro.
 If you want to get started with the Cookiecutter-Spatial-Data-Science template, you can
@@ -125,3 +131,47 @@ Once created, you can now use this environment using the command...
 ``` cmd
 conda activate ./env
 ```
+
+## Useful - User Config File
+
+If using the Cookiecutter-Spatial-Data-Science template regularly, rather than always
+typing in values such as the URL for Cookiecutter-Spatial-Data-Science, your name and 
+ArcGIS Online Orginization URL, you can create a file in your home directory called 
+`.cookiecutterrc`, with these values set as defaults and abbreviations.
+
+For instance, if the login for your computer is `gis_yoda`, create a text file located
+at `C:/Users/gis_yoda/.cookiecutterrc`. Then, put the following in this file.
+
+``` yaml
+default_context:
+    author_name: GIS Yoda
+    email: yoda@dagobah.com
+    esri_web_gis_url: https://theresistance.maps.arcgis.com
+abbreviations:
+    sds: https://github.com/esri/cookiecutter-spatial-data-science
+```
+
+Now, when you want to start a new project, all you have to do is open the Python Command
+Prompt (**Start > Programs > ArcGIS > Python Command Prompt**), activate the Python 
+enviroment with Cookiecutter installed...
+
+``` cmd
+activate ck
+```
+
+... and use Cookiecutter-Spatial-Data-Science using the `sds` abbreviation.
+
+``` cmd
+cookiecutter sds
+```
+
+Then, when starting the project, the values in the default context will be used, so you do
+not have to type them in every time.
+
+!!! note
+    
+    Use of a user config file is well documented in the 
+    [Cookiecutter documentation](https://cookiecutter.readthedocs.io/en/latest/advanced/user_config.html) 
+    if you want to explore more options. The key values to use for the default context can 
+    be found in the `cookiecutter.json` file in the Cookiecutter-Spatial-Data-Science 
+    template.

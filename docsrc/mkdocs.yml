@@ -1,15 +1,24 @@
-site_name: Cookiecutter-Spatial-Data-Science 3.2.4
+site_name: Cookiecutter-Spatial-Data-Science 3.2.5
+
+repo_url: https://github.com/esri/cookiecutter-spatial-data-science
+# repo_name: Cookiecutter-Spatial-Data-Science
 
 docs_dir: mkdocs
 site_dir: ../docs
 
 nav:
-  - Home: index.md
-  - Getting Started: getting_started.md
-  - Origins: origins.md
+  - index.md
+  - getting_started.md
+  - why.md
+  - origins.md
 
 theme:
   name: material
+
+   # use a globe because...duh, geography!
+  icon:
+    logo: fontawesome/solid/globe-americas
+    repo: fontawesome/brands/github
 
   features:
     - content.code.copy
