@@ -34,8 +34,8 @@ jobs:
     # Install Python
     - name: Set up Python
       uses: actions/setup-python@v5
-#      with:
-#        python-version: 3.12
+      with:
+        python-version: "3.12"
 
     # install python packages
     - name: Install Python Packages
