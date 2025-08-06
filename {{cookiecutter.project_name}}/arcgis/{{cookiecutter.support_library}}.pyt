@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 __version__ = "0.0.0"
-__author__ = "{{ cookiecutter.author_name }}"
+__author__ = "{{cookiecutter.author_name}}"
 __license__ = "Apache 2.0"
 
 import importlib.util
