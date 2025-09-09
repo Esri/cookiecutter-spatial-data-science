@@ -1,4 +1,4 @@
-name: Make Sphinx Docs
+name: Make docs using MkDocs
 
 on:
 
