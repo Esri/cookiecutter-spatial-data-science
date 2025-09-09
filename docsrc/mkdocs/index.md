@@ -30,7 +30,7 @@ Setup and basic use are well detailed with easily copyable commands in the
 ## Origins
 
 The Cookiecutter Spatial Data Science template arose out of a need for an experienced
-geographer well versed in ArcGIS Pro and Python (myself) and a _very_ experienced data 
+geographer well versed in ArcGIS Pro and Python ([myself]) and a _very_ experienced data 
 scientist new to Esri ([Daniel](https://www.linkedin.com/in/daniel-wilson-a274b218/)) 
 to efficiently collaborate and hand off projects to other teams.
 
