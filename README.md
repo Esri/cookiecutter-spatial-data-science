@@ -23,6 +23,12 @@ conda install -c conda-forge cookiecutter
 cookiecutter https://github.com/esri/cookiecutter-spatial-data-science
 ```
 
+**Note:** If you want to remove a GitHub repository after doing a demonstration, you can do so by running the command:
+
+``` cmd
+gh repo delete <username>/<repository> --yes
+```
+
 ## Using Make - common commands
 
 Based on the pattern provided in the 

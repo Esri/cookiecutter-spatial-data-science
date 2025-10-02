@@ -10,7 +10,7 @@ import sys
 self_pth = Path(__file__)
 dir_test = self_pth.parent
 dir_prj = dir_test.parent
-dir_src = dir_prj/'src'
+dir_src = dir_prj / 'src'
 
 # insert the src directory into the path and import the projct package
 sys.path.insert(0, str(dir_src))

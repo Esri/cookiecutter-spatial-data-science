@@ -76,7 +76,8 @@ plugins:
       # explicitly enable generation of objects.ini facilitating intersphinx mapping
       enable_inventory: true
 
-      # show_root_heading: false
+      # optional: do not show the root heading of the documented module
+      show_root_heading: false
 
       handlers:
         python:

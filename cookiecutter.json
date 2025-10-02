@@ -5,9 +5,9 @@
     "description": "A short description of the project.",
 	"support_library": "{{ cookiecutter.project_name.lower().replace(' ', '_').replace('-', '_') }}",
     "esri_web_gis_url": "https://arcgis.com",
-    "esri_web_gis_username": "",
-    "esri_web_gis_password": "",
+    "esri_web_gis_profile": "web_gis_profile",
     "open_source_license": ["Apache 2.0", "MIT", "BSD-3-Clause", "No license file"],
+    "create_github_repo": ["yes", "no"],
     "_copy_without_render": [
         ".github/workflows/make-mkdocs.yml"
     ]
