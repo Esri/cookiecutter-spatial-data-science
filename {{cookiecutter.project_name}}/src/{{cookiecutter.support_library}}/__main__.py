@@ -3,6 +3,11 @@ from pathlib import Path
 
 import pandas as pd
 
+from .utils import get_logger
+
+# configure module logging
+logger = get_logger(logger_name="{{cookiecutter.support_library}}", level="INFO")
+
 
 def example_function(in_path: Union[str, Path]) -> pd.DataFrame:
     """

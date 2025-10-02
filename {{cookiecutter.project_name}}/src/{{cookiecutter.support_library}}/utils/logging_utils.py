@@ -4,7 +4,7 @@ from typing import Union, Optional
 
 from .main import has_arcpy
 
-__all__ = ["configure_logging", "format_pandas_for_logging"]
+__all__ = ["get_logger", "format_pandas_for_logging", "ArcpyHandler"]
 
 
 class ArcpyHandler(logging.Handler):
@@ -70,10 +70,14 @@ class ArcpyHandler(logging.Handler):
 
 
 # setup logging
-def configure_logging(
+def get_logger(
     level: Optional[Union[str, int]] = "INFO",
+    logger_name: Optional[str] = None,
     logfile_path: Union[Path, str] = None,
-    propagate: bool = False,
+    log_format: Optional[str] = "%(asctime)s | %(name)s | %(levelname)s | %(message)s",
+    propagate: bool = True,
+    add_stream_handler: bool = True,
+    add_arcpy_handler: bool = False,
 ) -> logging.Logger:
     """
     Get Python :class:`Logger<logging.Logger>` configured to provide stream, file or, if available, ArcPy output.
@@ -92,10 +96,15 @@ def configure_logging(
 
     Args:
         level: Logging level to use. Default is `'INFO'`.
+        logger_name: Name of the logger. If `None`, the root logger is used.
+        log_format: Format string for the logging messages. Default is `'%(asctime)s | %(name)s | %(levelname)s | %(message)s'`.
+        propagate: If `True`, log messages are passed to the handlers of ancestor loggers. Default is `False`.
         logfile_path: Where to save the logfile if file output is desired.
+        add_stream_handler: If `True`, add a `StreamHandler` to route logging to the console. Default is `True`.
+        add_arcpy_handler: If `True` and ArcPy is available, add the `ArcpyHandler` to route logging through
+            ArcPy messaging. Default is `False`.
 
     ``` python
-    # only output to console and potentially Pro if ArcPy is available
     configure_logging('DEBUG')
     logging.debug('nauseatingly detailed debugging message')
     logging.info('something actually useful to know')
@@ -123,22 +132,27 @@ def configure_logging(
         )
 
     # get default logger and set logging level at the same time
-    logger = logging.getLogger()
+    logger = logging.getLogger(logger_name)
     logger.setLevel(level=level)
 
     # clear handlers
     logger.handlers.clear()
 
     # configure formatting
-    log_frmt = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+    log_frmt = logging.Formatter(log_format)
+
+    # set propagation
+    logger.propagate = propagate
 
     # make sure at least a stream handler is present
-    ch = logging.StreamHandler()
-    ch.setFormatter(log_frmt)
-    logger.addHandler(ch)
+    if add_stream_handler:
+        # create and add the stream handler
+        sh = logging.StreamHandler()
+        sh.setFormatter(log_frmt)
+        logger.addHandler(sh)
 
     # if in an environment with ArcPy, add handler to bubble logging up to ArcGIS through ArcPy
-    if has_arcpy:
+    if has_arcpy and add_arcpy_handler:
         ah = ArcpyHandler()
         ah.setFormatter(log_frmt)
         logger.addHandler(ah)

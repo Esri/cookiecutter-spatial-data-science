@@ -18,10 +18,15 @@ permissions and limitations under the License.
 A copy of the license is available in the repository's
 LICENSE file.
 """
-import os
+import logging
 from pathlib import Path
 import shutil
+import subprocess
 import importlib.util
+
+# set up logging
+logger = logging.getLogger('cookiecutter.post_gen_project')
+logger.setLevel(logging.DEBUG)
 
 # see if arcpy available to accommodate non-windows environments
 if importlib.util.find_spec('arcpy') is not None:
@@ -30,7 +35,11 @@ if importlib.util.find_spec('arcpy') is not None:
 else:
     has_arcpy = False
 
+# pull in values from cookiecutter
 new_prj_name = '{{cookiecutter.project_name}}'
+new_prj_title = '{{cookiecutter.project_title}}'
+new_prj_desc = '{{cookiecutter.description}}'
+create_gh_repo = '{{cookiecutter.create_github_repo}}'
 
 
 def setup_data(data_pth: Path) -> Path:
@@ -52,12 +61,6 @@ def setup_data(data_pth: Path) -> Path:
             if fgdb_pth.exists():
                 shutil.rmtree(fgdb_pth)
             arcpy.management.CreateFileGDB(str(dir_pth), f'{data_name}.gdb')
-
-            # do the same thing for a mobile geodatabase, a sqlite database
-            # gdb_pth = dir_pth / f'{data_name}.geodatabase'
-            # if gdb_pth.exists():
-            #     gdb_pth.unlink()
-            # arcpy.management.CreateMobileGDB(str(dir_pth), f'{data_name}.geodatabase')
 
     return data_pth
 
@@ -100,6 +103,25 @@ def copy_aprx(dir_arcgis: Path, new_prj_name: str, old_prj_name: str = 'cookiecu
     return new_aprx_pth
 
 
+def create_github_repo(repo_name: str) -> None:
+    """Create a GitHub repository using the gh CLI tool."""
+    try:
+        subprocess.run(['gh', 'repo', 'create', repo_name, "--description", new_prj_desc, '--public', '--source=.', '--remote=origin', '--push'],
+                       check=True)
+    except (subprocess.CalledProcessError, FileNotFoundError) as e:
+        logging.error(f"Failed to create GitHub repository: {e}")
+
+
+def init_git_repo(prj_path: Path) -> None:
+    """Initialize a git repository in the project directory."""
+    try:
+        subprocess.run(['git', 'init', "--initial-branch=main"], cwd=prj_path, check=True)
+        subprocess.run(['git', 'add', '.'], cwd=prj_path, check=True)
+        subprocess.run(['git', 'commit', '-m', 'initial commit'], cwd=prj_path, check=True)
+    except subprocess.CalledProcessError as e:
+        logging.error(f"Failed to initialize git repository: {e}")
+
+
 if __name__ == '__main__':
 
     # set up some paths to resources
@@ -112,22 +134,26 @@ if __name__ == '__main__':
     # ensure the data directories and geodatabases are all set up
     setup_data(dir_data_pth)
 
-    # set up the ArcGIS Pro project if it exists
+    # set up the ArcGIS Pro project if arcpy is available
     if has_arcpy:
         new_aprx_pth = copy_aprx(dir_arcgis_pth, new_prj_name)
+
+    # otherwise, remove arcgis resources
     else:
         shutil.rmtree(dir_arcgis_pth)
 
-    # rename the configuration file
-    # env_pth.rename(dir_prj/'.env')
+    # rename the secrets configuration file
     config_pth.rename(dir_prj / 'config' / 'secrets.ini')
 
     # initialize git
-    prj_pth_str = str(dir_prj.absolute())
-    git_init_cmd = 'git init --initial-branch=main && git add -A && git commit -q -m "initial commit"'
-    if os.name == 'nt':  # Windows
-        os.system(f'cd /d "{prj_pth_str}" && {git_init_cmd}')
-    else:  # *nix
-        os.system(f'cd "{prj_pth_str}" && {git_init_cmd}')
+    init_git_repo(dir_prj)
+    logger.info('Git repository initialized.')
 
+    # if also creating a GitHub repository, do so
+    if create_gh_repo.lower() == 'yes':
+        create_github_repo(new_prj_name)
+        logger.info(f'GitHub repository {new_prj_name} created.')
+    else:
+        logger.info('GitHub repository not created.')
 
+    logger.info(f'Project "{new_prj_title}" created!')

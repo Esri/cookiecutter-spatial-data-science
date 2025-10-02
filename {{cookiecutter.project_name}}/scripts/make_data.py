@@ -19,7 +19,7 @@ A copy of the license is available in the repository's
 LICENSE file.
 """
 from configparser import ConfigParser
-import logging
+from datetime import datetime
 from pathlib import Path
 import importlib.util
 import sys
@@ -42,6 +42,7 @@ if importlib.util.find_spec('{{cookiecutter.support_library}}') is None:
 
 # import {{cookiecutter.support_library}}
 import {{cookiecutter.support_library}}
+from {{cookiecutter.support_library}}.utils import get_logger
 
 # read and configure 
 config = ConfigParser()
@@ -51,5 +52,19 @@ log_level = config.get('DEFAULT', 'LOG_LEVEL')
 input_data = dir_prj / config.get('DEFAULT', 'INPUT_DATA')
 output_data = dir_prj / config.get('DEFAULT', 'OUTPUT_DATA')
 
-# use the log level from the config to set up basic logging
-logging.basicConfig(level=log_level)
+# get datestring for file naming yyyymmddThhmmss
+date_string = datetime.now().strftime("%Y%m%dT%H%M%S")
+
+# path to save log file
+log_dir = dir_prj / 'data' / 'logs'
+
+if not log_dir.exists():
+    log_dir.mkdir(parents=True)
+
+log_file = log_dir / f'{Path(__file__).stem}_{date_string}.log'
+
+# use the log level from the config to set up logging
+logger = get_logger(logger_name=f"{Path(__file__).stem}", level=log_level)
+
+logger.info(f'Starting data processing for {dir_prj.name}')
+### Main processing - put your data processing code here ###
