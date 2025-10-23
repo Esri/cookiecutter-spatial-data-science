@@ -53,7 +53,7 @@ CLI installed, you can always perform these steps manually on the GitHub website
 
 <iframe 
 style="width: 100%; aspect-ratio: 16 / 9; border: 0;"
-src="https://www.youtube.com/embed/kwHRZqJZ3_g?si=T_pVUgcnoqEG3Ddn" 
+src="https://www.youtube.com/embed/25-p9OW2CGI?si=wKis61yUw06uQv6x"
 title="YouTube video player" 
 frameborder="0" 
 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
