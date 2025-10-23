@@ -35,12 +35,19 @@ Cookiecutter-Spatial-Data-Science uses for Python environment management.
 #### [Cookiecutter](https://cookiecutter.readthedocs.io/en/stable/installation.html)
 
 Cookiecutter-Spatial-Data-Science is a template for project generation. The templating
-system is Cookiecutter.
+system is Cookiecutter. Creating an environment with Cookiecutter installed is detailed
+in the next section, [Setup with ArcGIS Pro](#setup-with-arcgis-pro).
 
 #### [Git](https://git-scm.com/downloads)
 
 Git is used for distributed version control. When a project is initially created, it is
 initalized as a local Git repository enabling easy version control from the start.
+
+#### [GitHub CLI (optional)](https://cli.github.com/)
+
+The GitHub CLI is optional, but extremely useful. It enables quickly creating a remote
+repository on GitHub and linking your local repository to it. If you do not have the GitHub
+CLI installed, you can always perform these steps manually on the GitHub website.
 
 ## Setup with ArcGIS Pro
 
