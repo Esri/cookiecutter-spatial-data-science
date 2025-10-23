@@ -22,7 +22,9 @@ def temp_gdb(temp_dir: Path) -> Path:
     import arcpy
     gdb_pth: str = arcpy.management.CreateFileGDB(str(temp_dir), "test.gdb")[0]
     yield Path(gdb_pth)
-    # No need for explicit cleanup, as temp_dir fixture handles it
+    # do a little cleanup so the temporary directory can be removed
+    if arcpy.Exists(gdb_pth):
+        arcpy.management.Delete(gdb_pth)
 
 
 @pytest.fixture(scope="session", autouse=True)

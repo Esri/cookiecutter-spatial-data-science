@@ -42,6 +42,8 @@ def example_function(param1: int, param2: str) -> bool:
 
 ### 3. Project Structure
 - Main source code is in `src/{{cookiecutter.project_name}}/`
+- Configuration files are in `config/`
+- Any credentials or sensitive information should be stored in `config/secrets.ini` (not committed to version control)
 - Scripts supporting specific tasks are in `scripts/`
 - Data files are in the `data/` directory
 - Notebooks are in `notebooks/`
@@ -50,6 +52,8 @@ def example_function(param1: int, param2: str) -> bool:
 ### 4. Additional Guidelines
 - Prefer clear, descriptive variable and function names.
 - Use list comprehensions and generator expressions where appropriate.
+- When using arcpy to update fields, prefer to use `arcpy.da.UpdateCursor` for better performance, and, if possible, use a generator to feed values into the cursor.
+- If performing multiple processing steps using arcpy, use 'memory' workspace for intermediate outputs to enhance performance.
 - Avoid global variables.
 - Write modular, reusable code.
 - Add comments for complex logic.
