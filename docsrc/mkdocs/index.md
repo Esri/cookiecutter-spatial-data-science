@@ -1,7 +1,7 @@
 ---
 title: Home
 ---
-# Cookiecutter-Spatial-Data-Science 3.3.0
+# Cookiecutter-Spatial-Data-Science 3.4.0-dev0
 
 Creating results effectively communicating actionable insights from data requires
 creative exploration and experimentation. It is a sloppy, messy and disorganized
