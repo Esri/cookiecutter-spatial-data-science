@@ -70,6 +70,19 @@ plugins:
   - mkdocs-jupyter:
       include_source: True
 
+  # extension to include markdown files within other markdown files
+  - include-markdown:
+      encoding: ascii
+      preserve_includer_indent: false
+      dedent: false
+      trailing_newlines: true
+      comments: true
+      rewrite_relative_urls: true
+      heading_offset: 0
+      start: <!--start-->
+      end: <!--end-->
+      recursive: true
+
   # extension handling pulling docstrings from Python package
   - mkdocstrings:
 

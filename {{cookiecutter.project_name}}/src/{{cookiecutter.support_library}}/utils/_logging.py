@@ -1,8 +1,7 @@
+from importlib.util import find_spec
 import logging
 from pathlib import Path
 from typing import Union, Optional
-
-from .main import has_arcpy
 
 __all__ = ["get_logger", "format_pandas_for_logging", "ArcpyHandler"]
 
@@ -32,7 +31,7 @@ class ArcpyHandler(logging.Handler):
 
     def __init__(self, level: Union[int, str] = 10):
         # throw logical error if arcpy not available
-        if not has_arcpy:
+        if find_spec("arcpy") is None:
             raise EnvironmentError(
                 "The ArcPy handler requires an environment with ArcPy, a Python environment with "
                 "ArcGIS Pro or ArcGIS Enterprise."
@@ -71,8 +70,8 @@ class ArcpyHandler(logging.Handler):
 
 # setup logging
 def get_logger(
-    level: Optional[Union[str, int]] = "INFO",
     logger_name: Optional[str] = None,
+    level: Optional[Union[str, int]] = "INFO",
     logfile_path: Union[Path, str] = None,
     log_format: Optional[str] = "%(asctime)s | %(name)s | %(levelname)s | %(message)s",
     propagate: bool = True,
@@ -94,9 +93,14 @@ def get_logger(
     * `ERROR` - Due to a more serious problem, the software has not been able to perform some function.
     * `CRITICAL` - A serious error, indicating that the program itself may be unable to continue running.
 
+    !!! note
+
+        Logging levels can be provided as strings (e.g. `'DEBUG'`), corresponding integer values or using the
+        logging module constants (e.g. `logging.DEBUG`).
+
     Args:
-        level: Logging level to use. Default is `'INFO'`.
         logger_name: Name of the logger. If `None`, the root logger is used.
+        level: Logging level to use. Default is INFO.
         log_format: Format string for the logging messages. Default is `'%(asctime)s | %(name)s | %(levelname)s | %(message)s'`.
         propagate: If `True`, log messages are passed to the handlers of ancestor loggers. Default is `False`.
         logfile_path: Where to save the logfile if file output is desired.
@@ -152,7 +156,7 @@ def get_logger(
         logger.addHandler(sh)
 
     # if in an environment with ArcPy, add handler to bubble logging up to ArcGIS through ArcPy
-    if has_arcpy and add_arcpy_handler:
+    if find_spec("arcpy") is not None and add_arcpy_handler:
         ah = ArcpyHandler()
         ah.setFormatter(log_frmt)
         logger.addHandler(ah)
@@ -171,23 +175,36 @@ def get_logger(
     return logger
 
 
-def format_pandas_for_logging(
+def format_df_for_logging(
     pandas_df: "pd.DataFrame", title: str, line_tab_prefix="\t\t"
 ) -> str:
     """
-    Helper function facilitating outputting a :class:`Pandas DataFrame<pandas.DataFrame>` into a logfile. This function only
+    Helper function facilitating outputting a Pandas DataFrame into a logfile. This function only
         formats the data frame into text for output. It should be used in conjunction with a logging method.
 
     ``` python
-    logging.info(format_pandas_for_logging(df, title='Summary Statistics'))
+    logging.info(format_df_for_logging(df, title='Summary Statistics'))
     ```
 
     Args:
-        pandas_df: Pandas ``DataFrame`` to be converted to a string and included in the logfile.
+        pandas_df: Pandas DataFrame to be converted to a string and included in the logfile.
         title: String title describing the data frame.
         line_tab_prefix: Optional string comprised of tabs (``\\t\\t``) to prefix each line with providing indentation.
     """
+    if find_spec('pandas') is None:
+        raise ImportError("Pandas is required to use 'format_df_for_logging'.")
+    
+    # late import to avoid issues in non-Pandas environments
     import pandas as pd
+
+    # ensure proper type
+    if not isinstance(pandas_df, pd.DataFrame):
+        raise TypeError("The 'pandas_df' argument must be a Pandas DataFrame.")
+    
+    # format the data frame to a string with each line prefixed by the provided tab prefix
     log_str = line_tab_prefix.join(pandas_df.to_string(index=False).splitlines(True))
+
+    # add title
     log_str = f"{title}:\n{line_tab_prefix}{log_str}"
+
     return log_str

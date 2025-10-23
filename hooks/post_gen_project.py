@@ -24,8 +24,8 @@ import shutil
 import subprocess
 import importlib.util
 
-# set up logging
-logger = logging.getLogger('cookiecutter.post_gen_project')
+# set up logging - tying into cookiecutter logging
+logger = logging.getLogger('cookiecutter.hooks.post_gen_project')
 logger.setLevel(logging.DEBUG)
 
 # see if arcpy available to accommodate non-windows environments
@@ -45,6 +45,9 @@ create_gh_repo = '{{cookiecutter.create_github_repo}}'
 def setup_data(data_pth: Path) -> Path:
     """create all the data resources for the available environment from scratch to ensure version compatibility"""
 
+    if not has_arcpy:
+        logger.warning('arcpy not available; skipping file data geodatabase creation')
+
     # iterate the data subdirectories
     for data_name in ['interim', 'raw', 'processed', 'external']:
 
@@ -52,6 +55,7 @@ def setup_data(data_pth: Path) -> Path:
         dir_pth = data_pth / data_name
         if not dir_pth.exists():
             dir_pth.mkdir(parents=True)
+            logger.info(f'Created data directory: {dir_pth}')
 
         # if working in an arcpy environment
         if has_arcpy:
@@ -61,6 +65,7 @@ def setup_data(data_pth: Path) -> Path:
             if fgdb_pth.exists():
                 shutil.rmtree(fgdb_pth)
             arcpy.management.CreateFileGDB(str(dir_pth), f'{data_name}.gdb')
+            logger.info(f'Created file geodatabase: {fgdb_pth}')
 
     return data_pth
 
@@ -78,11 +83,15 @@ def copy_aprx(dir_arcgis: Path, new_prj_name: str, old_prj_name: str = 'cookiecu
     # copy the original tbx with a new name if not the same name and set the aprx to use it
     old_tbx_pth = Path(aprx.defaultToolbox)
     new_tbx_pth = old_tbx_pth.parent / old_tbx_pth.name.replace(old_prj_name, new_prj_name)
+    
+    logger.info(f'Created toolbox: {new_tbx_pth}')
 
     if old_tbx_pth != new_tbx_pth:
         shutil.copy(old_tbx_pth, new_tbx_pth)
         assert new_tbx_pth.exists()
         aprx.defaultToolbox = str(new_tbx_pth)
+        
+        logger.info(f'Set ArcGIS Pro default toolbox to: {new_tbx_pth}')
 
     # configure default geodatabase if not already set up
     gdb_pth = dir_arcgis.parent/'data'/'interim'/'interim.gdb'
@@ -92,24 +101,21 @@ def copy_aprx(dir_arcgis: Path, new_prj_name: str, old_prj_name: str = 'cookiecu
         assert gdb_pth.exists()
         aprx.defaultGeodatabase = str(gdb_pth)
 
+        logger.info(f'Set ArcGIS Pro default geodatabase to: {gdb_pth}')
+
     aprx.saveACopy(str(new_aprx_pth))
+    logger.info(f'Created ArcGIS Pro project: {new_aprx_pth}')
 
     # if removing original resources
     if remove_originals:
         del aprx  # have to remove object instance to remove referenced file
         old_aprx_pth.unlink()
+
+        logger.info(f'Removed original Cookiecutter ArcGIS Pro project: {old_aprx_pth}')
+        
         # old_tbx_pth.unlink()
 
     return new_aprx_pth
-
-
-def create_github_repo(repo_name: str) -> None:
-    """Create a GitHub repository using the gh CLI tool."""
-    try:
-        subprocess.run(['gh', 'repo', 'create', repo_name, "--description", new_prj_desc, '--public', '--source=.', '--remote=origin', '--push'],
-                       check=True)
-    except (subprocess.CalledProcessError, FileNotFoundError) as e:
-        logging.error(f"Failed to create GitHub repository: {e}")
 
 
 def init_git_repo(prj_path: Path) -> None:
@@ -118,8 +124,19 @@ def init_git_repo(prj_path: Path) -> None:
         subprocess.run(['git', 'init', "--initial-branch=main"], cwd=prj_path, check=True)
         subprocess.run(['git', 'add', '.'], cwd=prj_path, check=True)
         subprocess.run(['git', 'commit', '-m', 'initial commit'], cwd=prj_path, check=True)
+        logger.info('Initialized git repository and made initial commit.')
     except subprocess.CalledProcessError as e:
-        logging.error(f"Failed to initialize git repository: {e}")
+        logger.error(f"Failed to initialize git repository: {e}")
+
+
+def create_github_repo(repo_name: str) -> None:
+    """Create a GitHub repository using the gh CLI tool."""
+    try:
+        subprocess.run(['gh', 'repo', 'create', repo_name, "--description", new_prj_desc, '--public', '--source=.', '--remote=origin', '--push'],
+                       check=True)
+        logger.info(f'Created GitHub repository: {repo_name}')
+    except (subprocess.CalledProcessError, FileNotFoundError) as e:
+        logger.error(f"Failed to create GitHub repository: {e}")
 
 
 if __name__ == '__main__':
@@ -131,6 +148,13 @@ if __name__ == '__main__':
     env_pth = dir_prj/'env'
     config_pth = dir_prj / 'config' / 'secrets_template.ini'
 
+    # add logging hander to write progress to a file
+    fh = logging.FileHandler(dir_prj / 'post_gen_project.log', mode='w')
+    fh.setLevel(logging.DEBUG)
+    formatter = logging.Formatter('%(asctime)s | %(name)s | %(levelname)s | %(message)s')
+    fh.setFormatter(formatter)
+    logger.addHandler(fh)
+
     # ensure the data directories and geodatabases are all set up
     setup_data(dir_data_pth)
 
@@ -141,18 +165,18 @@ if __name__ == '__main__':
     # otherwise, remove arcgis resources
     else:
         shutil.rmtree(dir_arcgis_pth)
+        logger.info('arcpy not available; removed arcgis directory.')
 
     # rename the secrets configuration file
     config_pth.rename(dir_prj / 'config' / 'secrets.ini')
+    logger.info('Added secrets configuration file.')
 
     # initialize git
     init_git_repo(dir_prj)
-    logger.info('Git repository initialized.')
 
     # if also creating a GitHub repository, do so
     if create_gh_repo.lower() == 'yes':
         create_github_repo(new_prj_name)
-        logger.info(f'GitHub repository {new_prj_name} created.')
     else:
         logger.info('GitHub repository not created.')
 

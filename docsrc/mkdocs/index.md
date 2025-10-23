@@ -163,3 +163,13 @@ If creating a project named `sik-prj`, the structure of the project will look li
 │   README.md                             # readme displayed on front page of GitHub repo
 │   VERSION                               # project version number
 ```
+
+## Debugging
+
+Discovering issues when using this template is made easier with the by using this command.
+
+```cmd
+cookiecutter https://github.com/esri/cookiecutter-spatial-data-science --debug-file cookiecutter-debug.log --verbose
+```
+
+This outputs a log file named `cookiecutter-debug.log` in the current working directory, and provides a verbose output to the terminal. This information can be very useful when trying to diagnose issues.

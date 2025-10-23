@@ -3,7 +3,7 @@
     "project_title": "{{ cookiecutter.project_name }}",
     "author_name": "Rad people who do Geography AND Data Science",
     "description": "A short description of the project.",
-	"support_library": "{{ cookiecutter.project_name.lower().replace(' ', '_').replace('-', '_') }}",
+	"support_library": "{{ cookiecutter.project_name | lower | replace(' ', '_') | replace('-', '_') }}",
     "esri_web_gis_url": "https://arcgis.com",
     "esri_web_gis_profile": "web_gis_profile",
     "open_source_license": ["Apache 2.0", "MIT", "BSD-3-Clause", "No license file"],

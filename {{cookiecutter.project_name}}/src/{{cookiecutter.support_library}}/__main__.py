@@ -6,7 +6,7 @@ import pandas as pd
 from .utils import get_logger
 
 # configure module logging
-logger = get_logger(logger_name="{{cookiecutter.support_library}}", level="INFO")
+logger = get_logger("{{cookiecutter.support_library}}", level="DEBUG", add_stream_handler=False)
 
 
 def example_function(in_path: Union[str, Path]) -> pd.DataFrame:
