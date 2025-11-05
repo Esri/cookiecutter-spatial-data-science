@@ -1,7 +1,9 @@
 # Cookiecutter Reference
 
-This document provides a reference for the Cookiecutter template used in this project. It outlines the variables and options available for customization when generating a new project using this template.
+This document provides a reference for the Cookiecutter template used in this project. It outlines the variables and 
+options available for customization when generating a new project using this template.
 
+<!--start-->
 ## MkDocs
 
 Documentation is built using MkDocs with a few extensions.
@@ -129,3 +131,4 @@ If you want to...
 - update version with no breaking changes (minor version update), `bumpversion minor`
 - update version with breaking changes (major version update), `bumpversion major`
 - create a release (tagged in version control - Git), `bumpversion --tag release`
+<!--end-->
