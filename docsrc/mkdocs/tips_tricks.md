@@ -1,3 +1,6 @@
 # Tips and Tricks
 
-{% raw %}{% include "../../../{{cookiecutter.project_name}}/docsrc/mkdocs/cookiecutter_reference.md" %}{% endraw %}
+The Cookiecutter for Spatial Data Science template has many features that can help you get started quickly and efficiently. 
+Here are some tips and tricks to make the most out of it.
+
+{% raw %}{% include "../../{{cookiecutter.project_name}}/docsrc/mkdocs/cookiecutter_reference.md" %}{% endraw %}
