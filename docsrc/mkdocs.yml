@@ -9,7 +9,7 @@ site_dir: ../docs
 nav:
   - index.md
   - getting_started.md
-  - tips_and_tricks.md
+  - tips_tricks.md
   - why.md
   # - origins.md
 
