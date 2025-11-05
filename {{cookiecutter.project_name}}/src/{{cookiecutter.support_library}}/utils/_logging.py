@@ -1,3 +1,56 @@
+"""
+Logging utilities including an ArcPy logging handler and logger configuration function.
+
+As a best practice, it is recommended to set up logging for your application using the
+`:get_logger` function. This ensures logging is properly routed to the console, logfile
+and ArcPy messaging as appropriate. For example, in each module of your application, you 
+should set up a logger like this:
+
+``` python
+from {{cookiecutter.support_library}}.utils import get_logger
+
+logger = get_logger(__name__, level='DEBUG', add_stream_handler=False)
+```
+
+This ensures logging is consistent across your application and can be easily managed. Then, when
+you create a script in the scripts diretory, you can configure the root logger as needed for that
+script's execution context.
+
+``` python
+import datetime
+from pathlib import Path
+
+from {{cookiecutter.support_library}}.utils import get_logger
+
+# get the path to a directory to store logfiles - assuming script is in scripts directory
+script_pth = Path(__file__)
+dir_prj = script_pth.parent.parent
+dir_logs = dir_prj / 'data' / 'logs'
+
+# ensure the log directory exists
+if not dir_logs.exists():
+    dir_logs.mkdir(parents=True)
+
+# get the name of the scritp without the .py extension
+script_name = script_pth.stem
+
+if __name__ == "__main__":
+
+    # define the logfile path with a timestamp - enables unique logfile per execution
+    logfile_path = dir_logs / f'{script_name}_{datetime.datetime.now().strftime("%Y%m%dT%H%M%S")}.log'
+
+    # ommitting the name uses the root logger - will output both to console and logfile
+    logger = get_logger(level='INFO', add_stream_handler=True, logfile_path=logfile_path)
+
+    # from here on out, use the logger to log messages
+    logger.debug('This is a debug message, which will not be shown since the log level is set to INFO.')
+    logger.info('This is an informational message, which will be shown in both the console and logfile.')
+    logger.warning('This is a warning message, indicating a potential issue.')
+    logger.error('This is an error message, indicating a failure in a specific operation.')
+    logger.critical('This is a critical message, indicating a severe failure that may stop the program.')
+```
+
+"""
 from importlib.util import find_spec
 import logging
 from pathlib import Path
@@ -16,13 +69,15 @@ class ArcpyHandler(logging.Handler):
     ``` python
     logger = logging.getLogger('arcpy-logger')
     logger.setLevel('INFO')
+    
     ah = ArcpyHandler()
     logger.addHandler(ah)
+
     logger.debug('nauseatingly detailed debugging message')
     logger.info('something actually useful to know')
-    logger.warning('The sky may be falling')
-    logger.error('The sky is falling.)
-    logger.critical('The sky appears to be falling because a giant meteor is colliding with the earth.')
+    logger.warning('The sky may be falling - notifiying of potential issues')
+    logger.error('The sky is falling - notifying of a failure in a specific operation')
+    logger.critical('The sky appears to be falling because a giant meteor is colliding with the earth - severe failure that may stop the program')
     ```
     """
 
@@ -109,12 +164,12 @@ def get_logger(
             ArcPy messaging. Default is `False`.
 
     ``` python
-    configure_logging('DEBUG')
-    logging.debug('nauseatingly detailed debugging message')
-    logging.info('something actually useful to know')
-    logging.warning('The sky may be falling')
-    logging.error('The sky is falling.)
-    logging.critical('The sky appears to be falling because a giant meteor is colliding with the earth.')
+    logger = get_logger('DEBUG')
+    logger.debug('nauseatingly detailed debugging message')
+    logger.info('something actually useful to know')
+    logger.warning('The sky may be falling')
+    logger.error('The sky is falling.')
+    logger.critical('The sky appears to be falling because a giant meteor is colliding with the earth.')
     ```
 
     """

@@ -30,11 +30,13 @@ default.
 
 !!! note
     
-    The structure of the documentation pages is derived directly from the way files are organized in this directory. This is well explained in the [MkDocs: File Layout](https://www.mkdocs.org/user-guide/writing-your-docs/#file-layout) documentation.
+    The structure of the documentation pages is derived directly from the way files are organized in this directory. 
+    This is well explained in the [MkDocs: File Layout](https://www.mkdocs.org/user-guide/writing-your-docs/#file-layout) 
+    documentation.
 
 ### Notebooks
 
-Any Jupyter Noteoboks located in `./docsrc/mkdocs/notebooks` will be converted into documentation pages able to be
+Any Jupyter Notebooks located in `./docsrc/mkdocs/notebooks` will be converted into documentation pages able to be
 included in your table of contents specified in `./docsrc/mkdocs.yml`. You will need to manually move any Jupyter
 Notebooks you want included in the documentation into this directory.
 
@@ -46,6 +48,58 @@ Notebooks you want included in the documentation into this directory.
     
     Hence, to avoid these two issues, now the template requires deliberately moving the Jupyter Notebooks you want to include 
     in the documentation from `./notebooks` to `./docsrc/mkdocs/notebooks`.
+
+
+## Logging
+
+As a best practice, it is recommended to set up logging for your application using the
+`:get_logger` function. This ensures logging is properly routed to the console, logfile
+and ArcPy messaging as appropriate. For example, in each module of your application, you 
+should set up a logger like this:
+
+``` python
+from {{cookiecutter.support_library}}.utils import get_logger
+
+logger = get_logger(__name__, level='DEBUG', add_stream_handler=False)
+```
+
+This ensures logging is consistent across your application and can be easily managed. Then, when
+you create a script in the scripts diretory, you can configure the root logger as needed for that
+script's execution context.
+
+``` python
+import datetime
+from pathlib import Path
+
+from {{cookiecutter.support_library}}.utils import get_logger
+
+# get the path to a directory to store logfiles - assuming script is in scripts directory
+script_pth = Path(__file__)
+dir_prj = script_pth.parent.parent
+dir_logs = dir_prj / 'data' / 'logs'
+
+# ensure the log directory exists
+if not dir_logs.exists():
+    dir_logs.mkdir(parents=True)
+
+# get the name of the scritp without the .py extension
+script_name = script_pth.stem
+
+if __name__ == "__main__":
+
+    # define the logfile path with a timestamp - enables unique logfile per execution
+    logfile_path = dir_logs / f'{script_name}_{datetime.datetime.now().strftime("%Y%m%dT%H%M%S")}.log'
+
+    # ommitting the name uses the root logger - will output both to console and logfile
+    logger = get_logger(level='INFO', add_stream_handler=True, logfile_path=logfile_path)
+
+    # from here on out, use the logger to log messages
+    logger.debug('This is a debug message, which will not be shown since the log level is set to INFO.')
+    logger.info('This is an informational message, which will be shown in both the console and logfile.')
+    logger.warning('This is a warning message, indicating a potential issue.')
+    logger.error('This is an error message, indicating a failure in a specific operation.')
+    logger.critical('This is a critical message, indicating a severe failure that may stop the program.')
+```
 
 
 ## Commands

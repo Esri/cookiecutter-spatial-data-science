@@ -1,3 +1,5 @@
+"""Main module for {{cookiecutter.support_library}} package."""
+
 from typing import Union
 from pathlib import Path
 
@@ -5,7 +7,7 @@ import pandas as pd
 
 from .utils import get_logger
 
-# configure module logging
+# configure module logging, the same logger as the package-level logger
 logger = get_logger("{{cookiecutter.support_library}}", level="DEBUG", add_stream_handler=False)
 
 
@@ -13,7 +15,7 @@ def example_function(in_path: Union[str, Path]) -> pd.DataFrame:
     """
     This is an example function, mostly to provide a template for properly
     structuring a function and docstring for both you, and also for myself,
-    since I *almost always* have to look this up, and it's a *lot* easier
+    since I _almost always_ have to look this up, and it's a _lot_ easier
     for it to be already templated.
 
     Args:
@@ -31,7 +33,11 @@ def example_function(in_path: Union[str, Path]) -> pd.DataFrame:
     df = example_function(pth)
     ```
     """
-    return pd.read_csv(in_path)
+    df = pd.read_csv(in_path)
+
+    logger.debug(f"Read table with {len(df):,} records from {in_path}.")
+
+    return df
 
 
 class ExampleObject(object):
@@ -43,8 +49,10 @@ class ExampleObject(object):
     """
 
     def __init__(self, *args, **kwargs) -> None:
-        # is not applicable in all cases, but I always have to look it up, so it is here for simplicity's sake
+        # initialize parent object if subclassed
         super().__init__(*args, **kwargs)
+
+        logger.debug(f"Initialized {self.__class__.__name__} object instance.")
 
     @staticmethod
     def example_static_function(in_path: Union[str, Path]) -> pd.DataFrame:
@@ -59,7 +67,7 @@ class ExampleObject(object):
                 want to exploit, a really big word used to simply say, *use*.
 
         Returns:
-            Hypothetically, a Pandas Dataframe. Good luck with that.
+            Hypothetically, a Pandas Dataframe.
 
         ``` python
         from {{cookiecutter.support_library}} import ExampleObject
@@ -69,7 +77,11 @@ class ExampleObject(object):
         df = ExampleObject.example_function(pth)
         ```
         """
-        return pd.read_csv(in_path)
+        df = pd.read_csv(in_path)
+
+        logger.debug(f"Read table with {len(df):,} records from {in_path}.")
+
+        return df
 
     @classmethod
     def example_class_method(cls) -> "ExampleObject":
@@ -91,5 +103,10 @@ class ExampleObject(object):
         df = obj_inst.example_function(pth)
         ```
         """
-        return cls()
+
+        object_instance = cls()
+
+        logger.debug(f"Created {cls.__name__} instance via class method.")
+
+        return object_instance
     

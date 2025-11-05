@@ -6,6 +6,9 @@ __copyright__ = "Copyright 2023 by {{ cookiecutter.author_name }}"
 
 # add specific imports below if you want to organize your code into modules, which is mostly what I do
 from . import utils
-from .__main__ import example_function, ExampleObject
+from ._main import example_function, ExampleObject
 
 __all__ = ["example_function", "ExampleObject", "utils"]
+
+# configure package-level logging
+logger = utils.get_logger("{{cookiecutter.support_library}}", level="DEBUG", add_stream_handler=False)
