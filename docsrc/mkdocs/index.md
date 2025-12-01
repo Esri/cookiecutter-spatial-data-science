@@ -144,11 +144,11 @@ If creating a project named `sik-prj`, the structure of the project will look li
 ├───src                                   # where Python source code lives
 │   └───sik_prj                           # Python package for reusable code
 │       │   __init__.py
-│       │   __main__.py                   
+│       │   _main__.py                   
 │       │
 │       └───utils
-│               logging_utils.py
-│               main.py
+│               _logging.py
+│               _main.py
 │               __init__.py
 ├───testing
 │       test_sik_prj.py                   # example PyTest file
