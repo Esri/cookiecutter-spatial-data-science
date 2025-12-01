@@ -8,6 +8,12 @@ site_dir: ../docs
 #   - Home: index.md
 #   - API: api.md
 
+{%- if cookiecutter.create_github_repo -%}
+# add a GitHub repo link to the top navigation bar
+repo_url: https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_name }}
+repo_name: {{ cookiecutter.project_name }}
+{%- endif -%}
+
 theme:
   name: material
 
