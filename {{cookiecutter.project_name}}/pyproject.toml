@@ -13,18 +13,17 @@ readme = "README.md"
 requires-python = ">=3.9"
 classifiers = [
     "Programming Language :: Python :: 3",
-    "License :: OSI Approved :: Apache Software License",
 ]
-{%- if cookiecutter.license == "Apache 2.0" -%}
+{%- if cookiecutter.open_source_license == "Apache 2.0" -%}
 license = "Apache-2.0"
-{%- elif cookiecutter.license == "MIT" -%}
+{%- elif cookiecutter.open_source_license == "MIT" -%}
 license = "MIT"
-{%- elif cookiecutter.license == "BSD-3-Clause" -%}
+{%- elif cookiecutter.open_source_license == "BSD-3-Clause" -%}
 license = "BSD-3-Clause"
-{%- elif cookiecutter.license == "MIT" -%}
+{%- elif cookiecutter.open_source_license == "MIT" -%}
 license = "MIT"
 {%- endif -%}
-{%- if cookiecutter.license != "No license file" -%}
+{%- if cookiecutter.open_source_license != "No license file" -%}
 license-file = ["LICENSE"]
 {%- endif -%}
 dependencies = [

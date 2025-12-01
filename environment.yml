@@ -13,3 +13,4 @@ dependencies:
     - mkdocs-include-markdown-plugin
     - mkdocs-material
     - mkdocstrings[python]>=0.18
+    - pytest-cookies

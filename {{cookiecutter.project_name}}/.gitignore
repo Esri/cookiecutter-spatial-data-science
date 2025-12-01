@@ -60,6 +60,7 @@ target/
 
 # configuration files
 **/secrets.ini
+**/secrets.py
 .env
 
 # Database
@@ -95,3 +96,6 @@ env/
 
 # exclude the docs build directory
 docs/
+
+# exclude cookiecutter post_gen log file
+post_gen_project.log

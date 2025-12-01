@@ -1,4 +1,4 @@
-.PHONY: data clean docs env jupyter test black
+.PHONY: data clean docs docserve env jupyter test black
 
 #################################################################################
 # GLOBALS                                                                       #
@@ -24,6 +24,10 @@ clean:
 ## Build the docs
 docs:
 	conda run -p "$(ENV)" mkdocs build -f ./docsrc/mkdocs.yml
+
+## MkDocs live documentation server
+docserve:
+	conda run -p "$(ENV)" mkdocs serve -f ./docsrc/mkdocs.yml
 
 ## Build the local environment from the environment file
 env:
