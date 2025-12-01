@@ -56,7 +56,7 @@ import logging
 from pathlib import Path
 from typing import Union, Optional
 
-__all__ = ["get_logger", "format_pandas_for_logging", "ArcpyHandler"]
+__all__ = ["get_logger", "format_df_for_logging", "ArcpyHandler"]
 
 
 class ArcpyHandler(logging.Handler):

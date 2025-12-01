@@ -15,7 +15,18 @@ classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: Apache Software License",
 ]
-license = {file = "LICENSE"}
+{%- if cookiecutter.license == "Apache 2.0" -%}
+license = "Apache-2.0"
+{%- elif cookiecutter.license == "MIT" -%}
+license = "MIT"
+{%- elif cookiecutter.license == "BSD-3-Clause" -%}
+license = "BSD-3-Clause"
+{%- elif cookiecutter.license == "MIT" -%}
+license = "MIT"
+{%- endif -%}
+{%- if cookiecutter.license != "No license file" -%}
+license-file = ["LICENSE"]
+{%- endif -%}
 dependencies = [
     "arcgis>=2.2.0",
     "numpy>=1.7",
