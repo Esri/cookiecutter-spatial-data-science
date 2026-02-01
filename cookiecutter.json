@@ -11,5 +11,17 @@
     "create_github_repo": ["yes", "no"],
     "_copy_without_render": [
         ".github/workflows/make-mkdocs.yml"
-    ]
+    ],
+    "__prompts__": {
+        "project_name": "Project Name (use hyphens for separation)",
+        "project_title": "Project Title (human-readable, will default to project name)",
+        "author_name": "Author Name or Organization",
+        "github_organization": "GitHub Organization or Username",
+        "description": "Brief Project Description",
+        "support_library": "Support Library Name (Python package name, auto-generated from project name)",
+        "esri_web_gis_url": "Esri Web GIS URL (e.g., https://arcgis.com or your portal URL)",
+        "esri_web_gis_profile": "Esri Web GIS Profile Name (authentication profile)",
+        "open_source_license": "Choose an Open Source License",
+        "create_github_repo": "Create GitHub Repository?"
+    }
 }
