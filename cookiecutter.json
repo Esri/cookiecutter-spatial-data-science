@@ -2,6 +2,7 @@
     "project_name": "spatial-data-science-project",
     "project_title": "{{ cookiecutter.project_name }}",
     "author_name": "Rad people who do Geography AND Data Science",
+    "github_organization": "your-github-organization",
     "description": "A short description of the project.",
 	"support_library": "{{ cookiecutter.project_name | lower | replace(' ', '_') | replace('-', '_') }}",
     "esri_web_gis_url": "https://arcgis.com",
