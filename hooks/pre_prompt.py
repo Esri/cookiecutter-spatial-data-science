@@ -2,6 +2,7 @@
 import json
 import logging
 from pathlib import Path
+import shutil
 import subprocess
 
 # set up logging - tying into cookiecutter logging
@@ -9,23 +10,44 @@ logger = logging.getLogger('cookiecutter.hooks.pre_prompt')
 logger.setLevel(logging.DEBUG)
 
 if __name__ == "__main__":
-    # try to retrieve git username
-    try:
+    gh_username = ""
+    
+    # Check if gh CLI is installed
+    if not shutil.which("gh"):
+        logger.info("GitHub CLI (gh) not found. Skipping GitHub username detection.")
+        logger.info("You can install it from: https://cli.github.com/")
+    else:
+        logger.info("Checking GitHub CLI authentication...")
+        
+        # try to retrieve git username
+        try:
+            # get the auth dictionary from gh cli with a timeout for faster failure
+            gh_auth_dict = subprocess.run(
+                ["gh", "api", "user"], 
+                capture_output=True, 
+                text=True, 
+                check=True,
+                timeout=5  # 5 second timeout to fail fast
+            )
 
-        # get the auth dictionary from gh cli
-        gh_auth_dict = subprocess.run(["gh", "api", "user"], capture_output=True, text=True, check=True)
+            # extract the username from the auth dictionary
+            gh_username = json.loads(gh_auth_dict.stdout).get("login", "").strip()
 
-        # extract the username from the auth dictionary
-        gh_username = json.loads(gh_auth_dict.stdout).get("login", "").strip()
-
-    except:
-        gh_username = ""
+        except subprocess.TimeoutExpired:
+            logger.warning("GitHub CLI request timed out. Skipping username detection.")
+        except subprocess.CalledProcessError as e:
+            logger.warning("GitHub CLI authentication failed. You may need to run 'gh auth login'.")
+            logger.debug(f"Error details: {e.stderr if e.stderr else 'No error output'}")
+        except json.JSONDecodeError:
+            logger.warning("Failed to parse GitHub CLI response. Skipping username detection.")
+        except Exception as e:
+            logger.debug(f"Unexpected error retrieving GitHub username: {e}")
 
     # log the retrieved username
     if gh_username:
         logger.info(f"Retrieved GitHub username from GH CLI: {gh_username}")
     else:
-        logger.info("No GitHub username retrieved from GH CLI.")
+        logger.info("No GitHub username retrieved. You'll be prompted to enter it manually.")
 
     # get the path to the current cookiecutter context file
     template_root = Path.cwd()
