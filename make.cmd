@@ -2,7 +2,7 @@
 :: LICENSING                                                                    :
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 ::
-:: Copyright 2020 Esri
+:: Copyright 2025 Esri
 ::
 :: Licensed under the Apache License, Version 2.0 (the "License"); You
 :: may not use this file except in compliance with the License. You may
@@ -43,9 +43,13 @@ GOTO %1
     CALL conda run -p %CONDA_DIR% mkdocs serve -f ./docsrc/mkdocs.yml
     GOTO end
 
+:: clone the arcgispro-py3 environment
+:env
+    CALL conda create -p ./env --clone "C:\Program Files\ArcGIS\Pro\bin\Python\envs\arcgispro-py3"
+
 :: Build the local environment from the environment file
 :env
-    CALL conda env create -p ./env -f environment.yml
+    CALL conda env update -p ./env -f environment.yml
     GOTO end
 
 :end

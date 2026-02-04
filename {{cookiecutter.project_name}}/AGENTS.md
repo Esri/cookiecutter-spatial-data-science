@@ -22,6 +22,9 @@ def example_function(param1: int, param2: str) -> bool:
     !!! note
         Additional notes about the function.
 
+    ??? note "Collaspsible Note with Title"
+        This is a collapsible note section using a custom title.
+
     !!! warning
         Warnings about the function usage.
 

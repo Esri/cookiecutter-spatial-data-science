@@ -1,9 +1,9 @@
 # OSX Junk
 .DS_Store
 
-# test cache
+# cache
 .cache/*
-tests/__pycache__/*
+**/__pycache__/
 *.pytest_cache/
 
 # JetBrains stuff

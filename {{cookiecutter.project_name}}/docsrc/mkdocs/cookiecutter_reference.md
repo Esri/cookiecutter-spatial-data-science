@@ -103,18 +103,27 @@ if __name__ == "__main__":
     logger.critical('This is a critical message, indicating a severe failure that may stop the program.')
 ```
 
+## AGENTS.md
+
+The `AGENTS.md` file located in the project root directory provides guidance on how to effectively use AI agents, such as ChatGPT, to assist with project development. It includes tips on prompt engineering, 
+best practices for interacting with AI models, and examples of how to leverage AI to enhance productivity 
+and code quality.
+
+If you want to update this file, [GitHub's guide on writing effective AGENTS.md files](https://github.blog/ai-and-ml/github-copilot/how-to-write-a-great-agents-md-lessons-from-over-2500-repositories/), is a useful concise reference for creating effective AGENTS.md files.
 
 ## Commands
 
 Here are a few commonly used commands for efficient project configuration and use.
 
-* `make env` - creates a Conda environment in the project directory in `./env` with resources needed for project development
-* `make jupyter` - run Jupyter notebook with options enabling connecting from another computer on the same network if desired
-* `make data` - build data using the file `./scripts/make_data.py` using the Conda environment `./env` created with the command    
-  `make env`
-* `make docs` - builds documentation in `./docs` from resources in `./docsrc`.
+* `make env` - creates a Conda environment in the project directory in `./env` with resources needed for 
+project development
+* `make jupyter` - run Jupyter notebook with options enabling connecting from another computer on the 
+same network if desired
 * `make docserve` - runs live server on http://127.0.0.1:8000/ to see updates to docs in real
-  time. This is extremely useful when building the documentation to see how it will look.
+time. This is extremely useful when building the documentation to see how it will look.
+* `make docs` - builds documentation in `./docs` from resources in `./docsrc`.
+* `make data` - build data using the file `./scripts/make_data.py` using the Conda environment `./env` 
+created with the command `make env`
 
 !!! note
 
