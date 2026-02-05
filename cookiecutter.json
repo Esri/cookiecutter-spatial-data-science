@@ -8,7 +8,6 @@
     "esri_web_gis_url": "https://arcgis.com",
     "esri_web_gis_profile": "web_gis_profile",
     "open_source_license": ["Apache 2.0", "MIT", "BSD-3-Clause", "No license file"],
-    "github_username": "{{ cookiecutter.github_username }}",
     "create_github_repo": ["yes", "no"],
     "_copy_without_render": [
         ".github/workflows/make-mkdocs.yml"

@@ -2,7 +2,7 @@
 Logging utilities including an ArcPy logging handler and logger configuration function.
 
 As a best practice, it is recommended to set up logging for your application using the
-`:get_logger` function. This ensures logging is properly routed to the console, logfile
+`get_logger` function. This ensures logging is properly routed to the console, logfile
 and ArcPy messaging as appropriate. For example, in each module of your application, you 
 should set up a logger like this:
 
@@ -100,8 +100,8 @@ class ArcpyHandler(logging.Handler):
         Args:
             record: Record containing all information needed to emit a new logging event.
         
-        Note:
-            This method should not be called directly, but rather enables the ``Logger`` methods to
+        !!! note
+            This method should not be called directly, but rather enables the `Logger` methods to
             be able to use this handler correctly.
         """
         # run through the formatter to honor logging formatter settings
@@ -134,11 +134,11 @@ def get_logger(
     add_arcpy_handler: bool = False,
 ) -> logging.Logger:
     """
-    Get Python :class:`Logger<logging.Logger>` configured to provide stream, file or, if available, ArcPy output.
-    The way the method is set up, logging will be routed through ArcPy messaging using :class:`ArcpyHandler` if
+    Get Python `logging.Logger` configured to provide stream, file or, if available, ArcPy output.
+    The way the method is set up, logging will be routed through ArcPy messaging using `ArcpyHandler` if
     ArcPy is available. If ArcPy is *not* available, messages will be sent to the console using a
-    :class:`StreamHandler<logging.StreamHandler>`. Next, if the `logfile_path` is provided, log messages will also
-    be written to the provided path to a logfile using a :class:`FileHandler<logging.FileHandler>`.
+    `logging.StreamHandler`. Next, if the `logfile_path` is provided, log messages will also
+    be written to the provided path to a logfile using a `logging.FileHandler`.
 
     Valid `log_level` inputs include:
     * `DEBUG` - Detailed information, typically of interest only when diagnosing problems.
@@ -194,23 +194,31 @@ def get_logger(
     logger = logging.getLogger(logger_name)
     logger.setLevel(level=level)
 
-    # clear handlers
-    logger.handlers.clear()
-
     # configure formatting
     log_frmt = logging.Formatter(log_format)
 
     # set propagation
     logger.propagate = propagate
 
-    # make sure at least a stream handler is present
+    # add or update stream handler if requested
     if add_stream_handler:
-        # create and add the stream handler
-        sh = logging.StreamHandler()
-        sh.setFormatter(log_frmt)
-        logger.addHandler(sh)
 
-    # if in an environment with ArcPy, add handler to bubble logging up to ArcGIS through ArcPy
+        # get existing stream hander if one in the logger
+        stream_handler = next(
+            (h for h in logger.handlers if isinstance(h, logging.StreamHandler)),
+            None
+        )
+        
+        # if no stream handler exists, create one and add it to the logger
+        if stream_handler is None:
+            stream_handler = logging.StreamHandler()
+            logger.addHandler(stream_handler)
+        
+        # set the formatter for the stream handler
+        stream_handler.setFormatter(log_frmt)
+
+
+    # if in an environment with ArcPy, and desired, add handler to bubble logging up to ArcGIS through ArcPy
     if find_spec("arcpy") is not None and add_arcpy_handler:
         ah = ArcpyHandler()
         ah.setFormatter(log_frmt)
