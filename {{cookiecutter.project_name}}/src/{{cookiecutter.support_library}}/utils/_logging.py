@@ -127,7 +127,7 @@ class ArcpyHandler(logging.Handler):
 def get_logger(
     logger_name: Optional[str] = None,
     level: Optional[Union[str, int]] = "INFO",
-    logfile_path: Union[Path, str] = None,
+    logfile_path: Optional[Union[Path, str]] = None,
     log_format: Optional[str] = "%(asctime)s | %(name)s | %(levelname)s | %(message)s",
     propagate: bool = True,
     add_stream_handler: bool = True,
@@ -231,7 +231,7 @@ def get_logger(
 
 
 def format_df_for_logging(
-    pandas_df: "pd.DataFrame", title: str, line_tab_prefix="\t\t"
+    pandas_df: "pd.DataFrame", title: str, line_tab_prefix: str="\t\t"
 ) -> str:
     """
     Helper function facilitating outputting a Pandas DataFrame into a logfile. This function only
