@@ -4,15 +4,7 @@
 
 ### About This Project
 
-**Cookiecutter-Spatial-Data-Science** is a [Cookiecutter](https://cookiecutter.readthedocs.io/) template designed to streamline and promote best practices for projects combining Geography and Data Science. It provides a logical, reasonably standardized, and flexible project structure that encourages:
-
-- **Project bootstrapping** - Quick setup of new spatial data science projects
-- **Innovation** - Focus on solving problems rather than project setup
-- **Repeatability** - Consistent project structure across teams and organizations
-- **Documentation** - Built-in documentation framework using MkDocs
-- **Best practices** - Industry-standard conventions for Python and spatial analysis
-
-This template integrates seamlessly with ArcGIS Pro and leverages the power of Conda environments, making it ideal for geospatial data science workflows.
+**Cookiecutter-Spatial-Data-Science** is a [Cookiecutter](https://cookiecutter.readthedocs.io/) template designed to streamline and promote best practices for projects combining Geography and Data Science. It provides a logical, reasonably standardized, and flexible project structure for spatial data science workflows.
 
 ### Resources
 
@@ -31,124 +23,51 @@ This template integrates seamlessly with ArcGIS Pro and leverages the power of C
 
 ---
 
-## Coding Standards and Conventions
-
-When generating or editing code for this Cookiecutter template or projects created from it, follow these guidelines:
-
-### 1. Coding Standards
-- **PEP8**: All Python code must comply with [PEP8](https://peps.python.org/pep-0008/) style guidelines.
-- **Type Hints**: All functions and class methods must include explicit type hints for arguments and return values.
-- **Docstrings**: Use the [Google Python Style Guide](https://google.github.io/styleguide/pyguide.html) for docstrings. Each function/class should have a docstring with an `Args:` section for parameters. When applicable, include `Returns:` and `Raises:` sections. When iconic notes are needed, use the following format:
-    - Use `!!! note` for general notes.
-    - Use `!!! warning` for warnings.
-- **Code Examples**: When including code examples in docstrings, avoid using "Example:" and instead format them as follows:
-    - Use triple backticks for code examples within docstrings.
-
-### 2. Docstring Example
-```python
-def example_function(param1: int, param2: str) -> bool:
-    """
-    Brief description of what the function does.
-
-    !!! note
-        Additional notes about the function.
-
-    !!! warning
-        Warnings about the function usage.
-
-    ``` python
-    result = example_function(10, "test")
-    print(result)
-    ```
-    
-    Args:
-        param1: Description of param1.
-        param2: Description of param2.
-
-    Returns:
-        bool: Description of the return value.
-    """
-    ...
-```
-
-### 3. Project Structure
-
-The Cookiecutter template generates projects with the following structure:
-
-- **`src/{{cookiecutter.project_name}}/`** - Main source code for the project package
-- **`config/`** - Configuration files (use Python files: `config.py`, `secrets.py` for credentials, never commit `secrets.py` to version control)
-- **`scripts/`** - Utility scripts for data processing, toolbox creation, etc.
-- **`data/`** - Data files (raw, processed, external)
-- **`notebooks/`** - Jupyter notebooks for exploratory analysis
-- **`arcgis/`** - ArcGIS Pro project files, Python toolboxes (*.pyt), and layer files
-- **`testing/`** - PyTest test files
-- **`docsrc/`** - MkDocs documentation source files
-- **`reports/`** - Generated reports, figures, and logs
-- **`models/`** - Trained models and model metadata (*.emd files)
-
-### 4. Spatial Data Science Best Practices
-
-- **ArcPy Performance**:
-  - Prefer `arcpy.da.UpdateCursor` over older cursor methods for better performance
-  - Use generator expressions to feed values into cursors when possible
-  - Use 'memory' workspace for intermediate outputs to enhance performance
-  - Always clean up cursors, using `with` statements or `del` statements, or use them as context managers
-
-- **Data Processing**:
-  - For arcpy tools creating intermediate outputs:
-    - Use the `memory` workspace for temporary outputs for small to moderate datasets - thousands to tens of thousands of features, not millions
-    - For larger datasets, write to disk in a temporary directory and clean up after processing
-  - For large datasets, use DuckDB or similar tools for efficient querying and processing
-  - Prefer pandas, numpy, and scikit-learn for data manipulation when possible
-  - When using Pandas, avoid chained indexing to prevent SettingWithCopyWarning; use `.loc` or `.iloc` instead
-  - Use vectorized operations in Pandas and NumPy for better performance instead of iterating over rows with loops
-  - Use list comprehensions and generator expressions where appropriate, but avoid overusing them in complex logic for readability (PEP8 - explicit is better than implicit)
-
-- **Code Quality**:
-  - Prefer clear, descriptive variable and function names
-  - Avoid global variables
-  - Write modular, reusable code
-  - Add comments for complex logic
-  - Keep functions small and focused on a single responsibility
-  - Use logging instead of print statements for better control over output
-  - Handle exceptions gracefully and provide informative error messages
-  - Avoid hardcoding values; use configuration files or environment variables instead
-  - Avoid early returns in functions; instead, structure logic to minimize multiple exit points
-  - Write unit tests for new functionality to ensure code reliability
-
-### 5. Makefile Commands
-
-This template includes a `Makefile` with common commands:
-
-- `make env` - Set up the Conda environment with all dependencies
-- `make data` - Run the data pipeline (`./scripts/make_data.py`)
-- `make pytzip` - Create a distributable zipped archive of the Python toolbox
-- `make docserve` - Run live MkDocs documentation server (http://localhost:8000)
-- `make docs` - Build the documentation
-- `make test` - Run all tests using PyTest
-
-### 6. AI Assistant Usage Guidelines
-
-- **Before creating**: Always check for existing functions/classes before creating new ones
-- **When editing**: Preserve existing logic unless explicitly instructed to refactor
-- **When adding files**: Update relevant documentation and tests
-- **Version control**: Never commit sensitive information (credentials, API keys) to version control
-- **Testing**: Write tests for new functionality in the `testing/` directory
-- **Documentation**: Update MkDocs documentation in `docsrc/` when adding significant features
-
-### 7. Template Development
+## Template Development Guidelines
 
 When working on the Cookiecutter template itself:
 
+### 1. Template Syntax
 - **Template variables**: Use `{{cookiecutter.variable_name}}` syntax for template variables
 - **Jinja2 logic**: Use `{% if %}` and `{% for %}` for conditional logic in templates
-- **Hooks**: Post-generation hooks are in `hooks/post_gen_project.py`
-- **Testing**: Test the template generation with different configurations
-- **Documentation**: Keep the main README.md and documentation in `docsrc/` up to date
+- **Variable naming**: Use lowercase with underscores (snake_case) for variable names in `cookiecutter.json`
+
+### 2. Hooks
+- **Post-generation hooks**: Located in `hooks/post_gen_project.py`
+- **Pre-generation hooks**: Located in `hooks/pre_gen_project.py` (if needed)
+- Hooks should handle setup tasks like:
+  - Removing unused files based on user choices
+  - Setting up Git repository
+  - Creating initial directory structures
+  - Validating user input
+
+### 3. Testing the Template
+- Test template generation with different configurations
+- Verify all conditional logic works correctly
+- Ensure hooks execute without errors
+- Test on multiple platforms (Windows, macOS, Linux)
+- Use `cookiecutter --replay` to test with previous configurations
+
+### 4. Documentation
+- Keep the main `README.md` up to date with:
+  - Installation instructions
+  - Usage examples
+  - Template variable descriptions
+  - Project structure overview
+- Update `docsrc/` documentation for significant template changes
+- Document any new template variables in `cookiecutter.json`
+
+### 5. Version Control
+- Never include actual credentials or API keys in the template
+- Use placeholder values for sensitive configuration
+- Include appropriate `.gitignore` files in the template
 
 ---
 
-For questions, clarifications, or to report issues, please:
+!!! note
+    Projects generated from this template have their own `AGENTS.md` file with project-specific coding guidelines. This file focuses solely on template development.
+
+For questions, clarifications, or to report issues:
 1. Check the [project documentation](https://github.com/esri/cookiecutter-spatial-data-science)
 2. Search [existing issues](https://github.com/esri/cookiecutter-spatial-data-science/issues)
 3. Submit a new issue if needed

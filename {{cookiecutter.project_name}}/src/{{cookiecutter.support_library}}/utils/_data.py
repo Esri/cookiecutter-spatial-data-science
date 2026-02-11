@@ -1,6 +1,6 @@
 import logging
 import sys
-from typing import Callable, Any, TypeVar
+from typing import Callable, Any
 import tempfile
 import shutil
 from functools import wraps
