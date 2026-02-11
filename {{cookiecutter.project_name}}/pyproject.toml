@@ -3,29 +3,35 @@ requires = ["setuptools>=61.0", "setuptools-scm>=8.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
+
 name = "{{ cookiecutter.project_name }}"
+
 version = "0.0.0"
+
 authors = [
   { name="{{ cookiecutter.author_name }}"},
 ]
+
 description = "{{ cookiecutter.description }}"
+
 readme = "README.md"
+
 requires-python = ">=3.9"
+
 classifiers = [
     "Programming Language :: Python :: 3",
 ]
-{%- if cookiecutter.open_source_license == "Apache 2.0" -%}
-license = "Apache-2.0"
-{%- elif cookiecutter.open_source_license == "MIT" -%}
-license = "MIT"
-{%- elif cookiecutter.open_source_license == "BSD-3-Clause" -%}
-license = "BSD-3-Clause"
-{%- elif cookiecutter.open_source_license == "MIT" -%}
-license = "MIT"
-{%- endif -%}
-{%- if cookiecutter.open_source_license != "No license file" -%}
-license-file = ["LICENSE"]
-{%- endif -%}
+
+{% if cookiecutter.open_source_license == "Apache 2.0" %}
+license = {"text" = "Apache-2.0"}
+{% elif cookiecutter.open_source_license == "MIT" %}
+license = {text = "MIT"}
+{% elif cookiecutter.open_source_license == "BSD-3-Clause" %}
+license = {text = "BSD-3-Clause"}
+{% elif cookiecutter.open_source_license == "MIT" %}
+license = {text = "MIT"}
+{% endif %}
+
 dependencies = [
     "arcgis>=2.2.0",
     "numpy>=1.7",

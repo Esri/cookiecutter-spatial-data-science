@@ -1,10 +1,10 @@
+"""Create a zipped archive of a Python toolbox and its dependencies."""
 import importlib
 import importlib.metadata
 import inspect
 from pathlib import Path
 import re
 import zipfile
-
 
 # helper function to discover and add Python packages to a zipfile
 def add_package(
@@ -17,7 +17,7 @@ def add_package(
         package_name: Name of the Python package available in the *current* environment, but not part of a standard
              Python environment.
         zip_file: Zip file archive to add the package to.
-        path_prefix: Path prefix where packages will be save in the zip archive. By default, this is ``./src``.
+        path_prefix: Path prefix where packages will be saved in the zip archive. By default, this is ``./src``.
     """
     # get the package
     pkg = importlib.import_module(package_name)
@@ -42,12 +42,12 @@ def get_package_requirements(package_name: str) -> list[str]:
     dep_lst = importlib.metadata.requires(package_name)
 
     # use regex to extract just the package name
-    mtch_lst = [re.match(r'~?([\d\w_-]*)[<>]?=?(\d*\.?)?', dep) for dep in dep_lst]
+    pkg_lst = [re.match(r'~?([\d\w_-]*)[<>]?=?(\d*\.?)?', dep) for dep in dep_lst]
 
     # only keep requirements able to be matched
-    req_lst = [mtch.group(1) for mtch in mtch_lst if mtch is not None]
+    requirement_lst = [pkg.group(1) for pkg in pkg_lst if pkg is not None]
 
-    req_lst
+    return requirement_lst
 
 
 if __name__ == "__main__":

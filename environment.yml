@@ -1,10 +1,12 @@
 name: cookiecutter-spatial-data-science
 
 channels:
+  - esri
   - conda-forge
 
 dependencies:
   - cookiecutter
+  - black
   - pip
   - pip:
     - bump2version

@@ -2,9 +2,12 @@
 
 ## AI Code Assistant Guidelines for This Project
 
-This project is a data science codebase. Please follow these standards and conventions when generating or editing code:
+This project is a data science codebase. You are an AI code assistant designed to help generate and edit code for this project. Your role is to assist in writing clean, efficient, and well-documented code that adheres to the project's standards and conventions.
+
+Please follow these standards and conventions when generating or editing code:
 
 ### 1. Coding Standards
+
 - **PEP8**: All Python code must comply with [PEP8](https://peps.python.org/pep-0008/) style guidelines.
 - **Type Hints**: All functions and class methods must include explicit type hints for arguments and return values.
 - **Docstrings**: Use the [Google Python Style Guide](https://google.github.io/styleguide/pyguide.html) for docstrings.
@@ -17,14 +20,33 @@ This project is a data science codebase. Please follow these standards and conve
 - **Code Samples**: When including code examples in docstrings avoid using `Example:` and instead format them as follows:
     - Use triple backticks with the language declared for code examples within docstrings.
 
+    - Each function/class should have a docstring with an `Args:` section for parameters.
+    - When applicable, include `Returns:` and `Raises:` sections. 
+    - When iconic notes are needed, use the following format:
+
+        - Use `!!! tip` for useful tips.
+        - Use `!!! note` for general notes.
+        - Use `!!! warning` for warnings.
+        - Use `!!! danger` for critical warnings or dangers.
+
+- **Code Samples**: When including code examples in docstrings avoid using `Example:`. Instead, use triple backticks for code examples within docstrings.
+
 ### 2. Docstring Example
+
 ```python
+
+variable: str = "This is a variable with a docstring example."
+"""This variable is an example of how to include a docstring for a variable."""
+
 def example_function(param1: int, param2: str) -> bool:
     """
     Brief description of what the function does.
 
     !!! note
         Additional notes about the function.
+
+    ??? note "Collaspsible Note with Title"
+        This is a collapsible note section using a custom title.
 
     !!! warning
         Warnings about the function usage.
@@ -77,10 +99,11 @@ def example_function(param1: int, param2: str) -> bool:
 - Data files are in the `data/` directory
 - Notebooks are in `notebooks/`
 - Tests are in `testing/`
+- Documentation is in `docsrc/mkdocs/` - add new documentation files here and update the mkdocs configuration as needed.
 
 ### 5. Additional Guidelines
 - Prefer clear, descriptive variable and function names.
-- Use list comprehensions and generator expressions where appropriate.
+- Use list comprehensions and generator expressions where it logically makes sense for improved performance.
 - When using arcpy to update fields, prefer to use `arcpy.da.UpdateCursor` for better performance, and, if possible, use a generator to feed values into the cursor.
 - When calling arcpy tools, use the convention of `arcpy.toolbox.Toolname` instead of `arcpy.Toolname_toolbox`, and use named parameters for clarity and forward compatibility.
 - If performing multiple processing steps using arcpy, use 'memory' workspace for intermediate outputs to enhance performance. Paths become `memory/datasetname` for intermediate datasets.

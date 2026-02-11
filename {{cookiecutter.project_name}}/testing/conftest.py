@@ -6,23 +6,24 @@ especially when tests are spread acrsoss multiple files.
 """
 import tempfile
 from pathlib import Path
+from typing import Generator
 
 import pytest
 
 @pytest.fixture(scope="function")
-def temp_dir() -> Path:
+def temp_dir() -> Generator[Path, None, None]:
     """Create a temporary directory for testing purposes. When the test is done, the directory and its contents are deleted."""
     with tempfile.TemporaryDirectory() as tmpdirname:
         yield Path(tmpdirname)
 
 
 @pytest.fixture(scope="function")
-def temp_gdb(temp_dir: Path) -> Path:
+def temp_gdb(temp_dir: Path) -> Generator[Path, None, None]:
     """Create a temporary file geodatabase for testing purposes. When the test is done, the geodatabase and its contents are deleted."""
     import arcpy
     gdb_pth: str = arcpy.management.CreateFileGDB(str(temp_dir), "test.gdb")[0]
     yield Path(gdb_pth)
-    # do a little cleanup so the temporary directory can be removed
+    # do a little cleanup so the temporary directory can be removed by temp_dir fixture
     if arcpy.Exists(gdb_pth):
         arcpy.management.Delete(gdb_pth)
 
