@@ -76,7 +76,7 @@ def example_function(param1: int, param2: str) -> bool:
 The Cookiecutter template generates projects with the following structure:
 
 - **`src/{{cookiecutter.project_name}}/`** - Main source code for the project package
-- **`config/`** - Configuration files (use `secrets.ini` for credentials, never commit to version control)
+- **`config/`** - Configuration files (use Python files: `config.py`, `secrets.py` for credentials, never commit `secrets.py` to version control)
 - **`scripts/`** - Utility scripts for data processing, toolbox creation, etc.
 - **`data/`** - Data files (raw, processed, external)
 - **`notebooks/`** - Jupyter notebooks for exploratory analysis
@@ -92,12 +92,17 @@ The Cookiecutter template generates projects with the following structure:
   - Prefer `arcpy.da.UpdateCursor` over older cursor methods for better performance
   - Use generator expressions to feed values into cursors when possible
   - Use 'memory' workspace for intermediate outputs to enhance performance
-  - Always clean up cursors with `del` or use them as context managers
+  - Always clean up cursors, using `with` statements or `del` statements, or use them as context managers
 
 - **Data Processing**:
+  - For arcpy tools creating intermediate outputs:
+    - Use the `memory` workspace for temporary outputs for small to moderate datasets - thousands to tens of thousands of features, not millions
+    - For larger datasets, write to disk in a temporary directory and clean up after processing
+  - For large datasets, use DuckDB or similar tools for efficient querying and processing
   - Prefer pandas, numpy, and scikit-learn for data manipulation when possible
-  - Use list comprehensions and generator expressions where appropriate
-  - For large datasets, consider chunking and streaming approaches
+  - When using Pandas, avoid chained indexing to prevent SettingWithCopyWarning; use `.loc` or `.iloc` instead
+  - Use vectorized operations in Pandas and NumPy for better performance instead of iterating over rows with loops
+  - Use list comprehensions and generator expressions where appropriate, but avoid overusing them in complex logic for readability (PEP8 - explicit is better than implicit)
 
 - **Code Quality**:
   - Prefer clear, descriptive variable and function names
@@ -105,6 +110,11 @@ The Cookiecutter template generates projects with the following structure:
   - Write modular, reusable code
   - Add comments for complex logic
   - Keep functions small and focused on a single responsibility
+  - Use logging instead of print statements for better control over output
+  - Handle exceptions gracefully and provide informative error messages
+  - Avoid hardcoding values; use configuration files or environment variables instead
+  - Avoid early returns in functions; instead, structure logic to minimize multiple exit points
+  - Write unit tests for new functionality to ensure code reliability
 
 ### 5. Makefile Commands
 

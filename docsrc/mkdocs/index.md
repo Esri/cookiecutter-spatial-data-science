@@ -108,8 +108,9 @@ If creating a project named `sik-prj`, the structure of the project will look li
 │           Sketch.stylx
 │           Watercolor.stylx
 ├───config                                # config files used with project
-│       config.ini                        # config settings, which are NOT sensitive
-│       secrets.ini                       # config settings, which ARE sensitive (usernames, passwords, etc.)
+│       config.py                         # config settings, which are NOT sensitive
+│       secrets.py                        # config settings, which ARE sensitive (usernames, passwords, etc.)
+│       secrets_template.py               # template for secrets.py (copy and fill in your values)
 ├───data                                  # location for data storage (excluded from version control)
 │   ├───external                          # data used as part of data processing, but not data being transformed
 │   │   └───external.gdb
@@ -137,7 +138,7 @@ If creating a project named `sik-prj`, the structure of the project will look li
 │   ├───figures
 │   └───logs
 ├───scripts                               # standalone automation scripts
-│   │   config.ini                        # configuration options specific to standalone scripts
+│   │   config.py                         # configuration options specific to standalone scripts
 │   │   make_data.py                      # script used to run the data processing pipeline
 │   │   make_pyt_archive.py               # supporting script helping to create standalone zipped archive of .pyt toolbox
 │   └───raster_functions                  # location for ArcGIS Pro raster functions
