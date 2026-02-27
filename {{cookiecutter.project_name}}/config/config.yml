@@ -1,0 +1,44 @@
+# =============================================================================
+# Project Configuration - {{ cookiecutter.project_name }}
+# =============================================================================
+# This is the main configuration file for the project. Modify values here
+# to control project behavior without changing source code.
+#
+# Secrets (credentials, API keys) should go in secrets.yml, NOT here.
+# Copy secrets_template.yml to secrets.yml and fill in your values.
+#
+# Environment-specific settings live under the environments key.  Set the
+# ENVIRONMENT constant in src/{{ cookiecutter.support_library }}/config.py
+# (or the PROJECT_ENV environment variable) to switch between dev / test / prod.
+# =============================================================================
+
+project:
+  name: "{{ cookiecutter.project_name }}"
+  title: "{{ cookiecutter.project_title }}"
+  description: "{{ cookiecutter.description }}"
+
+# ---------------------------------------------------------------------------
+# Environment-specific settings
+# ---------------------------------------------------------------------------
+environments:
+
+  dev:
+    logging:
+      level: DEBUG
+    data:
+      input: "data/raw/input_data.csv"
+      output: "data/processed/processed.gdb/output_data"
+
+  test:
+    logging:
+      level: INFO
+    data:
+      input: "data/raw/input_data.csv"
+      output: "data/processed/processed.gdb/output_data"
+
+  prod:
+    logging:
+      level: WARNING
+    data:
+      input: "data/raw/input_data.csv"
+      output: "data/processed/processed.gdb/output_data"

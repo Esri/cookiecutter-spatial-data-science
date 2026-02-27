@@ -59,8 +59,7 @@ docsrc/build/
 target/
 
 # configuration files
-**/secrets.ini
-**/secrets.py
+**/secrets.*
 .env
 
 # Database
