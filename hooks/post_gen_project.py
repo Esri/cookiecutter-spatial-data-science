@@ -45,6 +45,7 @@ NEW_PRJ_TITLE = "{{cookiecutter.project_title}}"
 NEW_PRJ_DESC = "{{cookiecutter.description}}"
 CREATE_GH_REPO = "{{cookiecutter.create_github_repo}}"
 GITHUB_ORG = "{{cookiecutter.github_organization}}"
+SUPPORT_LIB = "{{cookiecutter.support_library}}"
 
 # project path constants
 DIR_PRJ = Path.cwd()
@@ -127,6 +128,49 @@ def replace_aprx_toolbox(
     entries["GISProject.json"] = json.dumps(gis_project, ensure_ascii=False).encode(
         "utf-8"
     )
+
+    # write back to a temp file, then replace the original
+    tmp_path = aprx_path.with_suffix(".aprx.tmp")
+    with zipfile.ZipFile(tmp_path, "w", zipfile.ZIP_DEFLATED) as zout:
+        for name in infos:
+            zout.writestr(infos[name], entries[name])
+
+    tmp_path.replace(aprx_path)
+
+
+def add_pyt_to_aprx(aprx_path: Path, pyt_name: str) -> None:
+    """Add a Python toolbox (.pyt) as a project toolbox in an .aprx file.
+
+    Opens the .aprx zip archive and appends a ``CIMProjectItem`` entry for
+    the given *.pyt* file to the ``projectItems`` list inside
+    ``GISProject.json``.
+    """
+    # read all entries from the archive
+    with zipfile.ZipFile(aprx_path, "r") as zin:
+        entries = {name: zin.read(name) for name in zin.namelist()}
+        infos = {name: zin.getinfo(name) for name in zin.namelist()}
+
+    gis_project = json.loads(entries["GISProject.json"])
+
+    # build the new project item for the .pyt
+    pyt_item = {
+        "type": "CIMProjectItem",
+        "catalogPath": f".\\{pyt_name}",
+        "itemType": "GP",
+        "name": pyt_name,
+    }
+
+    # append to projectItems if not already present
+    project_items = gis_project.setdefault("projectItems", [])
+    already_present = any(
+        item.get("catalogPath", "").endswith(pyt_name) for item in project_items
+    )
+    if not already_present:
+        project_items.append(pyt_item)
+
+    entries["GISProject.json"] = json.dumps(
+        gis_project, ensure_ascii=False
+    ).encode("utf-8")
 
     # write back to a temp file, then replace the original
     tmp_path = aprx_path.with_suffix(".aprx.tmp")
@@ -247,6 +291,11 @@ if __name__ == "__main__":
     # set up the ArcGIS Pro project if arcpy is available
     if HAS_ARCPY:
         new_aprx_pth = copy_aprx(DIR_ARCGIS, NEW_PRJ_NAME)
+
+        # add the Python toolbox (.pyt) to the project toolboxes
+        pyt_name = f"{SUPPORT_LIB}.pyt"
+        add_pyt_to_aprx(new_aprx_pth, pyt_name)
+        logger.info(f"Added Python toolbox to ArcGIS Pro project: {pyt_name}")
 
     # otherwise, remove arcgis resources
     else:
