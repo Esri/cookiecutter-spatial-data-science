@@ -250,10 +250,3 @@ except FileNotFoundError:
         stacklevel=2,
     )
     secrets = ConfigNode()
-
-# ---------------------------------------------------------------------------
-# Convenience aliases so that existing imports still work.
-# ---------------------------------------------------------------------------
-LOG_LEVEL: str = config.get("logging", ConfigNode()).get("level", "DEBUG")
-INPUT_DATA: str = config.get("data", ConfigNode()).get("input", "")
-OUTPUT_DATA: str = config.get("data", ConfigNode()).get("output", "")
