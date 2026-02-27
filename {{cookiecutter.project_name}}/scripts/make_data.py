@@ -8,13 +8,13 @@ import sys
 from pathlib import Path
 
 # path to the root of the project
-dir_prj = Path(__file__).parent.parent
+DIR_PRJ = Path(__file__).parent.parent
 
 # if the project package is not installed in the environment, add the source directory to the system path
 if importlib.util.find_spec('{{cookiecutter.support_library}}') is None:
     
     # get the relative path to where the source directory is located
-    src_dir = dir_prj / 'src'
+    src_dir = DIR_PRJ / 'src'
 
     # throw an error if the source directory cannot be located
     if not src_dir.exists():
@@ -26,7 +26,7 @@ if importlib.util.find_spec('{{cookiecutter.support_library}}') is None:
 # import {{cookiecutter.support_library}}
 import {{cookiecutter.support_library}}
 from {{cookiecutter.support_library}}.utils import get_logger
-from .config import LOG_LEVEL, INPUT_DATA, OUTPUT_DATA
+from {{cookiecutter.support_library}}.config import config, LOG_LEVEL, INPUT_DATA, OUTPUT_DATA
 
 if __name__ == '__main__':
 
@@ -34,7 +34,7 @@ if __name__ == '__main__':
     date_string = datetime.now().strftime("%Y%m%dT%H%M%S")
 
     # path to save log file
-    log_dir = dir_prj / 'data' / 'logs'
+    log_dir = DIR_PRJ / 'data' / 'logs'
 
     # ensure location to save logs exists
     if not log_dir.exists():
@@ -48,7 +48,7 @@ if __name__ == '__main__':
     logger = get_logger(logger_name=f"{Path(__file__).stem}", level=LOG_LEVEL)
 
     ### Main processing - put your data processing code here ###
-    logger.info(f'Starting {dir_prj.name} data processing.')
+    logger.info(f'Starting {DIR_PRJ.name} data processing.')
 
     logger.info(f'Using input data from: {INPUT_DATA}')
     logger.info(f'Processed data will be saved to: {OUTPUT_DATA}')
@@ -102,4 +102,4 @@ if __name__ == '__main__':
     # save the spatially enabled DataFrame to a file geodatabase feature class
     sdf.spatial.to_featureclass(location=OUTPUT_DATA)
 
-    logger.info(f'Successfully completed data processing for {dir_prj.name}')
+    logger.info(f'Successfully completed data processing for {DIR_PRJ.name}')
