@@ -40,6 +40,7 @@ new_prj_name = '{{cookiecutter.project_name}}'
 new_prj_title = '{{cookiecutter.project_title}}'
 new_prj_desc = '{{cookiecutter.description}}'
 create_gh_repo = '{{cookiecutter.create_github_repo}}'
+github_org = '{{cookiecutter.github_organization}}'
 
 
 def setup_data(data_pth: Path) -> Path:
@@ -176,7 +177,8 @@ if __name__ == '__main__':
 
     # if also creating a GitHub repository, do so
     if create_gh_repo.lower() == 'yes':
-        create_github_repo(new_prj_name)
+        repo_full_name = f'{github_org}/{new_prj_name}' if github_org else new_prj_name
+        create_github_repo(repo_full_name)
     else:
         logger.info('GitHub repository not created.')
 
