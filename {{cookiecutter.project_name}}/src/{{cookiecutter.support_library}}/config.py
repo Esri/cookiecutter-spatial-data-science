@@ -4,9 +4,11 @@ Configuration loader for the project.
 Reads settings from YAML configuration files in the ``config/`` directory using
 a singleton pattern so the files are parsed once and reused across modules.
 
-The YAML config supports *environment-specific* sections (``dev``, ``test``,
-``prod``).  Change the :pydata:`ENVIRONMENT` constant below — or set the
-``PROJECT_ENV`` environment variable — to switch environments.
+The YAML config supports *environment-specific* sections defined under the
+``environments`` key in ``config.yml``.  Add, rename, or remove environments
+by editing that YAML block — no Python changes required.  Change the
+:pydata:`ENVIRONMENT` constant below — or set the ``PROJECT_ENV`` environment
+variable — to select the active environment.
 
 Usage::
 
@@ -28,7 +30,7 @@ from __future__ import annotations
 
 import os
 from pathlib import Path
-from typing import Any, Iterator, Literal
+from typing import Any, Iterator
 
 import yaml
 
@@ -45,10 +47,9 @@ _SECRETS_FILE: str = "secrets.yml"
 
 # ---------------------------------------------------------------------------
 # Active environment — change this value or set the PROJECT_ENV env var
-# to switch between  dev | test | prod
+# to switch between environments defined in config.yml
 # ---------------------------------------------------------------------------
 ENVIRONMENT: str = os.environ.get("PROJECT_ENV", "dev")
-_VALID_ENVIRONMENTS = {"dev", "test", "prod"}
 
 
 # ---------------------------------------------------------------------------
@@ -130,9 +131,30 @@ def _deep_merge(base: dict[str, Any], override: dict[str, Any]) -> dict[str, Any
     return merged
 
 
+def get_available_environments(
+    config_path: Path | str | None = None,
+) -> list[str]:
+    """Return the environment names defined in ``config.yml``.
+
+    Parameters
+    ----------
+    config_path : Path or str, optional
+        Explicit path to a YAML file.  Defaults to ``config/config.yml``.
+
+    Returns
+    -------
+    list[str]
+        Sorted list of environment keys found under the ``environments``
+        section (e.g. ``["dev", "prod", "test"]``).
+    """
+    path = Path(config_path) if config_path else CONFIG_DIR / _CONFIG_FILE
+    raw = _load_yaml(path)
+    return sorted(raw.get("environments", {}).keys())
+
+
 def load_config(
     config_path: Path | str | None = None,
-    environment: Literal["dev", "test", "prod"] | None = None,
+    environment: str | None = None,
 ) -> ConfigNode:
     """Load the main project configuration for a given environment.
 
@@ -140,33 +162,44 @@ def load_config(
     environment-specific section (``environments.<env>``) is deep-merged on
     top, so environment values override any shared defaults.
 
+    Available environments are introspected from the ``environments`` key in
+    ``config.yml`` — add or remove sections there to define your own.
+
     Parameters
     ----------
     config_path : Path or str, optional
         Explicit path to a YAML file.  Defaults to ``config/config.yml``
         relative to the project root.
     environment : str, optional
-        One of ``dev``, ``test``, or ``prod``.  Defaults to the module-level
-        :pydata:`ENVIRONMENT` constant.
+        One of the keys under ``environments`` in ``config.yml``.
+        Defaults to the module-level :pydata:`ENVIRONMENT` constant.
 
     Returns
     -------
     ConfigNode
         A recursively accessible configuration object.
+
+    Raises
+    ------
+    ValueError
+        If the requested environment is not defined in ``config.yml``.
     """
     env = environment or ENVIRONMENT
-    if env not in _VALID_ENVIRONMENTS:
-        raise ValueError(
-            f"Invalid environment '{env}'. "
-            f"Must be one of: {', '.join(sorted(_VALID_ENVIRONMENTS))}"
-        )
 
     path = Path(config_path) if config_path else CONFIG_DIR / _CONFIG_FILE
     raw = _load_yaml(path)
 
     # pull out the environments block and the active env section
     environments = raw.pop("environments", {})
-    env_settings = environments.get(env, {})
+
+    if env not in environments:
+        available = ", ".join(sorted(environments.keys())) or "(none)"
+        raise ValueError(
+            f"Invalid environment '{env}'. "
+            f"Available environments in config.yml: {available}"
+        )
+
+    env_settings = environments[env]
 
     # deep-merge environment-specific settings onto the shared base
     merged = _deep_merge(raw, env_settings)

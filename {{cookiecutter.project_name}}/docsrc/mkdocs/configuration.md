@@ -21,8 +21,8 @@ config/
 The configuration file has two parts:
 
 1. **Shared settings** — always loaded regardless of environment (e.g. `project`).
-2. **Environment-specific sections** — under the `environments` key, with separate
-   blocks for `dev`, `test`, and `prod`.
+2. **Environment-specific sections** — under the `environments` key. Add, rename,
+   or remove environments by editing this block — no Python changes required.
 
 ```yaml
 project:
@@ -56,6 +56,11 @@ environments:
 
 When the configuration is loaded, the active environment's section is **deep-merged**
 onto the shared settings, so you only need to specify what differs per environment.
+
+!!! tip "Custom environments"
+    The available environments are **introspected** from the keys under
+    `environments` in `config.yml`. To add a `staging` environment, simply add
+    a `staging:` block — the config loader will recognise it automatically.
 
 ## Secrets — `secrets.yml`
 
@@ -164,5 +169,6 @@ print(config.logging.level)
       members:
         - ENVIRONMENT
         - ConfigNode
+        - get_available_environments
         - load_config
         - load_secrets

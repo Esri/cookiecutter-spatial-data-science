@@ -26,7 +26,7 @@ if importlib.util.find_spec('{{cookiecutter.support_library}}') is None:
 # import {{cookiecutter.support_library}}
 import {{cookiecutter.support_library}}
 from {{cookiecutter.support_library}}.utils import get_logger
-from {{cookiecutter.support_library}}.config import config, LOG_LEVEL, INPUT_DATA, OUTPUT_DATA
+from {{cookiecutter.support_library}}.config import LOG_LEVEL, INPUT_DATA, OUTPUT_DATA
 
 if __name__ == '__main__':
 
@@ -60,7 +60,7 @@ if __name__ == '__main__':
     import arcpy
     import pandas as pd
 
-    # constants / parameters for processing - according to PEP8, these should be defined in config.py or toward the top of the script
+    # constants / parameters for processing - according to PEP8, these should be defined in the config or toward the top of the script
     X_COLUMN = 'longitude'
     Y_COLUMN = 'latitude'
     SPATIAL_REFERENCE_WKID = 4326
@@ -92,6 +92,10 @@ if __name__ == '__main__':
         err_msg = f'Output file geodatabase is not valid at: {gdb_pth}'
         logger.error(err_msg)
         raise FileNotFoundError(err_msg)
+    
+    ###################
+    # SAMPLE WORKFLOW #
+    ###################
 
     # read the input data into a pandas DataFrame
     df = pd.read_csv(INPUT_DATA)
