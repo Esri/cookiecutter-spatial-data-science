@@ -34,6 +34,10 @@ env:
 	conda env create -p "$(ENV)" -f environment.yml
 	conda run -p "$(ENV)" pip install -e .
 
+## Initialize SpecKit in the project
+speckit:
+	specify init --here
+
 ## Run jupyter without having to explicitly activate the environment
 jupyter:
 	conda run -p "$(ENV)" jupyter lab

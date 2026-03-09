@@ -52,6 +52,12 @@ GOTO %1
     CALL conda run -p %CONDA_DIR% python scripts/make_data.py
     GOTO end
 
+:: Delete all compiled Python files
+:clean
+    FOR /R %%f IN (*.pyc *.pyo) DO DEL /Q "%%f" 2>nul
+    FOR /D /R %%d IN (__pycache__) DO IF EXIST "%%d" RD /S /Q "%%d"
+    GOTO end
+
 :: Make documentation using MkDocs!
 :docs
     CALL conda run -p %CONDA_DIR% mkdocs build -f ./docsrc/mkdocs.yml
@@ -77,6 +83,11 @@ GOTO %1
     :: Install the local package in development (experimental) mode
     CALL conda run -p %CONDA_DIR% python -m pip install -e .
 
+    GOTO end
+
+:: Initialize SpecKit in the project
+:speckit
+    CALL specify init --here
     GOTO end
 
 :: Start Jupyter Label
