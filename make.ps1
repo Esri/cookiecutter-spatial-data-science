@@ -10,7 +10,7 @@
     .\make.ps1 env
 
 .NOTES
-    Copyright 2025 Esri
+    Copyright 2026 Esri
 
     Licensed under the Apache License, Version 2.0 (the "License"); You
     may not use this file except in compliance with the License. You may
