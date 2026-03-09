@@ -20,25 +20,29 @@ project:
 # ---------------------------------------------------------------------------
 # Environment-specific settings
 # ---------------------------------------------------------------------------
+# The special "default" section provides fallback values for any key that is
+# not explicitly defined in a named environment (dev / test / prod).
+# Merge order: top-level keys → default → <active environment>.
+# Only add a key to a named environment when it must differ from the default.
+# ---------------------------------------------------------------------------
 environments:
 
-  dev:
+  default:
     logging:
       level: DEBUG
     data:
       input: "data/raw/input_data.csv"
       output: "data/processed/processed.gdb/output_data"
 
+  dev:
+    # inherits all defaults; override only what differs
+    logging:
+      level: DEBUG
+
   test:
     logging:
       level: INFO
-    data:
-      input: "data/raw/input_data.csv"
-      output: "data/processed/processed.gdb/output_data"
 
   prod:
     logging:
       level: WARNING
-    data:
-      input: "data/raw/input_data.csv"
-      output: "data/processed/processed.gdb/output_data"

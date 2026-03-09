@@ -5,10 +5,17 @@ Reads settings from YAML configuration files in the ``config/`` directory using
 a singleton pattern so the files are parsed once and reused across modules.
 
 The YAML config supports *environment-specific* sections defined under the
-``environments`` key in ``config.yml``.  Add, rename, or remove environments
-by editing that YAML block — no Python changes required.  Change the
-:pydata:`ENVIRONMENT` constant below — or set the ``PROJECT_ENV`` environment
-variable — to select the active environment.
+``environments`` key in ``config.yml``.  A special ``default`` sub-section
+provides fallback values for any key that is not overridden in a named
+environment.  The merge order is:
+
+1. Top-level keys in ``config.yml``
+2. ``environments.default`` (if present) — overrides top-level defaults
+3. ``environments.<active-env>`` — overrides both of the above
+
+Add, rename, or remove environments by editing that YAML block — no Python
+changes required.  Change the :pydata:`ENVIRONMENT` constant below — or set
+the ``PROJECT_ENV`` environment variable — to select the active environment.
 
 Usage::
 
@@ -134,7 +141,10 @@ def _deep_merge(base: dict[str, Any], override: dict[str, Any]) -> dict[str, Any
 def get_available_environments(
     config_path: Path | str | None = None,
 ) -> list[str]:
-    """Return the environment names defined in ``config.yml``.
+    """Return the named environment keys defined in ``config.yml``.
+
+    The reserved ``default`` key is excluded from the result because it is a
+    fallback section, not a selectable environment.
 
     Parameters
     ----------
@@ -145,11 +155,13 @@ def get_available_environments(
     -------
     list[str]
         Sorted list of environment keys found under the ``environments``
-        section (e.g. ``["dev", "prod", "test"]``).
+        section, excluding ``default`` (e.g. ``["dev", "prod", "test"]``).
     """
     path = Path(config_path) if config_path else CONFIG_DIR / _CONFIG_FILE
     raw = _load_yaml(path)
-    return sorted(raw.get("environments", {}).keys())
+    return sorted(
+        k for k in raw.get("environments", {}).keys() if k != "default"
+    )
 
 
 def load_config(
@@ -158,12 +170,21 @@ def load_config(
 ) -> ConfigNode:
     """Load the main project configuration for a given environment.
 
-    Top-level keys (e.g. ``project``) are always loaded.  Then the
-    environment-specific section (``environments.<env>``) is deep-merged on
-    top, so environment values override any shared defaults.
+    Configuration is built up in three layers:
+
+    1. **Top-level keys** (e.g. ``project``) — always included.
+    2. **``environments.default``** — deep-merged on top of the top-level
+       keys, providing shared fallback values for all environments.
+    3. **``environments.<env>``** — deep-merged last, overriding both of the
+       above with environment-specific values.
+
+    Any key present in ``default`` but absent from the active environment
+    section is inherited from ``default``.  Keys present in the active
+    environment always win.
 
     Available environments are introspected from the ``environments`` key in
-    ``config.yml`` — add or remove sections there to define your own.
+    ``config.yml`` (excluding the reserved ``default`` key) — add or remove
+    named sections there to define your own.
 
     Parameters
     ----------
@@ -192,6 +213,9 @@ def load_config(
     # pull out the environments block and the active env section
     environments = raw.pop("environments", {})
 
+    # extract the default section (if any) before validation
+    default_settings = environments.pop("default", {})
+
     if env not in environments:
         available = ", ".join(sorted(environments.keys())) or "(none)"
         raise ValueError(
@@ -201,8 +225,9 @@ def load_config(
 
     env_settings = environments[env]
 
-    # deep-merge environment-specific settings onto the shared base
-    merged = _deep_merge(raw, env_settings)
+    # three-way merge: top-level → default → env-specific
+    merged = _deep_merge(raw, default_settings)
+    merged = _deep_merge(merged, env_settings)
     return ConfigNode(merged)
 
 
