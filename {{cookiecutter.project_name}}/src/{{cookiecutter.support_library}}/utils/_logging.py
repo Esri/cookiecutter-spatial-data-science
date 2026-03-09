@@ -130,7 +130,7 @@ def get_logger(
     logfile_path: Optional[Union[Path, str]] = None,
     log_format: Optional[str] = "%(asctime)s | %(name)s | %(levelname)s | %(message)s",
     propagate: bool = True,
-    add_stream_handler: bool = True,
+    add_stream_handler: bool = False,
     add_arcpy_handler: bool = False,
 ) -> logging.Logger:
     """
@@ -159,7 +159,7 @@ def get_logger(
         log_format: Format string for the logging messages. Default is `'%(asctime)s | %(name)s | %(levelname)s | %(message)s'`.
         propagate: If `True`, log messages are passed to the handlers of ancestor loggers. Default is `False`.
         logfile_path: Where to save the logfile if file output is desired.
-        add_stream_handler: If `True`, add a `StreamHandler` to route logging to the console. Default is `True`.
+        add_stream_handler: If `True`, add a `StreamHandler` to route logging to the console. Default is `False`.
         add_arcpy_handler: If `True` and ArcPy is available, add the `ArcpyHandler` to route logging through
             ArcPy messaging. Default is `False`.
 

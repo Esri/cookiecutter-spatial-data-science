@@ -1,16 +1,14 @@
 import logging
 import sys
+import inspect
 from typing import Callable, Any
 import tempfile
 import shutil
 from functools import wraps
 
 # Configure logging
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-)
-logger = logging.getLogger(__name__)
+from ._logging import get_logger
+logger = get_logger("{{cookiecutter.support_library}}.utils._data", level="DEBUG")
 
 # Check if arcpy is available
 ARCPY_AVAILABLE = 'arcpy' in sys.modules or __import__('importlib.util').util.find_spec('arcpy') is not None
@@ -84,5 +82,12 @@ def with_temp_fgdb(func: Callable[..., Any]) -> Callable[..., Any]:
         finally:
             arcpy.management.Delete(tmp_gdb)
             shutil.rmtree(tmp_dir, ignore_errors=True)
+
+    # Explicitly set __signature__ so documentation tools (e.g. MkDocStrings) and IDEs that
+    # inspect __signature__ directly report the wrapped function's real parameter list instead
+    # of falling back to (*args, **kwargs). @wraps already sets __wrapped__, which lets
+    # inspect.signature() resolve the correct signature at runtime, but some tools check the
+    # __signature__ attribute first and skip __wrapped__ if it is absent.
+    wrapper.__signature__ = inspect.signature(func)
 
     return wrapper
