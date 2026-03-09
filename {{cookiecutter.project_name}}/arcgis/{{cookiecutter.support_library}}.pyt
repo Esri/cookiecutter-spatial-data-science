@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 __version__ = "0.0.0"
 __author__ = "{{cookiecutter.author_name}}"
-__license__ = "Apache 2.0"
+{% if cookiecutter.open_source_license != "No license file" %}
+__license__ = "{{ cookiecutter.open_source_license }}"
+{% endif %}
 
 import importlib.util
 from pathlib import Path

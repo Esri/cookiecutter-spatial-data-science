@@ -23,13 +23,11 @@ classifiers = [
 ]
 
 {% if cookiecutter.open_source_license == "Apache 2.0" %}
-license = {"text" = "Apache-2.0"}
+license = {text = "Apache-2.0"}
 {% elif cookiecutter.open_source_license == "MIT" %}
 license = {text = "MIT"}
 {% elif cookiecutter.open_source_license == "BSD-3-Clause" %}
 license = {text = "BSD-3-Clause"}
-{% elif cookiecutter.open_source_license == "MIT" %}
-license = {text = "MIT"}
 {% endif %}
 
 dependencies = [
