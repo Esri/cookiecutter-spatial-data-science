@@ -46,6 +46,8 @@ NEW_PRJ_DESC = "{{cookiecutter.description}}"
 CREATE_GH_REPO = "{{cookiecutter.create_github_repo}}"
 GITHUB_ORG = "{{cookiecutter.github_organization}}"
 SUPPORT_LIB = "{{cookiecutter.support_library}}"
+AI_AGENT_SUPPORT = "{{cookiecutter.ai_agent_support}}"
+OPEN_SOURCE_LICENSE = "{{cookiecutter.open_source_license}}"
 
 # project path constants
 DIR_PRJ = Path.cwd()
@@ -236,6 +238,51 @@ def copy_aprx(
     return new_aprx_pth
 
 
+def create_ai_agent_instructions(prj_path: Path, agent_support: str) -> None:
+    """Generate AI agent instruction files from AGENTS.md.
+
+    Supported targets:
+
+    - ``github_copilot`` — ``.github/copilot-instructions.md``
+    - ``claude``         — ``CLAUDE.md``
+    - ``cursor``         — ``.cursor/rules/instructions.mdc``
+    - ``all``            — all of the above
+    - ``none``           — skip
+    """
+    if agent_support == "none":
+        logger.info("AI agent support not requested; skipping instruction file creation. Leaving AGENTS.md untouched in root of project.")
+        return
+
+    agents_md = prj_path / "AGENTS.md"
+    if not agents_md.exists():
+        logger.warning("AGENTS.md not found; skipping AI agent instruction file creation.")
+        return
+
+    content = agents_md.read_text(encoding="utf-8")
+
+    targets = {"github_copilot", "claude", "cursor"} if agent_support == "all" else {agent_support}
+
+    if "github_copilot" in targets:
+        github_dir = prj_path / ".github"
+        github_dir.mkdir(exist_ok=True)
+        copilot_path = github_dir / "copilot-instructions.md"
+        copilot_path.write_text(content, encoding="utf-8")
+        logger.info(f"Created GitHub Copilot instructions: {copilot_path}")
+
+    if "claude" in targets:
+        claude_path = prj_path / "CLAUDE.md"
+        claude_path.write_text(content, encoding="utf-8")
+        logger.info(f"Created Claude Code instructions: {claude_path}")
+
+    if "cursor" in targets:
+        cursor_dir = prj_path / ".cursor" / "rules"
+        cursor_dir.mkdir(parents=True, exist_ok=True)
+        cursor_mdc = cursor_dir / "instructions.mdc"
+        cursor_header = "---\ndescription: Project coding guidelines\nalwaysApply: true\n---\n\n"
+        cursor_mdc.write_text(cursor_header + content, encoding="utf-8")
+        logger.info(f"Created Cursor rules: {cursor_mdc}")
+
+
 def init_git_repo(prj_path: Path) -> None:
     """Initialize a git repository in the project directory."""
     try:
@@ -301,6 +348,16 @@ if __name__ == "__main__":
     else:
         shutil.rmtree(DIR_ARCGIS)
         logger.info("arcpy not available; removed arcgis directory.")
+
+    # remove LICENSE file if no license was selected
+    if OPEN_SOURCE_LICENSE == "No license file":
+        license_pth = DIR_PRJ / "LICENSE"
+        if license_pth.exists():
+            license_pth.unlink()
+            logger.info("No license selected; removed LICENSE file.")
+
+    # create AI agent instruction files from AGENTS.md
+    create_ai_agent_instructions(DIR_PRJ, AI_AGENT_SUPPORT)
 
     # rename the secrets configuration file
     CONFIG_PTH.rename(DIR_PRJ / "config" / "secrets.yml")

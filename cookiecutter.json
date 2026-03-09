@@ -9,6 +9,7 @@
     "esri_web_gis_profile": "web_gis_profile",
     "open_source_license": ["Apache 2.0", "MIT", "BSD-3-Clause", "No license file"],
     "create_github_repo": ["yes", "no"],
+    "ai_agent_support": ["all", "github_copilot", "claude", "cursor", "none"],
     "_copy_without_render": [
         ".github/workflows/make-mkdocs.yml"
     ],
@@ -22,6 +23,7 @@
         "esri_web_gis_url": "Esri Web GIS URL (e.g., https://arcgis.com or your portal URL)",
         "esri_web_gis_profile": "Esri Web GIS Profile Name (authentication profile)",
         "open_source_license": "Choose an Open Source License",
-        "create_github_repo": "Create GitHub Repository?"
+        "create_github_repo": "Create GitHub Repository?",
+        "ai_agent_support": "AI Agent Support (instruction files generated from AGENTS.md)"
     }
 }
