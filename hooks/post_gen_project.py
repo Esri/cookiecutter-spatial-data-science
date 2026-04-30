@@ -295,6 +295,9 @@ def copy_aprx(
         replace_aprx_toolbox(new_aprx_pth, old_tbx_name, new_tbx_name)
         logger.info(f"Set ArcGIS Pro default toolbox to: {new_tbx_pth}")
 
+        # remove the old toolbox from the project to avoid confusion
+        remove_toolbox_from_aprx(new_aprx_pth, old_tbx_name)
+
     # if removing original resources
     if remove_originals:
         del aprx  # have to remove object instance to remove referenced file
