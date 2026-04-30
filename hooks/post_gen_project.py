@@ -241,13 +241,31 @@ def copy_aprx(
 def create_ai_agent_instructions(prj_path: Path, agent_support: str) -> None:
     """Generate AI agent instruction files from AGENTS.md.
 
+    Reads the content of AGENTS.md and creates target-specific instruction files
+    based on the ``agent_support`` parameter. When ``all`` is passed, instruction
+    files are created for all supported targets simultaneously. After instruction
+    files are created, AGENTS.md is removed from the project.
+
+    .. note::
+
+        If ``none`` is passed in for ``agent_support``, no instruction files are 
+        created and AGENTS.md is left untouched.
+
+    Parameters
+    ----------
+    prj_path : Path
+        Path to the project root directory.
+    agent_support : str
+        Target AI agent(s) to generate instructions for. When multiple targets are
+        needed, pass ``all`` to generate files for every supported agent at once.
+
     Supported targets:
 
     - ``github_copilot`` — ``.github/copilot-instructions.md``
     - ``claude``         — ``CLAUDE.md``
     - ``cursor``         — ``.cursor/rules/instructions.mdc``
-    - ``all``            — all of the above
-    - ``none``           — skip
+    - ``all``            — creates instruction files for github_copilot, claude, and cursor, then removes AGENTS.md
+    - ``none``           — skip file creation; leaves AGENTS.md untouched
     """
     if agent_support == "none":
         logger.info("AI agent support not requested; skipping instruction file creation. Leaving AGENTS.md untouched in root of project.")
@@ -281,6 +299,9 @@ def create_ai_agent_instructions(prj_path: Path, agent_support: str) -> None:
         cursor_header = "---\ndescription: Project coding guidelines\nalwaysApply: true\n---\n\n"
         cursor_mdc.write_text(cursor_header + content, encoding="utf-8")
         logger.info(f"Created Cursor rules: {cursor_mdc}")
+
+    agents_md.unlink()
+    logger.info(f"Removed AGENTS.md from project root.")
 
 
 def init_git_repo(prj_path: Path) -> None:
