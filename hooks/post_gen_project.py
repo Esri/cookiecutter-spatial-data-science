@@ -184,6 +184,74 @@ def add_pyt_to_aprx(aprx_path: Path, pyt_name: str) -> None:
     tmp_path.replace(aprx_path)
 
 
+def remove_toolbox_from_aprx(aprx_path: Path, tbx_name: str) -> None:
+    """Remove a toolbox entry from an .aprx file so it no longer appears under
+    Toolboxes in ArcGIS Pro.
+
+    The .aprx is a zip archive whose ``GISProject.json`` file lists toolboxes as
+    ``CIMProjectItem`` entries.  This function removes any item whose
+    ``catalogPath`` or ``name`` contains *tbx_name*.
+
+    If the toolbox is not present in the project, a debug message is logged and the
+    file is left unchanged.
+
+    Parameters
+    ----------
+    aprx_path : Path
+        Path to the ``.aprx`` file to modify.
+    tbx_name : str
+        Filename of the toolbox to remove (e.g. ``"cookiecutter.tbx"`` or
+        ``"my_tools.pyt"``).
+    """
+    # read all entries from the original archive
+    with zipfile.ZipFile(aprx_path, "r") as zin:
+        entries = {name: zin.read(name) for name in zin.namelist()}
+        infos = {name: zin.getinfo(name) for name in zin.namelist()}
+
+    gis_project = json.loads(entries["GISProject.json"])
+
+    project_items = gis_project.get("projectItems", [])
+
+    # find items that reference the toolbox
+    items_to_remove = [
+        item
+        for item in project_items
+        if item.get("itemType") == "GP"
+        and (
+            tbx_name in item.get("catalogPath", "")
+            or tbx_name in item.get("name", "")
+        )
+    ]
+
+    if not items_to_remove:
+        logger.debug(
+            f"Toolbox '{tbx_name}' not found in {aprx_path}; nothing removed."
+        )
+        return
+
+    # remove matching items
+    gis_project["projectItems"] = [
+        item for item in project_items if item not in items_to_remove
+    ]
+
+    # clear defaultToolbox if it references the removed toolbox
+    if tbx_name in gis_project.get("defaultToolbox", ""):
+        gis_project["defaultToolbox"] = ""
+
+    entries["GISProject.json"] = json.dumps(gis_project, ensure_ascii=False).encode(
+        "utf-8"
+    )
+
+    # write back to a temp file, then replace the original
+    tmp_path = aprx_path.with_suffix(".aprx.tmp")
+    with zipfile.ZipFile(tmp_path, "w", zipfile.ZIP_DEFLATED) as zout:
+        for name in infos:
+            zout.writestr(infos[name], entries[name])
+
+    tmp_path.replace(aprx_path)
+    logger.debug(f"Removed toolbox '{tbx_name}' from {aprx_path}")
+
+
 def copy_aprx(
     dir_arcgis: Path,
     new_prj_name: str,
