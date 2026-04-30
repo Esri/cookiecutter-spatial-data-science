@@ -103,6 +103,33 @@ if __name__ == "__main__":
     logger.critical('This is a critical message, indicating a severe failure that may stop the program.')
 ```
 
+## SQL Queries (DuckDB)
+
+The template includes a `src/{{cookiecutter.support_library}}/sql/` package with a small
+`load_sql()` helper for keeping non-trivial SQL in discrete `.sql` files instead of
+embedding it in Python strings. This unlocks proper SQL syntax highlighting and linting
+in VS Code, produces clean diffs, and encourages parameterised queries.
+
+DuckDB ships natively with the ArcGIS Pro Python environment, so it can be used in-place
+alongside `arcpy` — no extra installation required.
+
+```python
+import duckdb
+from {{cookiecutter.support_library}}.sql import load_sql
+
+con = duckdb.connect()
+
+df = con.execute(
+    load_sql("nearest_poi"),                       # loads sql/nearest_poi.sql
+    {"category": "grocery", "max_distance_m": 1500},
+).fetch_df()
+```
+
+For the full paradigm — including the spatial extension, GeoParquet I/O, and patterns
+for restricted-network and air-gapped environments — see the
+[SQL Queries with DuckDB](https://esri.github.io/cookiecutter-spatial-data-science/sql/)
+page in the Cookiecutter-Spatial-Data-Science documentation.
+
 ## AGENTS.md
 
 The `AGENTS.md` file located in the project root directory provides guidance on how to effectively use AI agents, such as ChatGPT, to assist with project development. It includes tips on prompt engineering, 
