@@ -4,57 +4,63 @@ title: Origins
 
 # Origins
 
-The Cookiecutter Spatial Data Science template arose out of a need for an experienced
-geographer well versed in ArcGIS Pro and Python (myself) and a _very_ experienced data 
-scientist new to Esri ([Daniel](https://www.linkedin.com/in/daniel-wilson-a274b218/)) 
-to efficiently collaborate and hand off projects to other teams.
+The Cookiecutter-Spatial-Data-Science template grew out of a need for an experienced
+geographer comfortable with ArcGIS Pro and Python (myself) and a *very* experienced
+data scientist new to Esri ([Daniel](https://www.linkedin.com/in/daniel-wilson-a274b218/))
+to collaborate efficiently — and to hand projects off to other teams.
 
 ## Challenges
 
-Every time we were working together on a project, we had to figure out how where to 
-find the needed resources such as data, code, and required additional Python packages.
-We also needed a way to provide some level of documentation for each project, so we
-knew what to do when revisiting it a month later, and so we could hand off projects
-to other teams.
+Every project we worked on together meant figuring out where to put things: data, code,
+the extra Python packages we built along the way. We also wanted some baseline documentation 
+in each project, so we'd know what to do when revisiting it a month later, and so other teams
+could pick it up.
 
-The ad-hoc approach hampered efficiency at best. In reality, it was frustratingly
-cumbersome to start working on a new project, and difficult to return to a previous
-project, since each one was different. Handing projects off to new teams was nearly
-impossible.
+The ad-hoc approach hampered efficiency at best. In practice it was frustratingly
+cumbersome to start a new project, and difficult to return to an old one — every project
+was different. Handing them off to new teams was nearly impossible.
 
 ## Solution
 
-This frustration led us to begin using the 
-[Cookiecutter-Data-Science v1](https://cookiecutter-data-science.drivendata.org/) 
-template created and maintained by [DrivenData Labs](https://drivendata.co/). We 
-immediately appreciated the data science best practices baked into the tempalte, but 
-quickly ran into some challenges when trying to marry ArcGIS Pro projects with
-this new structure. 
+That frustration led us to the
+[Cookiecutter-Data-Science v1](https://cookiecutter-data-science.drivendata.org/)
+template by [DrivenData Labs](https://drivendata.co/). We immediately appreciated the
+data science best practices baked in, but quickly ran into friction trying to marry
+ArcGIS Pro projects with the new structure.
 
-Our evolution of this paradigm to integrate ArcGIS Pro projects
-into the original template, add support for Windows environments, and use
-Conda for Python environment management led to the Cookiecutter-Spatial-Data-Science
-template. While not identical to the Cookiecutter-Data-Science template, our 
-interpretation honors the best practices of the original 
+Evolving that template to integrate ArcGIS Pro projects, support Windows environments,
+and manage Python environments with Conda gave us Cookiecutter-Spatial-Data-Science.
+It's not identical to its parent, but our interpretation honors the original
 [Opinions](https://cookiecutter-data-science.drivendata.org/opinions/).
 
 ## Evolution
 
-Since building the initial Cookiecutter-Spatial-Data-Science template in early 2019,
-Daniel has moved on from Esri to co-found [SeerAI](https://www.seer.ai). I moved from 
-a Solution Engineer in Business Development (sales) to a Product Engineer in Development 
-creating Data Engineering workflows.
+Since the initial template in early 2019, Daniel has moved on from Esri to co-found
+[SeerAI](https://www.seer.ai). I moved from Solution Engineer in Business Development
+(sales) to Product Engineer in Development (data-engineering workflows), and most
+recently to Technical Consultant in Professional Services.
 
-For all of the subsequent years, I have continiously relied on this template for all my
-work. With best practices all baked right in, I can quickly try ideas in ArcGIS Pro, 
-iterate in Jupyter, migrate to a Python package, test and debug using PyTest, and have 
-it all documented with minimal effort.
+In every one of those roles I've kept relying on this template. With best practices
+baked in, I can quickly try ideas in ArcGIS Pro, iterate in Jupyter, migrate to a Python
+package, test and debug with PyTest, and document the whole thing with minimal effort.
 
-While I have made this template publicly available for a long time, and kept the template
-current as my practices evolve, I am now attempting to provide more resources to make
-this easier to discover, understand and use.
+More recently, with the rise of AI agents, I've been experimenting with how to make
+agents part of the workflow. That's where the `AGENTS.md` file in the project root
+comes in, with support for adapting it to different agent paradigms at project
+initialization.
 
-If you encounter an issue with this template, please feel free to log an issue in the
-repo. If you know how to fix it, I welcome any help you are willing to lend. This project,
-after all, is not my primary responsiblty. Rather, it is me sharing the tooling I have
-developed over the years to make marrying ArcGIS Pro and Data Science a little easier.
+I've kept this template public and current for years as my own practices evolved.
+Lately I've been investing in better resources around it so it's easier to discover,
+understand, and use.
+
+If you run into an issue, please file one in the repo. If you know how to fix it, pull
+requests are very welcome. This project isn't my primary responsibility — it's me
+sharing the tooling I've built over the years to make marrying ArcGIS Pro and data
+science a little easier.
+
+## In Short
+
+What started as two people trying to collaborate without losing their minds has become
+the scaffolding I reach for on every project I touch. If it saves you even a fraction
+of the friction it has saved us, Cookiecutter-Spatial-Data-Science has done its job.
+
