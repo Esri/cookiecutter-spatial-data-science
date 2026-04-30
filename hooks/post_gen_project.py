@@ -22,6 +22,7 @@ LICENSE file.
 import json
 import logging
 from pathlib import Path
+import re
 import shutil
 import subprocess
 import importlib.util
@@ -238,18 +239,67 @@ def copy_aprx(
     return new_aprx_pth
 
 
+def _split_copilot_instructions(content: str, instructions_dir: Path) -> int:
+    """Split AGENTS.md content into per-context Copilot ``.instructions.md`` files.
+
+    Looks for explicit comment-marker blocks of the form::
+
+        <!-- copilot:instruction name="python-style" applyTo="**/*.py" -->
+        ...markdown...
+        <!-- /copilot:instruction -->
+
+    For each block, writes ``<instructions_dir>/<name>.instructions.md`` with
+    YAML frontmatter declaring the ``applyTo`` glob(s) and a banner noting that
+    the file is generated. Returns the number of files written.
+
+    AGENTS.md remains the canonical source; the generated files are derived
+    artifacts and should be regenerated rather than hand-edited.
+    """
+    pattern = re.compile(
+        r"<!--\s*copilot:instruction\s+name=\"(?P<name>[^\"]+)\"\s+"
+        r"applyTo=\"(?P<applyTo>[^\"]+)\"\s*-->\s*\n"
+        r"(?P<body>.*?)"
+        r"\n\s*<!--\s*/copilot:instruction\s*-->",
+        re.DOTALL,
+    )
+
+    written = 0
+    for match in pattern.finditer(content):
+        name = match.group("name").strip()
+        apply_to = match.group("applyTo").strip()
+        body = match.group("body").strip()
+
+        out_path = instructions_dir / f"{name}.instructions.md"
+        frontmatter = (
+            "---\n"
+            f'applyTo: "{apply_to}"\n'
+            "---\n\n"
+            "<!-- Generated from AGENTS.md by post_gen_project.py — do not edit directly. -->\n\n"
+        )
+        out_path.write_text(frontmatter + body + "\n", encoding="utf-8")
+        logger.info(f"Created Copilot instruction file: {out_path}")
+        written += 1
+
+    return written
+
+
 def create_ai_agent_instructions(prj_path: Path, agent_support: str) -> None:
     """Generate AI agent instruction files from AGENTS.md.
 
     Reads the content of AGENTS.md and creates target-specific instruction files
     based on the ``agent_support`` parameter. When ``all`` is passed, instruction
-    files are created for all supported targets simultaneously. After instruction
-    files are created, AGENTS.md is removed from the project.
+    files are created for all supported targets simultaneously. AGENTS.md is
+    always preserved as the canonical source of truth — the generated files are
+    derived artifacts.
+
+    For ``github_copilot`` (and ``all``), this also splits AGENTS.md into
+    per-context ``.github/instructions/<name>.instructions.md`` files based on
+    ``<!-- copilot:instruction ... -->`` comment markers in AGENTS.md.
 
     .. note::
 
-        If ``none`` is passed in for ``agent_support``, no instruction files are 
-        created and AGENTS.md is left untouched.
+        If ``none`` is passed in for ``agent_support``, no instruction files are
+        created.
 
     Parameters
     ----------
@@ -261,14 +311,15 @@ def create_ai_agent_instructions(prj_path: Path, agent_support: str) -> None:
 
     Supported targets:
 
-    - ``github_copilot`` — ``.github/copilot-instructions.md``
+    - ``github_copilot`` — ``.github/copilot-instructions.md`` plus per-context
+      ``.github/instructions/<name>.instructions.md`` files
     - ``claude``         — ``CLAUDE.md``
     - ``cursor``         — ``.cursor/rules/instructions.mdc``
-    - ``all``            — creates instruction files for github_copilot, claude, and cursor, then removes AGENTS.md
-    - ``none``           — skip file creation; leaves AGENTS.md untouched
+    - ``all``            — creates instruction files for every supported agent
+    - ``none``           — skip file creation
     """
     if agent_support == "none":
-        logger.info("AI agent support not requested; skipping instruction file creation. Leaving AGENTS.md untouched in root of project.")
+        logger.info("AI agent support not requested; skipping instruction file creation.")
         return
 
     agents_md = prj_path / "AGENTS.md"
@@ -287,6 +338,16 @@ def create_ai_agent_instructions(prj_path: Path, agent_support: str) -> None:
         copilot_path.write_text(content, encoding="utf-8")
         logger.info(f"Created GitHub Copilot instructions: {copilot_path}")
 
+        # split AGENTS.md into per-context instruction files based on markers
+        instructions_dir = github_dir / "instructions"
+        instructions_dir.mkdir(exist_ok=True)
+        n_split = _split_copilot_instructions(content, instructions_dir)
+        if n_split == 0:
+            logger.info(
+                "No <!-- copilot:instruction --> markers found in AGENTS.md; "
+                "skipped per-context instruction file generation."
+            )
+
     if "claude" in targets:
         claude_path = prj_path / "CLAUDE.md"
         claude_path.write_text(content, encoding="utf-8")
@@ -299,9 +360,6 @@ def create_ai_agent_instructions(prj_path: Path, agent_support: str) -> None:
         cursor_header = "---\ndescription: Project coding guidelines\nalwaysApply: true\n---\n\n"
         cursor_mdc.write_text(cursor_header + content, encoding="utf-8")
         logger.info(f"Created Cursor rules: {cursor_mdc}")
-
-    agents_md.unlink()
-    logger.info(f"Removed AGENTS.md from project root.")
 
 
 def init_git_repo(prj_path: Path) -> None:
