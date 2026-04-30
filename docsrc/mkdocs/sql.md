@@ -14,7 +14,7 @@ DuckDB's spatial extension — including in restricted-network and air-gapped en
     [spatial extension](#spatial-extension), however, is fetched on first use (see
     below).
 
-## Why externalise SQL?
+## Why externalize SQL?
 
 - **IDE support.** VS Code (and most editors) provide rich SQL syntax highlighting,
   formatting, and linting (e.g. *SQLTools*, *SQLFluff*) for `.sql` files. None of that
@@ -22,7 +22,7 @@ DuckDB's spatial extension — including in restricted-network and air-gapped en
 - **Readable diffs.** Long, multi-CTE queries diff cleanly when they live on their own.
 - **No escaping pain.** No quote-escaping, backslash gymnastics, or f-string `{}`
   collisions with SQL or Jinja syntax.
-- **Encourages parameterisation.** Externalising naturally pushes you toward bind
+- **Encourages parameterization.** Externalizing naturally pushes you toward bind
   parameters (`$name`, `?`) rather than string interpolation — which sidesteps SQL
   injection entirely.
 - **Reusable.** The same `.sql` file can be consumed by Python, a notebook, dbt, or a
@@ -43,12 +43,12 @@ src/myproject/
 **Naming**: `snake_case.sql`, named after the *operation*
 (`spatial_join_blocks.sql`, `build_h3_index.sql`), not the table.
 
-## When to externalise vs. inline
+## When to externalize vs. inline
 
-| Inline (in Python) | Externalise (`.sql` file) |
+| Inline (in Python) | Externalize (`.sql` file) |
 |---|---|
 | Short ad-hoc queries (≤ ~10 lines) | Multi-statement or multi-CTE queries |
-| No user-supplied input | Anything parameterised |
+| No user-supplied input | Anything parameterized |
 | Used in exactly one place | Reused in more than one place |
 | Trivial (`SELECT COUNT(*) FROM t`) | Anything you'd want to lint or format |
 
@@ -97,7 +97,7 @@ df = con.execute(
     `importlib.resources.files()` works correctly whether the package is installed
     editable (`pip install -e .`), installed normally, or executed from inside a wheel.
 
-## Always parameterise
+## Always parameterize
 
 Use DuckDB's named-parameter syntax (`$name`) and pass a `dict` to `execute()`. The
 DuckDB driver handles type conversion and quoting safely.
