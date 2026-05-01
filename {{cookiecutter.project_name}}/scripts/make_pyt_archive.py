@@ -1,9 +1,9 @@
 """Create a zipped archive of a Python toolbox and its dependencies."""
 import importlib
-import importlib.metadata
 import inspect
 from pathlib import Path
 import re
+import tomllib
 import zipfile
 
 # helper function to discover and add Python packages to a zipfile
@@ -36,18 +36,17 @@ def add_package(
             zip_file.write(file_path, arcname=zip_pth)
 
 
-def get_package_requirements(package_name: str) -> list[str]:
-    """Helper function to retrieve string list of packages listed in the pypackage.toml dependencies."""
-    # get dependency list
-    dep_lst = importlib.metadata.requires(package_name)
+def get_package_requirements(pyproject_path: Path) -> list[str]:
+    """Read runtime dependency names from pyproject.toml [project.dependencies]."""
+    with open(pyproject_path, "rb") as fh:
+        data = tomllib.load(fh)
 
-    # use regex to extract just the package name
+    dep_lst: list[str] = data.get("project", {}).get("dependencies", [])
+
+    # extract just the package name (strip version specifiers)
     pkg_lst = [re.match(r'~?([\d\w_-]*)[<>]?=?(\d*\.?)?', dep) for dep in dep_lst]
 
-    # only keep requirements able to be matched
-    requirement_lst = [pkg.group(1) for pkg in pkg_lst if pkg is not None]
-
-    return requirement_lst
+    return [pkg.group(1) for pkg in pkg_lst if pkg is not None]
 
 
 if __name__ == "__main__":
@@ -64,7 +63,7 @@ if __name__ == "__main__":
     zip_pth = dir_prj / f"{dir_prj.stem}.zip"
 
     # list of requirements from the package definition
-    req_lst = get_package_requirements('{{cookiecutter.support_library}}')
+    req_lst = get_package_requirements(dir_prj / "pyproject.toml")
 
     # create the zipfile
     with zipfile.ZipFile(zip_pth, "w", zipfile.ZIP_DEFLATED) as zip:
