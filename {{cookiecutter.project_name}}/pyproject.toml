@@ -34,7 +34,9 @@ dependencies = [
     "arcgis>=2.2.0",
     "numpy>=1.7",
     "pandas>=1.0.5",
-    "pyarrow>=1.0.0"
+    "pyarrow>=1.0.0",
+    # "arcpy-parquet @ git+https://github.com/knu2xs/arcpy-parquet.git",
+    
 ]
 
 [tool.setuptools.packages.find]
