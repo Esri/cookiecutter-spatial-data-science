@@ -19,7 +19,7 @@ the ``PROJECT_ENV`` environment variable — to select the active environment.
 
 Usage::
 
-    from {{cookiecutter.support_library}}.config import config, secrets, ENVIRONMENT
+    from {{cookiecutter.support_library}}.config import config, ENVIRONMENT
 
     # dot-notation access
     log_level = config.logging.level
@@ -27,8 +27,8 @@ Usage::
     # dict-style access
     input_path = config["data"]["input"]
 
-    # secrets (loaded from config/secrets.yml)
-    gis_url = secrets.esri.gis_url
+    # secrets are merged into config — no separate namespace
+    gis_url = config.esri.gis_url
 
     # check current environment
     print(f"Running in {ENVIRONMENT} mode")
@@ -233,19 +233,33 @@ def load_config(
 
 def load_secrets(
     secrets_path: Path | str | None = None,
+    environment: str | None = None,
 ) -> ConfigNode:
-    """Load project secrets.
+    """Load and resolve project secrets for the given environment.
+
+    Applies the same three-layer merge used by :func:`load_config`:
+
+    1. Top-level keys in ``secrets.yml``
+    2. ``environments.default`` — shared fallback values
+    3. ``environments.<env>`` — environment-specific overrides
+
+    The resolved result is intended to be deep-merged into the main
+    ``config`` object so secrets are accessible as ``config.esri.gis_url``
+    rather than through a separate namespace.
 
     Parameters
     ----------
     secrets_path : Path or str, optional
         Explicit path to a YAML file.  Defaults to ``config/secrets.yml``
         relative to the project root.
+    environment : str, optional
+        Active environment name.  Defaults to the module-level
+        :pydata:`ENVIRONMENT` constant.
 
     Returns
     -------
     ConfigNode
-        A recursively accessible secrets object.
+        A recursively accessible, environment-resolved secrets object.
 
     Raises
     ------
@@ -254,24 +268,35 @@ def load_secrets(
         ``config/secrets_template.yml`` to ``config/secrets.yml`` and
         fill in your values.
     """
+    env = environment or ENVIRONMENT
     path = Path(secrets_path) if secrets_path else CONFIG_DIR / _SECRETS_FILE
-    return ConfigNode(_load_yaml(path))
+    raw = _load_yaml(path)
+
+    environments = raw.pop("environments", {})
+    default_settings = environments.pop("default", {})
+    env_settings = environments.get(env, {})
+
+    # three-way merge: top-level → default → env-specific
+    merged = _deep_merge(raw, default_settings)
+    merged = _deep_merge(merged, env_settings)
+    return ConfigNode(merged)
 
 
 # ---------------------------------------------------------------------------
-# Module-level singletons – parsed once on first import
+# Module-level singleton – parsed once on first import
 # ---------------------------------------------------------------------------
-config: ConfigNode = load_config()
+_base_config: ConfigNode = load_config()
 
 try:
-    secrets: ConfigNode = load_secrets()
+    _secrets: ConfigNode = load_secrets()
+    config: ConfigNode = ConfigNode(_deep_merge(_base_config.to_dict(), _secrets.to_dict()))
 except FileNotFoundError:
-    # secrets.yml is optional; warn but do not crash on import
     import warnings
 
     warnings.warn(
         "config/secrets.yml not found. Copy config/secrets_template.yml "
-        "to config/secrets.yml and fill in your credentials.",
+        "to config/secrets.yml and fill in your credentials. "
+        "Secret keys will be absent from config until the file is created.",
         stacklevel=2,
     )
-    secrets = ConfigNode()
+    config = _base_config
