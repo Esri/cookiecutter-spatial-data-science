@@ -33,6 +33,7 @@ environments:
     data:
       input: "data/raw/input_data.csv"
       output: "data/processed/processed.gdb/output_data"
+      log_dir: "reports/logs"
     spatial:
       default_crs: "EPSG:4326"  # CRS to use when not specified by data source
       default_unit: "meters"    # Unit for distance calculations (e.g., "meters", "degrees")

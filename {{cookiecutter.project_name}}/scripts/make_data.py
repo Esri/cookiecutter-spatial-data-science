@@ -26,15 +26,15 @@ if importlib.util.find_spec('{{cookiecutter.support_library}}') is None:
 # import {{cookiecutter.support_library}}
 import {{cookiecutter.support_library}}
 from {{cookiecutter.support_library}}.utils import get_logger
-from {{cookiecutter.support_library}}.config import LOG_LEVEL, INPUT_DATA, OUTPUT_DATA
+from {{cookiecutter.support_library}}.config import config
 
 if __name__ == '__main__':
 
     # get datestring for file naming yyyymmddThhmmss
     date_string = datetime.now().strftime("%Y%m%dT%H%M%S")
 
-    # path to save log file
-    log_dir = DIR_PRJ / 'data' / 'logs'
+    # resolve log directory from config (relative paths are relative to project root)
+    log_dir = DIR_PRJ / config.data.log_dir
 
     # ensure location to save logs exists
     if not log_dir.exists():
@@ -45,13 +45,16 @@ if __name__ == '__main__':
     log_file = log_dir / log_name
 
     # use the log level from the config to set up logging
-    logger = get_logger(logger_name=f"{Path(__file__).stem}", level=LOG_LEVEL)
+    logger = get_logger(logger_name=f"{Path(__file__).stem}", level=config.logging.level)
+
+    logger.debug(f'Initialized logger for {Path(__file__).stem} with log level: {config.logging.level}')
+    logger.info(f'Log file created at: {log_file}')
 
     ### Main processing - put your data processing code here ###
     logger.info(f'Starting {DIR_PRJ.name} data processing.')
 
-    logger.info(f'Using input data from: {INPUT_DATA}')
-    logger.info(f'Processed data will be saved to: {OUTPUT_DATA}')
+    logger.info(f'Using input data from: {config.data.input}')
+    logger.info(f'Processed data will be saved to: {config.data.output}')
 
     ###EXAMPLE PROCESSING, replace with your own code ###
 
@@ -66,8 +69,8 @@ if __name__ == '__main__':
     SPATIAL_REFERENCE_WKID = 4326
 
     # ensure input and output paths are Path objects
-    INPUT_DATA = Path(INPUT_DATA)
-    OUTPUT_DATA = Path(OUTPUT_DATA)
+    INPUT_DATA = DIR_PRJ / config.data.input
+    OUTPUT_DATA = DIR_PRJ / config.data.output
 
     # ensure the input data exists
     if not INPUT_DATA.exists():
