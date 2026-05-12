@@ -42,6 +42,10 @@ jobs:
     - name: Install Python Packages
       run: pip install -r docsrc/requirements.txt
 
+    # configure github pages
+    - name: Setup Pages
+      uses: actions/configure-pages@v5
+
     # build docs
     - name: Build Documentation using MkDocs
       run: mkdocs build -f docsrc/mkdocs.yml
@@ -54,7 +58,7 @@ jobs:
         done
 
     # upload docs directory
-    - uses: actions/upload-pages-artifact@v4
+    - uses: actions/upload-pages-artifact@v3
       with:
         # Upload contents of docs directory
         path: "docs"
