@@ -1,17 +1,18 @@
-import logging
-import sys
+import importlib.util
 import inspect
-from typing import Callable, Any
-import tempfile
+import logging
 import shutil
+import sys
+import tempfile
 from functools import wraps
+from typing import Callable, Any
 
 # Configure logging
 from ._logging import get_logger
 logger = get_logger("{{cookiecutter.support_library}}.utils._data", level="DEBUG")
 
 # Check if arcpy is available
-ARCPY_AVAILABLE = 'arcpy' in sys.modules or __import__('importlib.util').util.find_spec('arcpy') is not None
+ARCPY_AVAILABLE = 'arcpy' in sys.modules or importlib.util.find_spec('arcpy') is not None
 
 
 def with_temp_fgdb(func: Callable[..., Any]) -> Callable[..., Any]:
@@ -27,7 +28,8 @@ def with_temp_fgdb(func: Callable[..., Any]) -> Callable[..., Any]:
     This decorator:
 
     1. **Creates a temporary workspace** - Automatically generates a temporary file geodatabase before the decorated function executes
-    2. **Provides the path** - Passes the geodatabase path to the decorated function so it can write intermediate feature classes, tables, or rasters
+    2. **Provides the path** - Sets ``arcpy.env.workspace`` to the temporary GDB via ``arcpy.EnvManager`` for the duration of the call. If the
+       wrapped function declares a ``temp_fgdb`` parameter, the GDB path is also injected as that keyword argument.
     3. **Handles cleanup** - Automatically deletes the temporary geodatabase and all its contents after the function completes (whether successful or not)
 
     ### Benefits
@@ -44,7 +46,7 @@ def with_temp_fgdb(func: Callable[..., Any]) -> Callable[..., Any]:
 
     !!! warning "When NOT to Use"
 
-    When the itermediate data is not large enough to warrant a file geodatabase (tens of thousands of features or records, not millions), this decorator may add 
+    When the intermediate data is not large enough to warrant a file geodatabase (tens of thousands of features or records, not millions), this decorator may add 
     unnecessary complexity. In those cases, consider using the `memory` workspace. This saves the data in memory (RAM), and is much faster for small to moderate 
     datasets.
     """
@@ -63,25 +65,39 @@ def with_temp_fgdb(func: Callable[..., Any]) -> Callable[..., Any]:
         else:
             import arcpy
 
-        # create the temporary directory and file geodatabase
-        tmp_dir = tempfile.mkdtemp()
-        tmp_gdb = arcpy.management.CreateFileGDB(out_folder_path=tmp_dir, out_name='temp_data.gdb')[0]
+        # pre-declare so finally can safely skip cleanup if creation fails
+        tmp_dir = None
+        tmp_gdb = None
 
-        # use the try block to invoke the wrapped function
         try:
+            # create the temporary directory and file geodatabase inside the try
+            # block so the finally clause can clean up even if creation raises
+            tmp_dir = tempfile.mkdtemp()
+            tmp_gdb = arcpy.management.CreateFileGDB(out_folder_path=tmp_dir, out_name='temp_data.gdb')[0]
+
+            # inject tmp_gdb as temp_fgdb kwarg if the wrapped function accepts it
+            sig = inspect.signature(func)
+            if 'temp_fgdb' in sig.parameters:
+                kwargs['temp_fgdb'] = tmp_gdb
 
             # set the workspace to the temporary file geodatabase so any intermediate datasets are cleaned up
             with arcpy.EnvManager(workspace=tmp_gdb):
                 return func(*args, **kwargs)
 
-        # still raise exceptions so errors can be debugged
-        except Exception:
-            raise
-
         # clean up intermediate data, even if errors are encountered
         finally:
-            arcpy.management.Delete(tmp_gdb)
-            shutil.rmtree(tmp_dir, ignore_errors=True)
+            if tmp_gdb is not None:
+                try:
+                    # release any lingering file locks before deletion
+                    arcpy.management.ClearWorkspaceCache(tmp_gdb)
+                    arcpy.management.Delete(tmp_gdb)
+                except Exception as cleanup_err:
+                    logger.warning(
+                        "Failed to delete temporary file geodatabase '%s': %s",
+                        tmp_gdb, cleanup_err,
+                    )
+            if tmp_dir is not None:
+                shutil.rmtree(tmp_dir, ignore_errors=True)
 
     # Explicitly set __signature__ so documentation tools (e.g. MkDocStrings) and IDEs that
     # inspect __signature__ directly report the wrapped function's real parameter list instead
