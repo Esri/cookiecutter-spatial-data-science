@@ -9,7 +9,7 @@ from typing import Callable, Any
 
 # Configure logging
 from ._logging import get_logger
-logger = get_logger("{{cookiecutter.support_library}}.utils._data", level="DEBUG")
+logger = get_logger(__name__, level="DEBUG")
 
 # Check if arcpy is available
 ARCPY_AVAILABLE = 'arcpy' in sys.modules or importlib.util.find_spec('arcpy') is not None
