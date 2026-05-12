@@ -1,7 +1,7 @@
 ---
 title: Home
 ---
-# Cookiecutter-Spatial-Data-Science 3.13.0
+# Cookiecutter-Spatial-Data-Science 3.14.0-dev0
 
 A project template for spatial data science work that combines **ArcGIS Pro**, modern
 **data science tooling**, and **Conda** environment management — with best practices
