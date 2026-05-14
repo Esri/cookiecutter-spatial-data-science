@@ -38,31 +38,38 @@ def test_sik_project(cookies):
     # basic validation...did the project generate?
     assert result.exit_code == 0
     assert result.exception is None
-    assert result.project.isdir()
+    assert result.project_path.is_dir()
 
     # create a list of assets to check for
     required_assets = [
         "LICENSE",
     ]
 
-    # arcpy is available, add arcgis assets to check for
+    # arcpy is available
     if importlib.util.find_spec("arcpy") is not None:
+
+        # arcgis assets to check for
+        support_library = CONTEXT["project_name"].lower().replace("-", "_").replace(" ", "_")
         required_assets = required_assets + [
             "arcgis",
-            "arcgis/sik-project.pyt"
+            f"arcgis/{support_library}.pyt"
         ]
+
+        # ensure the cookiecutter placeholder toolbox was removed
+        cookiecutter_tbx = result.project_path / "arcgis" / "cookiecutter.tbx"
+        assert not cookiecutter_tbx.exists(), "cookiecutter.tbx should have been removed by the post-gen hook."
 
     # check for required assets
     for asset_suffix in required_assets:
-        asset_path = result.project / asset_suffix
+        asset_path = result.project_path / asset_suffix
         assert asset_path.exists(), f"Required asset '{asset_suffix}' is missing."
 
     # create the environment
     logger.debug('Starting Conda environment creation.')
-    subprocess.run("make env", cwd=result.project, shell=True, check=True)
+    subprocess.run("make env", cwd=result.project_path, shell=True, check=True)
     logger.info('Conda environment creation complete.')
 
         # build the documentation
     logger.debug('Starting MkDocs documentation build.')
-    subprocess.run("make docs", cwd=result.project, shell=True, check=True)
+    subprocess.run("make docs", cwd=result.project_path, shell=True, check=True)
     logger.info('MkDocs documentation build complete.')

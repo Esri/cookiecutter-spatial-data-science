@@ -305,7 +305,11 @@ def copy_aprx(
 
         logger.info(f"Removed original Cookiecutter ArcGIS Pro project: {old_aprx_pth}")
 
-        # old_tbx_pth.unlink()
+        if old_tbx_pth.is_dir():
+            shutil.rmtree(old_tbx_pth)
+        elif old_tbx_pth.exists():
+            old_tbx_pth.unlink()
+        logger.info(f"Removed original Cookiecutter toolbox: {old_tbx_pth}")
 
     return new_aprx_pth
 
