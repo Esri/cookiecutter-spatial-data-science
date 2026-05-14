@@ -38,7 +38,7 @@ conventions.
 
 The rules most often violated. The full rationale is below.
 
-- **Style**: PEP 8, 4-space indent, type hints on every function/method, Google-style docstrings.
+- **Style**: PEP 8, 4-space indent, type hints on every function/method (no `from __future__ import annotations`), Google-style docstrings.
 - **Paths**: Use `pathlib.Path`, never `os.path` or string concatenation.
 - **Logging**: Use a module-level `logger` from `get_logger(__name__, ...)`. No `print()` outside script entry points.
 - **Config**: Read settings via `config.*` and `secrets.*` singletons. Never hardcode paths, WKIDs, or credentials.
@@ -76,8 +76,8 @@ Please follow these standards and conventions when generating or editing code:
   before committing.
 - **Type Hints**: All functions and class methods must include explicit type hints for arguments
   and return values. Style decisions for this project:
-    - Add `from __future__ import annotations` at the top of every module so annotations are
-      evaluated lazily as strings.
+    - Do **not** add `from __future__ import annotations` — it causes compatibility issues with
+      some workflows and is not required.
     - Use PEP 604 union syntax: `int | None`, not `Optional[int]` or `Union[int, None]`.
     - Use built-in generics: `list[str]`, `dict[str, int]`, not `List[str]` / `Dict[str, int]`.
     - For ArcPy paths, annotate as `str | os.PathLike[str]` when both are accepted, else `str`.
