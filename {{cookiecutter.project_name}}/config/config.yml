@@ -28,25 +28,41 @@ project:
 environments:
 
   default:
+
     logging:
       level: DEBUG
+
     data:
       input: "data/raw/input_data.csv"
       output: "data/processed/processed.gdb/output_data"
       log_dir: "reports/logs"
+
     spatial:
       default_crs: "EPSG:4326"  # CRS to use when not specified by data source
       default_unit: "meters"    # Unit for distance calculations (e.g., "meters", "degrees")
 
-  dev:
-    # inherits all defaults; override only what differs
-    logging:
-      level: DEBUG
+    esri:
+      gis_url: "{{ cookiecutter.esri_web_gis_url }}"
+      gis_profile: "{{ cookiecutter.esri_web_gis_profile }}"
 
+  # ensure the key exists for each environment so it can be accessed from the Pythion config object
+  dev: {}
+
+  # example of overriding a default value for testing purposes - less verbose logging level
+  # to only surface warnings and errors during automated testing
   test:
+    
     logging:
       level: INFO
 
+  # network file share for production assets and less verbose logging level
   prod:
+
     logging:
       level: WARNING
+
+    data:
+      input: "//production/raw/input_data.csv"
+      output: "//production/processed/processed.gdb/output_data"
+      log_dir: "//production/reports/logs"
+    

@@ -32,30 +32,34 @@ project:
 
 environments:
 
-  dev:
+  default:
     logging:
       level: DEBUG
     data:
       input: "data/raw/input_data.csv"
       output: "data/processed/processed.gdb/output_data"
+      log_dir: "reports/logs"
+    spatial:
+      default_crs: "EPSG:4326"
+      default_unit: "meters"
+
+  dev:
+    # inherits all defaults; override only what differs
+    logging:
+      level: DEBUG
 
   test:
     logging:
       level: INFO
-    data:
-      input: "data/raw/input_data.csv"
-      output: "data/processed/processed.gdb/output_data"
 
   prod:
     logging:
       level: WARNING
-    data:
-      input: "data/raw/input_data.csv"
-      output: "data/processed/processed.gdb/output_data"
 ```
 
-When the configuration is loaded, the active environment's section is **deep-merged**
-onto the shared settings, so you only need to specify what differs per environment.
+When the configuration is loaded, the three sections are **deep-merged** in order:
+`top-level keys` → `environments.default` → `environments.<active-env>`. Only
+specify a key in a named environment when it must differ from the default.
 
 !!! tip "Custom environments"
     The available environments are **introspected** from the keys under
@@ -70,11 +74,52 @@ version control.
 1. Copy `secrets_template.yml` to `secrets.yml`.
 2. Fill in your actual values.
 
+`secrets.yml` follows the **same three-layer structure** as `config.yml`. Put
+shared credentials under `default` and add an environment section only when a
+value must differ between environments:
+
 ```yaml
-esri:
-  gis_url: "https://arcgis.com"
-  gis_profile: "my_profile"
+environments:
+
+  default:
+    esri:
+      gis_url: "https://arcgis.com"
+      gis_profile: "my_profile"
+      # sde_connection: "database/connections/my_database.sde"
+
+  dev: {}  # inherits all defaults; add keys only when they must differ
+  # esri:
+  #   sde_connection: "database/connections/dev_database.sde"
+
+  test: {}
+  # esri:
+  #   sde_connection: "database/connections/test_database.sde"
+
+  prod: {}
+  # esri:
+  #   sde_connection: "database/connections/prod_database.sde"
 ```
+
+The resolved secrets are **deep-merged into `config`** using the same merge
+order — no separate namespace is needed.
+
+!!! info "What does `{}` mean, and when should I change it?"
+    YAML parses a key whose body contains **only comments** as `None`, not an
+    empty mapping. Writing `dev: {}` explicitly marks the environment as an
+    empty mapping so the loader recognises it as a valid, present environment
+    that inherits all values from `default`.
+
+    **Remove `{}`** when you add actual overrides under that environment —
+    replace it with indented key-value pairs:
+
+    ```yaml
+    dev:           # ← braces removed; real overrides go here
+      esri:
+        sde_connection: "database/connections/dev_database.sde"
+    ```
+
+    **Keep `{}`** (or add it) whenever an environment must be registered as
+    valid but should fully inherit `default` values with no overrides.
 
 !!! warning
     `secrets.yml` is listed in `.gitignore`. **Never commit real credentials.**
@@ -114,7 +159,7 @@ ENVIRONMENT: str = os.environ.get("PROJECT_ENV", "dev")  # change "dev" → "tes
 ### In Scripts
 
 ```python
-from {{ cookiecutter.support_library }}.config import config, secrets, ENVIRONMENT
+from {{ cookiecutter.support_library }}.config import config, ENVIRONMENT
 
 # dot-notation access
 log_level = config.logging.level
@@ -123,8 +168,8 @@ input_path = config.data.input
 # dict-style access
 output_path = config["data"]["output"]
 
-# secrets
-gis_url = secrets.esri.gis_url
+# secrets are merged into config — no separate namespace
+gis_url = config.esri.gis_url
 
 # check current environment
 print(f"Running in {ENVIRONMENT} mode")
@@ -138,20 +183,14 @@ from {{ cookiecutter.support_library }}.config import LOG_LEVEL, INPUT_DATA, OUT
 
 ### In Notebooks
 
-```python
-import yaml
-from pathlib import Path
+Prefer importing the config module directly so the three-layer merge and
+secret injection are applied automatically:
 
-config_path = Path.cwd().parent / "config" / "config.yml"
-with open(config_path, encoding="utf-8") as f:
-    cfg = yaml.safe_load(f)
+!!! warning "Avoid raw YAML access in notebooks"
+    Reading `config.yml` directly with `yaml.safe_load` bypasses the
+    environment merge and secret injection. Use the module import below instead.
 
-# access the dev environment settings
-env = cfg["environments"]["dev"]
-print(env["logging"]["level"])
-```
-
-Or import the config module directly:
+Or use the config module directly:
 
 ```python
 import sys, pathlib

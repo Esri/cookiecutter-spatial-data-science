@@ -35,11 +35,14 @@ Usage::
 """
 from __future__ import annotations
 
+import logging
 import os
 from pathlib import Path
 from typing import Any, Iterator
 
 import yaml
+
+_log = logging.getLogger(__name__)
 
 # ---------------------------------------------------------------------------
 # Project root – three levels up from this file
@@ -214,7 +217,8 @@ def load_config(
     environments = raw.pop("environments", {})
 
     # extract the default section (if any) before validation
-    default_settings = environments.pop("default", {})
+    # A key with only comments in YAML is parsed as None, so normalise to {}.
+    default_settings = environments.pop("default", {}) or {}
 
     if env not in environments:
         available = ", ".join(sorted(environments.keys())) or "(none)"
@@ -223,7 +227,8 @@ def load_config(
             f"Available environments in config.yml: {available}"
         )
 
-    env_settings = environments[env]
+    # A comment-only environment block is parsed as None by PyYAML; treat as {}.
+    env_settings = environments[env] or {}
 
     # three-way merge: top-level → default → env-specific
     merged = _deep_merge(raw, default_settings)
@@ -240,12 +245,17 @@ def load_secrets(
     Applies the same three-layer merge used by :func:`load_config`:
 
     1. Top-level keys in ``secrets.yml``
-    2. ``environments.default`` — shared fallback values
-    3. ``environments.<env>`` — environment-specific overrides
+    2. ``environments.default`` — shared fallback values shared across all
+       environments.
+    3. ``environments.<env>`` — environment-specific overrides applied last.
 
-    The resolved result is intended to be deep-merged into the main
-    ``config`` object so secrets are accessible as ``config.esri.gis_url``
-    rather than through a separate namespace.
+    The resolved secrets are deep-merged into the main ``config`` object so
+    they are accessible as ``config.esri.gis_url`` — no separate namespace.
+
+    Unlike :func:`load_config`, a missing environment section in
+    ``secrets.yml`` is **not** an error: the file may legitimately omit
+    environments that require no overrides beyond the ``default`` values.
+    A debug message is emitted if the active environment is not found.
 
     Parameters
     ----------
@@ -260,6 +270,8 @@ def load_secrets(
     -------
     ConfigNode
         A recursively accessible, environment-resolved secrets object.
+        The result is merged into the main :pydata:`config` singleton —
+        do not use it as a standalone secrets store.
 
     Raises
     ------
@@ -273,8 +285,17 @@ def load_secrets(
     raw = _load_yaml(path)
 
     environments = raw.pop("environments", {})
-    default_settings = environments.pop("default", {})
-    env_settings = environments.get(env, {})
+    # A key with only comments in YAML is parsed as None, so normalise to {}.
+    default_settings = environments.pop("default", {}) or {}
+
+    if env not in environments:
+        _log.debug(
+            "Environment '%s' not found in %s — using default secrets only.",
+            env,
+            path.name,
+        )
+    # A comment-only environment block is parsed as None by PyYAML; treat as {}.
+    env_settings = environments.get(env) or {}
 
     # three-way merge: top-level → default → env-specific
     merged = _deep_merge(raw, default_settings)

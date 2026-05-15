@@ -201,9 +201,9 @@ The template's pattern is two YAML files in `config/`:
 In code, both are loaded via singletons that support dot- and dict-style access:
 
 ```python
-from <package>.config import config, secrets
+from <package>.config import config
 
-gis_url = secrets.esri.gis_url
+gis_url = config.esri.gis_url  # secrets merged into config — no separate namespace
 log_level = config.logging.level
 ```
 

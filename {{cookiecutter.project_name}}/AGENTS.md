@@ -197,7 +197,7 @@ both dot-notation and dict-style access.
 Import the pre-built singletons from `{{cookiecutter.support_library}}.config`:
 
 ```python
-from {{cookiecutter.support_library}}.config import config, secrets, ENVIRONMENT
+from {{cookiecutter.support_library}}.config import config, ENVIRONMENT
 
 # Dot-notation access
 log_level = config.logging.level
@@ -205,9 +205,9 @@ log_level = config.logging.level
 # Dict-style access
 input_path = config["data"]["input"]
 
-# Secrets
-gis_url = secrets.esri.gis_url
-gis_profile = secrets.esri.gis_profile
+# Secrets are merged into config — no separate namespace
+gis_url = config.esri.gis_url
+gis_profile = config.esri.gis_profile
 
 # Check active environment (dev / test / prod)
 print(f"Running in {ENVIRONMENT} mode")
@@ -244,17 +244,27 @@ Alternatively, change the `ENVIRONMENT` default directly in
 
 #### 5.5 `secrets.yml` pattern
 
-Copy `secrets_template.yml` to `secrets.yml` and fill in real values:
+Copy `secrets_template.yml` to `secrets.yml` and fill in real values. The file uses the
+same `environments.default` + named-environment structure as `config.yml`:
 
 ```yaml
-esri:
-  gis_url: "https://your-org.maps.arcgis.com"
-  gis_profile: "your_profile_name"
+environments:
+
+  default:
+    esri:
+      gis_url: "https://your-org.maps.arcgis.com"
+      gis_profile: "your_profile_name"
+
+  prod:
+    # override only what differs; omitted environments inherit from default
+    esri:
+      gis_profile: "prod_profile"
 ```
 
-In code use `secrets.esri.gis_url` etc. — the `secrets` object is a `ConfigNode` loaded from
-this file. Add new top-level keys to both `secrets_template.yml` (with placeholder values) and
-your local `secrets.yml` (with real values).
+Secrets are merged into the main `config` object using the same three-layer merge as
+`config.yml` (top-level → `environments.default` → active environment). Access them via
+`config.esri.gis_url` — no separate namespace. Add new keys to both `secrets_template.yml`
+(with placeholder values) and your local `secrets.yml` (with real values).
 
 ### 6. Dependency Management
 
@@ -766,10 +776,10 @@ except Exception as e:
 ```python
 # WARNING — unexpected but handled; execution continues normally
 try:
-    gis = GIS(profile=secrets.esri.gis_profile)
+    gis = GIS(profile=config.esri.gis_profile)
     logger.info(f"Connected to GIS: {gis.url}")
 except Exception as e:
-    msg = f"Could not connect to GIS profile '{secrets.esri.gis_profile}', continuing offline: {e}"
+    msg = f"Could not connect to GIS profile '{config.esri.gis_profile}', continuing offline: {e}"
     logger.warning(msg)
     gis = None
 ```
