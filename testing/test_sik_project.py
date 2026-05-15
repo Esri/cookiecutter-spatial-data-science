@@ -31,7 +31,7 @@ logger.addHandler(stream_handler)
 logger.setLevel(LOG_LEVEL)
 
 
-def test_sik_project(cookies):
+def test_project_generation(cookies):
     # generate project using cookiecutter with context defined above
     result = cookies.bake(extra_context=CONTEXT)
 
