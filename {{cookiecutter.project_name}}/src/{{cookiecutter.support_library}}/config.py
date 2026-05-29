@@ -43,7 +43,10 @@ from typing import Any, Iterator
 
 import yaml
 
-_log = logging.getLogger(__name__)
+from .utils._logging import get_logger
+
+# implement module-level logging
+logger = get_logger(__name__, level="DEBUG", add_stream_handler=False)
 
 # ---------------------------------------------------------------------------
 # Project root – three levels up from this file
@@ -305,7 +308,7 @@ def load_secrets(
     default_settings = environments.pop("default", {}) or {}
 
     if env not in environments:
-        _log.debug(
+        logger.debug(
             "Environment '%s' not found in %s — using default secrets only.",
             env,
             path.name,

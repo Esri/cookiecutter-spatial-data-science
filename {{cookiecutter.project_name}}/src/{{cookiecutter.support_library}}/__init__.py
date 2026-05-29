@@ -12,6 +12,3 @@ from . import utils
 from ._main import example_function, ExampleObject
 
 __all__ = ["config", "example_function", "ExampleObject", "utils"]
-
-# configure package-level logging
-logger = utils.get_logger(__name__, level="DEBUG", add_stream_handler=False)
