@@ -14,8 +14,9 @@ environment.  The merge order is:
 3. ``environments.<active-env>`` — overrides both of the above
 
 Add, rename, or remove environments by editing that YAML block — no Python
-changes required.  Change the :pydata:`ENVIRONMENT` constant below — or set
-the ``PROJECT_ENV`` environment variable — to select the active environment.
+changes required.  Set the ``ENVIRONMENT`` environment variable to force the
+active environment, otherwise the ``environment`` key in ``config.yml`` is
+used, and the function invocation parameter is used as a final fallback.
 
 Usage::
 
@@ -56,10 +57,11 @@ _CONFIG_FILE: str = "config.yml"
 _SECRETS_FILE: str = "secrets.yml"
 
 # ---------------------------------------------------------------------------
-# Active environment — change this value or set the PROJECT_ENV env var
-# to switch between environments defined in config.yml
+# Active environment override from process environment.
+# If unset, the loaders fall back to ``environment`` in config.yml,
+# then to the invocation parameter, then to ``dev``.
 # ---------------------------------------------------------------------------
-ENVIRONMENT: str = os.environ.get("PROJECT_ENV", "dev")
+ENVIRONMENT: str | None = os.environ.get("ENVIRONMENT")
 
 
 # ---------------------------------------------------------------------------
@@ -141,6 +143,17 @@ def _deep_merge(base: dict[str, Any], override: dict[str, Any]) -> dict[str, Any
     return merged
 
 
+def _resolve_environment(
+    config_data: dict[str, Any] | None,
+    invocation_environment: str | None,
+) -> str:
+    """Resolve the active environment using project precedence rules."""
+    config_environment = None
+    if isinstance(config_data, dict):
+        config_environment = config_data.get("environment")
+    return ENVIRONMENT or config_environment or invocation_environment or "dev"
+
+
 def get_available_environments(
     config_path: Path | str | None = None,
 ) -> list[str]:
@@ -195,8 +208,9 @@ def load_config(
         Explicit path to a YAML file.  Defaults to ``config/config.yml``
         relative to the project root.
     environment : str, optional
-        One of the keys under ``environments`` in ``config.yml``.
-        Defaults to the module-level :pydata:`ENVIRONMENT` constant.
+        Environment name passed at invocation time.
+        Resolution order is: ``ENVIRONMENT`` environment variable,
+        then top-level ``environment`` in ``config.yml``, then this parameter.
 
     Returns
     -------
@@ -208,10 +222,9 @@ def load_config(
     ValueError
         If the requested environment is not defined in ``config.yml``.
     """
-    env = environment or ENVIRONMENT
-
     path = Path(config_path) if config_path else CONFIG_DIR / _CONFIG_FILE
     raw = _load_yaml(path)
+    env = _resolve_environment(raw, environment)
 
     # pull out the environments block and the active env section
     environments = raw.pop("environments", {})
@@ -263,8 +276,9 @@ def load_secrets(
         Explicit path to a YAML file.  Defaults to ``config/secrets.yml``
         relative to the project root.
     environment : str, optional
-        Active environment name.  Defaults to the module-level
-        :pydata:`ENVIRONMENT` constant.
+        Environment name passed at invocation time.
+        Resolution order is: ``ENVIRONMENT`` environment variable,
+        then top-level ``environment`` in ``config.yml``, then this parameter.
 
     Returns
     -------
@@ -280,9 +294,11 @@ def load_secrets(
         ``config/secrets_template.yml`` to ``config/secrets.yml`` and
         fill in your values.
     """
-    env = environment or ENVIRONMENT
     path = Path(secrets_path) if secrets_path else CONFIG_DIR / _SECRETS_FILE
     raw = _load_yaml(path)
+    main_config_path = CONFIG_DIR / _CONFIG_FILE
+    config_for_env = _load_yaml(main_config_path) if main_config_path.exists() else {}
+    env = _resolve_environment(config_for_env, environment)
 
     environments = raw.pop("environments", {})
     # A key with only comments in YAML is parsed as None, so normalise to {}.

@@ -7,15 +7,20 @@
 # Secrets (credentials, API keys) should go in secrets.yml, NOT here.
 # Copy secrets_template.yml to secrets.yml and fill in your values.
 #
-# Environment-specific settings live under the environments key.  Set the
-# ENVIRONMENT constant in src/{{ cookiecutter.support_library }}/config.py
-# (or the PROJECT_ENV environment variable) to switch between dev / test / prod.
+# Environment-specific settings live under the environments key.
+# Active environment precedence is:
+# 1) ENVIRONMENT environment variable
+# 2) top-level environment key in this file
+# 3) invocation parameter in config loader calls
 # =============================================================================
 
 project:
   name: "{{ cookiecutter.project_name }}"
   title: "{{ cookiecutter.project_title }}"
   description: "{{ cookiecutter.description }}"
+
+# environment to use when ENVIRONMENT variable is not set (e.g., when running in an IDE)
+environment: dev
 
 # ---------------------------------------------------------------------------
 # Environment-specific settings
