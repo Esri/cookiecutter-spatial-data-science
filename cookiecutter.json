@@ -11,7 +11,9 @@
     "create_github_repo": ["yes", "no"],
     "ai_agent_support": ["all", "github_copilot", "claude", "cursor", "none"],
     "_copy_without_render": [
-        ".github/workflows/make-mkdocs.yml"
+        ".github/workflows/make-mkdocs.yml",
+        "arcgis/*.aprx",
+        "arcgis/*.tbx"
     ],
     "__prompts__": {
         "project_name": "Project Name (use hyphens for separation)",
