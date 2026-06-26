@@ -28,25 +28,25 @@ ENV = $(PROJECT_DIR)/env
 
 ## Make Dataset
 data:
-	conda run -p "$(ENV)" python scripts/make_data.py
+	conda run --no-capture-output -p "$(ENV)" python scripts/make_data.py
 
 ## Delete all compiled Python files
 clean:
-	find . -type f -name "*.py[co]" -delete
-	find . -type d -name "__pycache__" -delete
+	find . -path "./env" -prune -o -type f -name "*.py[co]" -delete
+	find . -path "./env" -prune -o -type d -name "__pycache__" -delete
 
 ## Build the docs
 docs:
-	conda run -p "$(ENV)" mkdocs build -f ./docsrc/mkdocs.yml
+	conda run --no-capture-output -p "$(ENV)" mkdocs build -f ./docsrc/mkdocs.yml
 
 ## MkDocs live documentation server
 docserve:
-	conda run -p "$(ENV)" mkdocs serve -f ./docsrc/mkdocs.yml
+	conda run --no-capture-output -p "$(ENV)" mkdocs serve -f ./docsrc/mkdocs.yml
 
 ## Build the local environment from the environment file
 env:
 	conda env create -p "$(ENV)" -f environment.yml
-	conda run -p "$(ENV)" pip install -e .
+	conda run --no-capture-output -p "$(ENV)" pip install -e .
 
 ## Initialize SpecKit in the project
 speckit:
@@ -54,15 +54,15 @@ speckit:
 
 ## Run jupyter without having to explicitly activate the environment
 jupyter:
-	conda run -p "$(ENV)" jupyter lab
+	conda run --no-capture-output -p "$(ENV)" jupyter lab
 
 ## Run all tests in module
 test:
-	conda run -p "$(ENV)" python -m pytest
+	conda run --no-capture-output -p "$(ENV)" python -m pytest
 
 ## Black formatting
 black:
-	conda run -p "$(ENV)" python -m black /src
+	conda run --no-capture-output -p "$(ENV)" python -m black /src
 
 #################################################################################
 # PROJECT RULES                                                                 #

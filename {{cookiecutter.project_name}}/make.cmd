@@ -49,23 +49,27 @@ GOTO %1
 
 :: Perform data preprocessing steps contained in the make_data.py script.
 :data
-    CALL conda run -p %CONDA_DIR% python scripts/make_data.py
+    CALL conda run --no-capture-output -p %CONDA_DIR% python scripts/make_data.py
     GOTO end
 
 :: Delete all compiled Python files
 :clean
-    FOR /R %%f IN (*.pyc *.pyo) DO DEL /Q "%%f" 2>nul
-    FOR /D /R %%d IN (__pycache__) DO IF EXIST "%%d" RD /S /Q "%%d"
+    FOR /R %%f IN (*.pyc *.pyo) DO (
+        ECHO "%%~ff" | FINDSTR /I /C:"\env\" >nul || DEL /Q "%%f" 2>nul
+    )
+    FOR /D /R %%d IN (__pycache__) DO (
+        ECHO "%%~fd" | FINDSTR /I /C:"\env\" >nul || IF EXIST "%%d" RD /S /Q "%%d"
+    )
     GOTO end
 
 :: Make documentation using MkDocs!
 :docs
-    CALL conda run -p %CONDA_DIR% mkdocs build -f ./docsrc/mkdocs.yml
+    CALL conda run --no-capture-output -p %CONDA_DIR% mkdocs build -f ./docsrc/mkdocs.yml
     GOTO end
 
 :: MkDocs live documentation server
 :docserve
-    CALL conda run -p %CONDA_DIR% mkdocs serve -f ./docsrc/mkdocs.yml
+    CALL conda run --no-capture-output -p %CONDA_DIR% mkdocs serve -f ./docsrc/mkdocs.yml
     GOTO end
 
 :: Build the local environment from the environment file
@@ -81,7 +85,7 @@ GOTO %1
     CALL conda env update -p %CONDA_DIR% -f environment.yml
 
     :: Install the local package in development (experimental) mode
-    CALL conda run -p %CONDA_DIR% python -m pip install -e .
+    CALL conda run --no-capture-output -p %CONDA_DIR% python -m pip install -e .
 
     GOTO end
 
@@ -110,12 +114,12 @@ GOTO %1
 
 :: Run all tests in module
 :test
-	CALL conda run -p %CONDA_DIR% pytest "%~dp0testing"
+	CALL conda run --no-capture-output -p %CONDA_DIR% pytest "%~dp0testing"
 	GOTO end
 
 :: black formatting
 :black
-    CALL conda run -p %CONDA_dIR% black src/ --verbose
+    CALL conda run --no-capture-output -p %CONDA_DIR% black src/ --verbose
     GOTO end
 
 :lint
