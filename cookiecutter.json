@@ -13,7 +13,10 @@
     "_copy_without_render": [
         ".github/workflows/make-mkdocs.yml",
         "arcgis/*.aprx",
-        "arcgis/*.tbx"
+        "arcgis/*.tbx",
+        "arcgis/Index/**",
+        "arcgis/styles/*.stylx",
+        "data/**/*.gdb/**"
     ],
     "__prompts__": {
         "project_name": "Project Name (use hyphens for separation)",
