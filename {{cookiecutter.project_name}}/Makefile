@@ -48,6 +48,9 @@ env:
 	conda env create -p "$(ENV)" -f environment.yml
 	conda run --no-capture-output -p "$(ENV)" pip install -e .
 
+fix-jupyter:
+	python -c "from pathlib import Path; p=Path('env/share/jupyter/kernels/python3/kernel.json'); p.write_text(p.read_text().replace(r'\\\\python.exe','/bin/python'))"
+
 ## Initialize SpecKit in the project
 speckit:
 	specify init --here
